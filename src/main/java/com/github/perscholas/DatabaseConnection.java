@@ -28,10 +28,7 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
                 .setPassword("password")
                 .setPort(3306)
                 .setDatabaseVendor("mariadb")
-                .setHost("127.0.0.1")
-                .setDatabaseName("school_system"));
-
-
+                .setHost("127.0.0.1"));
     }
 
     @Override
