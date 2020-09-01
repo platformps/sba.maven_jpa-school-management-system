@@ -8,7 +8,7 @@
     * Only students with the right credentials can log in. Otherwise, a message is displayed stating: `“Wrong Credentials”`.
         1. Valid students are able to see the courses they are registered.
         2. Valid students are able to register to any course in the system as long as they are NOT already registered.
-     * The original document can be found [here](https://platform.instructure.com/courses/117/files/20070/download?wrap=1)
+     * The original document can be found [here](./original-readme.pdf)
 
 
 
