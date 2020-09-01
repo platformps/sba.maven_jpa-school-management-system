@@ -6,6 +6,8 @@ import com.github.perscholas.model.StudentInterface;
 import com.github.perscholas.service.StudentService;
 import com.github.perscholas.utils.DirectoryReference;
 import org.junit.Before;
+import org.junit.Test;
+import org.junit.Assert;
 
 import java.io.File;
 import java.util.List;
@@ -32,14 +34,15 @@ public class GetAllStudentsTest {
 
     // given
     // TODO - Add `@Test` annotation
+    @Test
     public void test() {
         JdbcConfigurator.initialize();
-        StudentDao service = (StudentDao) new StudentService();
+        StudentDao service = new StudentService();
 
         // when
         List<StudentInterface> studentList = service.getAllStudents();
 
         // then
-        // TODO - define _then_ clause
+        Assert.assertEquals(studentList.size(),10);
     }
 }
