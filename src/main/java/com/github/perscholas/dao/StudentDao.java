@@ -38,7 +38,7 @@ public interface StudentDao {
      * @param studentEmail - email student uses to log in
      * @param courseId - id of course student wishes to register to
      */
-    void registerStudentToCourse(String studentEmail, int courseId);
+    void registerStudentToCourse(String studentEmail, Integer courseId);
 
     /**
      * This method takes a Student’s Email as a parameter and would find all the courses a student is registered.

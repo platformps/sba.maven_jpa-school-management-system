@@ -5,6 +5,8 @@ import com.github.perscholas.utils.IOConsole;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 /**
  * Created by leon on 2/18/2020.
@@ -22,11 +24,14 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
 
     DatabaseConnection() {
         this(new ConnectionBuilder()
-                .setUser("root")
-                .setPassword("")
+                .setUser("admin")
+                .setPassword("password")
                 .setPort(3306)
                 .setDatabaseVendor("mariadb")
-                .setHost("127.0.0.1"));
+                .setHost("127.0.0.1")
+                .setDatabaseName("school_system"));
+
+
     }
 
     @Override
@@ -39,6 +44,16 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
         return connectionBuilder
                 .setDatabaseName(getDatabaseName())
                 .build();
+    }
+
+    public Statement getScrollableStatement(Connection connection) {
+        int resultSetType = ResultSet.TYPE_SCROLL_INSENSITIVE;
+        int resultSetConcurrency = ResultSet.CONCUR_READ_ONLY;
+        try {
+            return connection.createStatement(resultSetType, resultSetConcurrency);
+        } catch (SQLException e) {
+            throw new Error(e);
+        }
     }
 
     @Override
@@ -69,10 +84,21 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
 
     @Override
     public void executeStatement(String sqlStatement) {
+        try {
+            Statement statement = getScrollableStatement(getDatabaseConnection());
+            statement.execute(sqlStatement);
+        } catch (SQLException e) {
+            throw new Error(e);
+        }
     }
 
     @Override
     public ResultSet executeQuery(String sqlQuery) {
-        return null;
+        try {
+            Statement statement = getScrollableStatement(getDatabaseConnection());
+            return statement.executeQuery(sqlQuery);
+        } catch (SQLException e) {
+            throw new Error(e);
+        }
     }
 }

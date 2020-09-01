@@ -76,7 +76,7 @@ public class ConnectionBuilder {
                 .append(hasPortBeenSet ? ":" : "")
                 .append(hasPortBeenSet ? portNumber : "")
                 .append("/")
-                .append(databaseName != null ? databaseName : "")
+                .append("school_system?")
                 .toString();
         return jdbcUrl;
     }
