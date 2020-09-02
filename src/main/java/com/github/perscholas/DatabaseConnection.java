@@ -14,11 +14,13 @@ import java.sql.Statement;
 public enum DatabaseConnection implements DatabaseConnectionInterface {
     MANAGEMENT_SYSTEM,
     UAT;
+    private String name = null;
 
     private static final IOConsole console = new IOConsole(IOConsole.AnsiColor.CYAN);
     private final ConnectionBuilder connectionBuilder;
 
     DatabaseConnection(ConnectionBuilder connectionBuilder) {
+
         this.connectionBuilder = connectionBuilder;
     }
 
@@ -29,11 +31,12 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
                 .setPort(3306)
                 .setDatabaseVendor("mariadb")
                 .setHost("127.0.0.1"));
+
     }
 
     @Override
     public String getDatabaseName() {
-        return name().toLowerCase();
+        return name;
     }
 
     @Override
@@ -60,10 +63,38 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
 
     @Override
     public void create() {
-        String sqlStatement = null; // TODO - define statement
+        String sqlStatement = "CREATE DATABASE IF NOT EXISTS " + this.name().toLowerCase()+ ";";
         String info;
         try {
-            // TODO - execute statement
+            executeStatement (sqlStatement);
+            info = "Successfully executed statement `%s`.";
+        } catch (Exception sqlException) {
+            info = "Failed to executed statement `%s`.";
+        }
+        console.println(info, sqlStatement);
+        this.name = this.name().toLowerCase();
+    }
+
+    @Override
+    public void drop() {
+        String sqlStatement = "DROP DATABASE IF EXISTS " + this.name().toLowerCase() + ";";
+        String info;
+        try {
+            executeStatement (sqlStatement);
+            info = "Successfully executed statement `%s`.";
+        } catch (Exception sqlException) {
+            info = "Failed to executed statement `%s`.";
+        }
+        console.println(info, sqlStatement);
+
+    }
+
+    @Override
+    public void use() {
+        String sqlStatement = "USE " + name+ ";";
+        String info;
+        try {
+            executeStatement (sqlStatement);
             info = "Successfully executed statement `%s`.";
         } catch (Exception sqlException) {
             info = "Failed to executed statement `%s`.";
@@ -71,22 +102,17 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
         console.println(info, sqlStatement);
     }
 
-    @Override
-    public void drop() {
-    }
-
-    @Override
-    public void use() {
-    }
 
     @Override
     public void executeStatement(String sqlStatement) {
         try {
             Statement statement = getScrollableStatement(getDatabaseConnection());
             statement.execute(sqlStatement);
+            statement.close();
         } catch (SQLException e) {
             throw new Error(e);
         }
+
     }
 
     @Override
@@ -97,5 +123,9 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
         } catch (SQLException e) {
             throw new Error(e);
         }
+    }
+
+    public void setName(String newName) {
+        name = newName;
     }
 }

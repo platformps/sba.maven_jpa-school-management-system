@@ -7,6 +7,8 @@ import java.io.File;
 import java.sql.Driver;
 
 public class JdbcConfigurator {
+    private static DatabaseConnectionInterface dbc;
+
     static {
         try {
             Class.forName(Driver.class.getName());
@@ -14,17 +16,23 @@ public class JdbcConfigurator {
             throw new Error(e);
         }
     }
+    public static void initialize(){
+        initialize(DatabaseConnection.MANAGEMENT_SYSTEM);
+    }
 
-    private static final DatabaseConnection dbc = DatabaseConnection.MANAGEMENT_SYSTEM;
 
-    public static void initialize() {
-//        dbc.drop();
-//        dbc.create();
-//        dbc.use();
-//        executeSqlFile("courses.create-table.sql");
-//        executeSqlFile("courses.populate-table.sql");
-//        executeSqlFile("students.create-table.sql");
-//        executeSqlFile("students.populate-table.sql");
+    public static void initialize(DatabaseConnectionInterface dbConnection) {
+        dbc = dbConnection;
+        dbc.drop();
+        dbc.create();
+        dbc.use();
+        executeSqlFile("courses.create-table.sql");
+        executeSqlFile("courses.populate-table.sql");
+        executeSqlFile("students.create-table.sql");
+        executeSqlFile("students.populate-table.sql");
+        executeSqlFile("student-course.create-table.sql");
+        executeSqlFile("student-courses.populate-table.sql");
+
     }
 
     private static void executeSqlFile(String fileName) {

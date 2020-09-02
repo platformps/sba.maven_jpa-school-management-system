@@ -28,13 +28,13 @@ http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
 
             <property name="eclipselink.ddl-generation.output-mode"
                       value="database" />
-            <property name="toplink.jdbc.url" value="jdbc:mariadb://localhost:3306/school_system"/>
+            <property name="toplink.jdbc.url" value="jdbc:mariadb://localhost:3306"/>
             <property name="toplink.jdbc.driver" value="org.mariadb.jdbc.Driver"/>
-            <property name="hibernate.connection.url" value="jdbc:mariadb://localhost:3306/school_system"/>
+            <property name="hibernate.connection.url" value="jdbc:mariadb://localhost:3306"/>
             <property name="hibernate.connection.driver_class" value="org.mariadb.jdbc.Driver"/>
-            <property name="openjpa.ConnectionURL" value="jdbc:mariadb://localhost:3306/school_system"/>
+            <property name="openjpa.ConnectionURL" value="jdbc:mariadb://localhost:3306"/>
             <property name="openjpa.ConnectionDriverName" value="org.mariadb.jdbc.Driver"/>
-            <property name="eclipselink.jdbc.url" value="jdbc:mariadb://localhost:3306/school_system"/>
+            <property name="eclipselink.jdbc.url" value="jdbc:mariadb://localhost:3306"/>
             <property name="eclipselink.jdbc.driver" value="org.mariadb.jdbc.Driver"/>
         </properties>
     </persistence-unit>
