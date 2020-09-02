@@ -22,6 +22,7 @@ import java.util.List;
 public class GetStudentByEmailTest {
     @Before
     public void setup() {
+
         JdbcConfigurator.initialize(DatabaseConnection.UAT);
     }
 

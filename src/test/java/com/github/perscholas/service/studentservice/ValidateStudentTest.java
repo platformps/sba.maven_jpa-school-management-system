@@ -21,6 +21,7 @@ public class ValidateStudentTest {
 
     @Before
     public void setup(){
+
         JdbcConfigurator.initialize(DatabaseConnection.UAT);
     }
 

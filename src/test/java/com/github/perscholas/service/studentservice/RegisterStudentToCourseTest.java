@@ -20,6 +20,7 @@ import java.sql.SQLException;
 public class RegisterStudentToCourseTest {
     @Before
     public void setup() {
+
         JdbcConfigurator.initialize(DatabaseConnection.UAT);
         };
 

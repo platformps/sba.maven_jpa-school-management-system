@@ -5,6 +5,7 @@ import com.github.perscholas.dao.StudentDao;
 import com.github.perscholas.model.*;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,10 +34,13 @@ public class StudentService implements StudentDao {
                         .withPassword(resultSet.getString("password"))
                         .build());
             }
+            resultSet.close();
+            dbc.getDatabaseConnection().close();
             return result;
         } catch(Exception e) {
             throw new Error(e);
         }
+
     }
 
     @Override
@@ -51,10 +55,11 @@ public class StudentService implements StudentDao {
     }
 
     @Override
-    public Boolean validateStudent(String studentEmail, String password) {
+    public Boolean validateStudent(String studentEmail, String password)  {
         StudentInterface student = getStudentByEmail(studentEmail);
         if (student == null)
             return false;
+        ;
         return (student.getPassword().equals(password));
     }
 
@@ -78,6 +83,8 @@ public class StudentService implements StudentDao {
                         .withInstructor(resultSet.getString("instructor"))
                         .build());
             }
+            resultSet.close();
+            dbc.getDatabaseConnection().close();
             return result;
         } catch(Exception e) {
             throw new Error(e);

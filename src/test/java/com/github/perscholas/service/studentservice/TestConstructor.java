@@ -19,6 +19,7 @@ public class TestConstructor {
 
 @Before
 public void setup(){
+
     JdbcConfigurator.initialize(DatabaseConnection.UAT);
 }
 

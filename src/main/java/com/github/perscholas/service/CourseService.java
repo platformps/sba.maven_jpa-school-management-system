@@ -34,6 +34,7 @@ public class CourseService implements CourseDao {
                         .withInstructor(resultSet.getString("instructor"))
                         .build());
             }
+            dbc.getDatabaseConnection().close();
             return result;
         } catch(Exception e) {
             throw new Error(e);
@@ -62,6 +63,7 @@ public class CourseService implements CourseDao {
                         .withName(resultSet.getString("name"))
                         .build());
             }
+            dbc.getDatabaseConnection().close();
             return result;
         } catch(Exception e) {
             throw new Error(e);

@@ -23,6 +23,7 @@ import java.util.List;
 public class GetStudentCoursesTest {
     @Before // TODO (OPTIONAL) - Use files to execute SQL commands
     public void setup() {
+
         JdbcConfigurator.initialize(DatabaseConnection.UAT);
     }
 

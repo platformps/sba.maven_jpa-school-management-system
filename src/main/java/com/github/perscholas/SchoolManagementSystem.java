@@ -11,7 +11,7 @@ import java.util.List;
 
 public class SchoolManagementSystem implements Runnable {
     private static final IOConsole console = new IOConsole();
-    CourseDao courseService = new CourseService();
+    CourseDao courseService = new CourseService(DatabaseConnection.MANAGEMENT_SYSTEM);
 
     @Override
     public void run() {
@@ -19,8 +19,7 @@ public class SchoolManagementSystem implements Runnable {
         do {
             smsDashboardInput = getSchoolManagementSystemDashboardInput();
             if ("login".equals(smsDashboardInput)) {
-                StudentDao studentService = new StudentService();
-
+                StudentDao studentService = new StudentService(DatabaseConnection.MANAGEMENT_SYSTEM);
                 String studentEmail = console.getStringInput("Enter your email:");
                 String studentPassword = console.getStringInput("Enter your password:");
                 Boolean isValidLogin = studentService.validateStudent(studentEmail, studentPassword);
