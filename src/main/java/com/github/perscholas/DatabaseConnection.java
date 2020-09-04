@@ -117,14 +117,9 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
     @Override
     public ResultSet executeQuery(String sqlQuery) {
         try {
-            sqlQuery = sqlQuery.trim();
-            ResultSet result = getScrollableStatement().executeQuery(sqlQuery);
-            String successMessage = String.format("Successfully executed query \n\t`%s`", sqlQuery);
-            console.println(successMessage);
-            return result;
+            return getDatabaseConnection().createStatement().executeQuery(sqlQuery);
         } catch (SQLException e) {
-            String errorMessage = String.format("Failed to execute query \n\t`%s`", sqlQuery);
-            throw new Error(errorMessage, e);
+            throw new RuntimeException(e);
         }
     }
 }
