@@ -5,6 +5,7 @@ import com.github.perscholas.utils.IOConsole;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
  * Created by leon on 2/18/2020.
@@ -52,6 +53,7 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
         String info;
         try {
             // TODO - execute statement
+            executeStatement(sqlStatement);
             info = "Successfully executed statement `%s`.";
         } catch (Exception sqlException) {
             info = "Failed to executed statement `%s`.";
@@ -61,6 +63,11 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
 
     @Override
     public void drop() {
+        try {
+            getDatabaseEngineConnection().close();
+        } catch (SQLException e) {
+            throw new Error(e);
+        }
     }
 
     @Override

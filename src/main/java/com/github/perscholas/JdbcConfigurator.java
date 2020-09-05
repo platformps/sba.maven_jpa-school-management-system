@@ -1,17 +1,18 @@
 package com.github.perscholas;
 
+import com.mysql.jdbc.Driver;
+
 import com.github.perscholas.utils.DirectoryReference;
 import com.github.perscholas.utils.FileReader;
 
 import java.io.File;
-import java.sql.Driver;
 import java.sql.DriverManager;
 
 public class JdbcConfigurator {
     static {
         try {
             // TODO - Attempt to register JDBC Driver
-            Class.forName("com.mysql.jdbc.Driver");
+            DriverManager.registerDriver(Driver.class.newInstance());
         } catch (Exception e) {
             throw new Error(e);
         }
@@ -27,6 +28,7 @@ public class JdbcConfigurator {
         executeSqlFile("courses.populate-table.sql");
         executeSqlFile("students.create-table.sql");
         executeSqlFile("students.populate-table.sql");
+        executeSqlFile("intermediate.student-course.sql");
     }
 
     private static void executeSqlFile(String fileName) {
