@@ -28,9 +28,10 @@ public class StudentService implements StudentDao {
         ResultSet resultSet = dbc.executeQuery("SELECT * FROM students");
         try {
             Iterable<Student> studentIterable=new ArrayList<>();
-            for (Student student : resultSet) {
+        //    studentIterable=resultSet
+        //    for (Student student : resultSet) {
 
-            }
+      //      }
 
             return null; // TODO - Parse `List<StudentInterface>` from `resultSet`
         } catch(Exception e) {

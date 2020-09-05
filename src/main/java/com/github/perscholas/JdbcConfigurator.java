@@ -11,9 +11,9 @@ public class JdbcConfigurator {
     static {
         try {
             // TODO - Attempt to register JDBC Driver
-           // DriverManager.registerDriver(Driver.class.newInstance());
+          //  DriverManager.registerDriver(Driver.class.newInstance());
         } catch (Exception e) {
-           e.printStackTrace();
+            throw new Error(e);
         }
     }
 
