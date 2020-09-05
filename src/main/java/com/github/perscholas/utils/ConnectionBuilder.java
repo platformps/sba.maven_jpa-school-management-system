@@ -66,6 +66,10 @@ public class ConnectionBuilder {
         Boolean isHostNull = this.hostName == null;
         Boolean isPortNull = portNumber == null;
         Boolean hasPortBeenSet = !isPortNull && !Integer.valueOf(3306).equals(portNumber);
+        //System.out.println("isHostNull: " +isHostNull);
+        //System.out.println("isPortNull: " +isPortNull);
+        //System.out.println("hashn: " +hasPortBeenSet);
+        //System.out.println("port: " +portNumber);
 
         String jdbcUrl = new StringBuilder()
                 .append("jdbc:")
@@ -73,11 +77,13 @@ public class ConnectionBuilder {
                 .append("://")
                 .append(isHostNull ? "localhost" : "")
                 .append(!isHostNull ? this.hostName : "")
-                .append(hasPortBeenSet ? ":" : "")
-                .append(hasPortBeenSet ? portNumber : "")
+                .append(!hasPortBeenSet ? ":" : "")
+                .append(!hasPortBeenSet ? portNumber : "")
                 .append("/")
                 .append(databaseName != null ? databaseName : "")
+                .append("classicmodels?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC")
                 .toString();
+        //System.out.println("URL : " + jdbcUrl);
         return jdbcUrl;
     }
 }
