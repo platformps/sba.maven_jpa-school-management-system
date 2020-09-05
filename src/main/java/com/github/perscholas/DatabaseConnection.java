@@ -24,7 +24,7 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
                 .setUser("root")
                 .setPassword("")
                 .setPort(3306)
-                .setDatabaseVendor("mariadb")
+                .setDatabaseVendor("mysql")
                 .setHost("127.0.0.1"));
     }
 
@@ -66,8 +66,9 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
     @Override
     public void executeStatement(String sqlStatement) {
         try {
-            Statement statement = getDatabaseConnection().createStatement();
+            Statement statement = getDatabaseEngineConnection().createStatement();
             statement.executeUpdate(sqlStatement);
+            
         } catch (SQLException e) {
             throw new Error(e);
         }
@@ -79,6 +80,8 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
         try {
             Statement statement = getDatabaseConnection().createStatement();
             rs = statement.executeQuery(sqlQuery);
+            statement.close();
+            rs.close();
         } catch (SQLException e) {
             throw new Error(e);
         }

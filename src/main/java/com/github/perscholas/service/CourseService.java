@@ -19,7 +19,7 @@ public class CourseService implements CourseDao {
     }
 
     public CourseService() {
-        this(DatabaseConnection.UAT);
+        this(DatabaseConnection.MANAGEMENT_SYSTEM);
     }
 
     @Override
@@ -28,7 +28,9 @@ public class CourseService implements CourseDao {
         ResultSet rs = dbc.executeQuery("SELECT * FROM Course;");
         try {
             while (rs.next()) {
-                courses.add(new Course(rs.getInt("id"), rs.getString("name"), rs.getString("instructor")));
+                courses.add(new Course(rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getString("instructor")));
             }
         } catch (SQLException e) {
             throw new Error(e);

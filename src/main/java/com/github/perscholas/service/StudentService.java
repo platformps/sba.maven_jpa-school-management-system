@@ -6,10 +6,7 @@ import com.github.perscholas.model.Course;
 import com.github.perscholas.model.CourseInterface;
 import com.github.perscholas.model.Student;
 import com.github.perscholas.model.StudentInterface;
-import com.mysql.cj.protocol.Resultset;
 
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -24,50 +21,37 @@ public class StudentService implements StudentDao {
     }
 
     public StudentService() {
-        this(DatabaseConnection.UAT);
+        this(DatabaseConnection.MANAGEMENT_SYSTEM);
     }
 
     @Override
     public List<StudentInterface> getAllStudents() {
         ResultSet rs = dbc.executeQuery("SELECT * FROM Student");
-        StudentInterface student = new Student();
+        List<StudentInterface> studentInterfaces = new ArrayList<>();
         try {
-            List<StudentInterface> studentInterfaces = new ArrayList<>();
             while(rs != null && rs.next()) {
-                student.setEmail(rs.getString("email"));
-                student.setName(rs.getString("name"));
-                student.setPassword(rs.getString("password"));
-                studentInterfaces.add(student);
+                studentInterfaces.add(new Student(rs.getString("email"),
+                        rs.getString("name"),
+                        rs.getString("password")));
             }
-            if(rs != null) {
-                if (!rs.isClosed()) {
-                    rs.close();
-                }
-            }
-            return studentInterfaces;// TODO - Parse `List<StudentInterface>` from `resultSet`
+            closeResultSet(rs);
         } catch(Exception e) {
             throw new Error(e);
         }
+        return studentInterfaces;
     }
 
     @Override
     public StudentInterface getStudentByEmail(String studentEmail) {
+        ResultSet rs = dbc.executeQuery("SELECT * FROM Student WHERE email = " + studentEmail + ";");
         StudentInterface studentInterface = new Student();
         try{
-            PreparedStatement ps = dbc.getDatabaseConnection()
-                    .prepareStatement("SELECT * FROM Student WHERE email = ?");
-            ps.setString(1, studentEmail);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                studentInterface.setEmail(rs.getString("email"));
-                studentInterface.setName(rs.getString("name"));
-                studentInterface.setPassword(rs.getString("password"));
+            if (rs.next()) {
+                studentInterface = new Student(rs.getString("email"),
+                        rs.getString("name"),
+                        rs.getString("password"));
             }
-            if(rs != null) {
-                if (!rs.isClosed()) {
-                    rs.close();
-                }
-            }
+            closeResultSet(rs);
         } catch (SQLException e) {
             throw new Error(e);
         }
@@ -85,11 +69,7 @@ public class StudentService implements StudentDao {
                     }
                 }
             }
-            if(rs != null) {
-                if (!rs.isClosed()) {
-                    rs.close();
-                }
-            }
+            closeResultSet(rs);
         } catch (SQLException e) {
             throw new Error(e);
         }
@@ -104,7 +84,6 @@ public class StudentService implements StudentDao {
 
     @Override
     public List<CourseInterface> getStudentCourses(String studentEmail) {
-        CourseInterface courseInterface = new Course();
         List<CourseInterface> courseInterfaceList = new ArrayList<>();
         String sql = "SELECT * " +
                 "FROM Course c JOIN intermediate i " +
@@ -112,11 +91,19 @@ public class StudentService implements StudentDao {
         ResultSet rs = dbc.executeQuery(sql);
         try {
             while (rs != null && rs.next()) {
-                courseInterface.setId(rs.getInt("id"));
-                courseInterface.setName(rs.getString("name"));
-                courseInterface.setInstructor(rs.getString("instructor"));
-                courseInterfaceList.add(courseInterface);
+                courseInterfaceList.add(new Course(rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getString("instructor")));
             }
+            closeResultSet(rs);
+        } catch (SQLException e) {
+            throw new Error(e);
+        }
+        return courseInterfaceList;
+    }
+
+    public void closeResultSet(ResultSet rs) {
+        try{
             if(rs != null) {
                 if (!rs.isClosed()) {
                     rs.close();
@@ -125,6 +112,5 @@ public class StudentService implements StudentDao {
         } catch (SQLException e) {
             throw new Error(e);
         }
-        return courseInterfaceList;
     }
 }
