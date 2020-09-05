@@ -79,13 +79,13 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
         catch (Exception sqlException){
             info = "Failed to execute DROP statement '%s'.";
         }
-        console.println(info, name().toLowerCase());
+        console.println(info, sqlStatement);
     }
 
     @Override
     public void use() {
         //Use Main Schema
-        String sqlStatement = "ALTER SESSION SET CURRENT_SCHEMA= " + name().toLowerCase();
+        String sqlStatement = "USE " + name().toLowerCase();
         String info;
         try {
             executeStatement(sqlStatement);
@@ -94,13 +94,14 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
         catch (Exception sqlException) {
             info = "Failed to execute USE statement '%s'.";
         }
-        console.println(info, name().toLowerCase());
+        console.println(info, sqlStatement);
     }
 
     @Override
     public void executeStatement(String sqlStatement) {
         //Executing SQL Statement
         try {
+            console.println( sqlStatement);
             getDatabaseEngineConnection().createStatement().execute(sqlStatement);
         }
         catch (SQLException se) {

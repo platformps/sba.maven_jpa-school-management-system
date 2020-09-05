@@ -17,12 +17,12 @@ public class JdbcConfigurator {
         }
     }
 
-    private static final DatabaseConnection dbc = DatabaseConnection.MANAGEMENT_SYSTEM;
+    private static final DatabaseConnection dc = DatabaseConnection.MANAGEMENT_SYSTEM;
 
     public static void initialize() {
-        dbc.drop();
-        dbc.create();
-        dbc.use();
+        dc.drop();
+        dc.create();
+        dc.use();
         executeSqlFile("courses.create-table.sql");
         executeSqlFile("courses.populate-table.sql");
         executeSqlFile("students.create-table.sql");
@@ -36,7 +36,7 @@ public class JdbcConfigurator {
         String[] statements = fileReader.toString().split(";");
         for (int i = 0; i < statements.length; i++) {
             String statement = statements[i];
-            dbc.executeStatement(statement);
+            dc.executeStatement(statement);
         }
     }
 }
