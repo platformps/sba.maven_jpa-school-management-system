@@ -29,7 +29,10 @@ public class StudentService implements StudentDao {
 
     @Override
     public List<StudentInterface> getAllStudents() {
+<<<<<<< HEAD
        // ResultSet resultSet = dbc.executeQuery("SELECT * FROM students");
+=======
+>>>>>>> d1ff7b9599907e7695a218c180940c96da835eb7
         ResultSet resultSet = dbc.executeQuery("SELECT * FROM student");
         try {
             //return null; // TODO - Parse `List<StudentInterface>` from `resultSet`
@@ -49,9 +52,15 @@ public class StudentService implements StudentDao {
 
     @Override
     public StudentInterface getStudentByEmail(String studentEmail) {
+<<<<<<< HEAD
         //return null;
         return getAllStudents().stream()
                 .filter(std -> std.getEmail().equals(studentEmail))
+=======
+      //  return null;
+        return getAllStudents().stream()
+                .filter(students -> students.getEmail().equals(studentEmail))
+>>>>>>> d1ff7b9599907e7695a218c180940c96da835eb7
                 .findFirst()
                 .get();
     }
@@ -64,8 +73,10 @@ public class StudentService implements StudentDao {
                 .count() == 1 ? true : false;
     }
 
+
     @Override
     public void registerStudentToCourse(String studentEmail, int courseId) {
+<<<<<<< HEAD
 
         List<CourseInterface> studentCourses = getStudentCourses(studentEmail);
         Optional<CourseInterface> course = studentCourses
@@ -77,6 +88,17 @@ public class StudentService implements StudentDao {
             return;
         }
         String query = "INSERT INTO StudentCourse values (?, ?)";
+=======
+        List<CourseInterface> studentCourses = getStudentCourses(studentEmail);
+        Optional<CourseInterface> course = studentCourses.stream()
+                .filter(crs -> crs.getId() == courseId)
+                .findFirst();
+        if(course.isPresent()) {
+            course.ifPresent(crs -> System.out.println("Already registered to this Course!!"));
+            return;
+        }
+        String query = "INSERT INTO Student_Course values (?, ?)";
+>>>>>>> d1ff7b9599907e7695a218c180940c96da835eb7
         try {
             PreparedStatement preparedStatement = dbc.getDatabaseConnection().prepareStatement(query);
             preparedStatement.setString(1, studentEmail);
@@ -89,9 +111,16 @@ public class StudentService implements StudentDao {
 
     @Override
     public List<CourseInterface> getStudentCourses(String studentEmail) {
+<<<<<<< HEAD
        // return null;
         List<CourseInterface> studentCourses = new ArrayList<>();
         String query = "SELECT * FROM management_system.StudentCourse WHERE Student_email= ?";
+=======
+
+        //return null;
+        List<CourseInterface> studentCourses = new ArrayList<>();
+        String query = "SELECT * FROM Student_Course WHERE email = ?";
+>>>>>>> d1ff7b9599907e7695a218c180940c96da835eb7
         try {
             PreparedStatement preparedStatement = dbc.getDatabaseConnection().prepareStatement(query);
             preparedStatement.setString(1, studentEmail);
@@ -110,5 +139,11 @@ public class StudentService implements StudentDao {
             throw new RuntimeException(e);
         }
         return studentCourses;
+<<<<<<< HEAD
     }
 }
+=======
+    }
+    }
+
+>>>>>>> d1ff7b9599907e7695a218c180940c96da835eb7

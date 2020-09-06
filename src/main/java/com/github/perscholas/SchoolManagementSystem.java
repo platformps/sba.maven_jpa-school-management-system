@@ -19,8 +19,12 @@ public class SchoolManagementSystem implements Runnable {
         do {
             smsDashboardInput = getSchoolManagementSystemDashboardInput();
             if ("login".equals(smsDashboardInput)) {
+<<<<<<< HEAD
                 //StudentDao studentService = null; // TODO - Instantiate `StudentDao` child
                 StudentDao studentService = new StudentService();
+=======
+                StudentDao studentService = new StudentService(); // TODO - Instantiate `StudentDao` child
+>>>>>>> d1ff7b9599907e7695a218c180940c96da835eb7
                 String studentEmail = console.getStringInput("Enter your email:");
                 String studentPassword = console.getStringInput("Enter your password:");
                 Boolean isValidLogin = studentService.validateStudent(studentEmail, studentPassword);
@@ -31,7 +35,12 @@ public class SchoolManagementSystem implements Runnable {
                         studentService.registerStudentToCourse(studentEmail, courseId);
                         String studentCourseViewInput = getCourseViewInput();
                         if ("view".equals(studentCourseViewInput)) {
+<<<<<<< HEAD
                             List<CourseInterface> courses = new StudentService().getStudentCourses(studentEmail); // TODO - Instantiate and populate `courses`;
+=======
+                           // List<CourseInterface> courses =  null; // TODO - Instantiate and populate `courses`;
+                            List<CourseInterface> courses = studentService.getStudentCourses(studentEmail);
+>>>>>>> d1ff7b9599907e7695a218c180940c96da835eb7
                             console.println(new StringBuilder()
                                     .append("[ %s ] is registered to the following courses:")
                                     .append("\n\t" + courses)
@@ -69,9 +78,14 @@ public class SchoolManagementSystem implements Runnable {
 
 
     private Integer getCourseRegistryInput() {
+<<<<<<< HEAD
       //  List<String> listOfCoursesIds = null; // TODO - instantiate and populate `listOfCourseIds`
         List<String> listOfCoursesIds = new ArrayList<>();
          listOfCoursesIds = new CourseService().getAllCourses()
+=======
+       // List<String> listOfCoursesIds = null; // TODO - instantiate and populate `listOfCourseIds`
+        List<String> listOfCoursesIds = new CourseService().getAllCourses()
+>>>>>>> d1ff7b9599907e7695a218c180940c96da835eb7
                 .stream()
                 .map(course -> course.getId().toString())
                 .collect(Collectors.toList());

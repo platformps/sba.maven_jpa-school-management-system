@@ -57,7 +57,11 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
             getDatabaseEngineConnection()
                     .prepareStatement(sqlStatement)
                     .execute();
+<<<<<<< HEAD
            info = "Successfully executed statement `%s`.";
+=======
+            info = "Successfully executed statement `%s`.";
+>>>>>>> d1ff7b9599907e7695a218c180940c96da835eb7
         } catch (Exception sqlException) {
             info = "Failed to executed statement `%s`.";
         }
@@ -116,6 +120,7 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
     @Override
     public ResultSet executeQuery(String sqlQuery) {
         try {
+<<<<<<< HEAD
             sqlQuery = sqlQuery.trim();
             ResultSet result = getScrollableStatement().executeQuery(sqlQuery);
             String successMessage = String.format("Successfully executed query \n\t`%s`", sqlQuery);
@@ -124,6 +129,11 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
         } catch (SQLException e) {
             String errorMessage = String.format("Failed to execute query \n\t`%s`", sqlQuery);
             throw new Error(errorMessage, e);
+=======
+            return getDatabaseConnection().createStatement().executeQuery(sqlQuery);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+>>>>>>> d1ff7b9599907e7695a218c180940c96da835eb7
         }
     }
 }

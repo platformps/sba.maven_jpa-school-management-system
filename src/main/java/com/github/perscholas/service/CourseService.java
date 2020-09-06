@@ -11,18 +11,30 @@ import java.util.ArrayList;
 import java.util.List;
 
 // TODO - Implement respective DAO interface
+<<<<<<< HEAD
 public class CourseService implements CourseDao  {
     private DatabaseConnection dbc;
+=======
+
+public class CourseService implements CourseDao {
+    private final DatabaseConnection dbc;
+>>>>>>> d1ff7b9599907e7695a218c180940c96da835eb7
 
     public CourseService(DatabaseConnection dbc) {
         this.dbc = dbc;
     }
 
     public CourseService() {
+<<<<<<< HEAD
         this(DatabaseConnection.MANAGEMENT_SYSTEM);
     }
 
     @Override
+=======
+        this(DatabaseConnection.UAT);
+    }
+
+>>>>>>> d1ff7b9599907e7695a218c180940c96da835eb7
     public List<CourseInterface> getAllCourses() {
         List<CourseInterface> courses = new ArrayList<>();
         try {
@@ -42,4 +54,9 @@ public class CourseService implements CourseDao  {
         }
         return courses;
     }
+<<<<<<< HEAD
 }
+=======
+    }
+
+>>>>>>> d1ff7b9599907e7695a218c180940c96da835eb7
