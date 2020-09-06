@@ -1,11 +1,14 @@
 package com.github.perscholas.model;
 
 import javax.persistence.*;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 // TODO - Annotate and Implement respective interface and define behaviors
 @Entity
 @Table(name="course")
-public class Course implements CourseInterface{
+public class Course implements CourseInterface, Serializable {
     @Id
     @Column(name="id")
     private Integer id;
@@ -18,8 +21,15 @@ public class Course implements CourseInterface{
     @Column(name = "instructor")
     private String instructor;
 
+    @ManyToMany(mappedBy = "courses")
+    private List<Student> students=new ArrayList<>();
+
+    public List<Student> getStudents() {
+        return students;
+    }
 
     public Course() {
+
     }
 
     public Course(Integer id, String name, String instructor) {
@@ -51,5 +61,14 @@ public class Course implements CourseInterface{
 
     public void setInstructor(String instructor) {
         this.instructor = instructor;
+    }
+
+    @Override
+    public String toString() {
+        return "Course{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", instructor='" + instructor + '\'' +
+                '}';
     }
 }
