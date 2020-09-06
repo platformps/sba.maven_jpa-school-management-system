@@ -2,9 +2,9 @@ package com.github.perscholas;
 
 import com.github.perscholas.dao.StudentDao;
 import com.github.perscholas.model.CourseInterface;
-import com.github.perscholas.utils.IOConsole;
 import com.github.perscholas.service.CourseService;
 import com.github.perscholas.service.StudentService;
+import com.github.perscholas.utils.IOConsole;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,7 +23,7 @@ public class SchoolManagementSystem implements Runnable {
                 String studentPassword = console.getStringInput("Enter your password:");
                 Boolean isValidLogin = studentService.validateStudent(studentEmail, studentPassword);
                 if (isValidLogin) {
-                    String studentDashboardInput = getStudentDashboardInput();
+                    String studentDashboardInput = getStudentDashboardInput(studentEmail);
                     if ("register".equals(studentDashboardInput)) {
                         Integer courseId = getCourseRegistryInput();
                         studentService.registerStudentToCourse(studentEmail, courseId);
@@ -31,7 +31,7 @@ public class SchoolManagementSystem implements Runnable {
                         if ("view".equals(studentCourseViewInput)) {
                             List<CourseInterface> courses =  new StudentService().getStudentCourses(studentEmail);
                             console.println(new StringBuilder()
-                                    .append("[ %s ] is registered to the following courses:")
+                                    .append( studentEmail +" is registered to the following courses:")
                                     .append("\n\t" + courses)
                                     .toString(), studentEmail);
                         }
@@ -57,10 +57,21 @@ public class SchoolManagementSystem implements Runnable {
                 .toString());
     }
 
-    private String getStudentDashboardInput() {
+    private String getStudentDashboardInput(String studentEmail) {
+        List<String> listOfStudentClass = new StudentService().getStudentCourses(studentEmail)
+                .stream()
+                .map(classes -> String.format("%-5s %-15s %-10s", classes.getId().toString() , classes.getName()  , classes.getInstructor().toString()))
+                .collect(Collectors.toList());
         return console.getStringInput(new StringBuilder()
-                .append("Welcome to the Course Registration Dashboard!")
-                .append("\nFrom here, you can select any of the following options:")
+                .append("My Classes: ")
+                .append("\n\t" + String.format("%-5s %-15s %-10s", "ID", "Course Name", "Instructor Name"))
+                .append("\n\t" + listOfStudentClass
+                        .toString()
+                        .replaceAll("\\[", "")
+                        .replaceAll("\\]", "")
+                        .replaceAll(", ", "\n\t"))
+                .append("\n\nWelcome to the Course Registration Dashboard!")
+                .append("\nFrom here, you can select any of the following options: ")
                 .append("\n\t[ register ], [ logout]")
                 .toString());
     }
@@ -69,11 +80,13 @@ public class SchoolManagementSystem implements Runnable {
     private Integer getCourseRegistryInput() {
         List<String> listOfCoursesIds = new CourseService().getAllCourses()
                 .stream()
-                .map(course -> course.getId().toString())
+                .map(course -> String.format("%-10s %-30s %-20s",course.getId().toString() , course.getName().toString()  , course.getInstructor().toString()))
                 .collect(Collectors.toList());
         return console.getIntegerInput(new StringBuilder()
                 .append("Welcome to the Course Registration Dashboard!")
                 .append("\nFrom here, you can select any of the following options:")
+                .append("\nAll Courses: \n")
+                .append(String.format("%-5s %-15s %-10s", "ID", "Course Name", "Instructor Name"))
                 .append("\n\t" + listOfCoursesIds
                         .toString()
                         .replaceAll("\\[", "")

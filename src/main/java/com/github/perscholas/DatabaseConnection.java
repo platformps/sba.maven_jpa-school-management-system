@@ -101,7 +101,7 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
     public void executeStatement(String sqlStatement) {
         //Executing SQL Statement
         try {
-            console.println( sqlStatement);
+            //console.println( sqlStatement);
             getDatabaseEngineConnection().createStatement().execute(sqlStatement);
         }
         catch (SQLException se) {
