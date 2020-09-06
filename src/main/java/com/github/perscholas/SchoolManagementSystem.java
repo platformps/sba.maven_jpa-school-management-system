@@ -30,7 +30,7 @@ public class SchoolManagementSystem implements Runnable {
                         studentService.registerStudentToCourse(studentEmail, courseId);
                         String studentCourseViewInput = getCourseViewInput();
                         if ("view".equals(studentCourseViewInput)) {
-                            List<CourseInterface> courses = new CourseService().getAllCourses(); // TODO - Instantiate and populate `courses`;
+                            List<CourseInterface> courses = studentService.getStudentCourses(studentEmail); // TODO - Instantiate and populate `courses`;
                             console.println(new StringBuilder()
                                     .append("[ %s ] is registered to the following courses:")
                                     .append("\n\t" + courses)

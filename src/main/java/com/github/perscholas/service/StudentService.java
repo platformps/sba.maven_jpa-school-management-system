@@ -81,22 +81,25 @@ public class StudentService implements StudentDao {
 
     @Override
     public void registerStudentToCourse(String studentEmail, int courseId) {
-        String sql = "INSERT INTO management_system.intermediate (student_email, course_id) VALUES ('" + studentEmail + "', '" + courseId + "');";
-        dbc.executeStatement(sql);
+        if(!existingEntry(studentEmail, courseId)) {
+            String sql = "INSERT INTO management_system.intermediate (student_email, course_id) VALUES ('" + studentEmail + "', '" + courseId + "');";
+            dbc.executeStatement(sql);
+        }
+        else {
+            System.out.println(studentEmail + " already registered to selected course: " + courseId);
+        }
     }
 
     @Override
     public List<CourseInterface> getStudentCourses(String studentEmail) {
         List<CourseInterface> courseInterfaceList = new ArrayList<>();
-        String sql = "SELECT c.id, c.name, c.instructor" +
-        "FROM course c, intermediate i " +
-        "WHERE i.student_email = '" + studentEmail + "' AND i.course_id = c.id;";
+        String sql = "SELECT c.id, c.name, c.instructor FROM course c, intermediate i WHERE i.student_email = '" + studentEmail + "' AND i.course_id = c.id;";
         ResultSet rs = dbc.executeQuery(sql);
         try {
             while (rs != null && rs.next()) {
-                courseInterfaceList.add(new Course(rs.getInt(1),
-                        rs.getString(2),
-                        rs.getString(3)));
+                courseInterfaceList.add(new Course(rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getString("instructor")));
             }
         } catch (SQLException e) {
             throw new Error(e);
@@ -116,5 +119,23 @@ public class StudentService implements StudentDao {
         } catch (SQLException e) {
             throw new Error(e);
         }
+    }
+
+    private Boolean existingEntry(String studentEmail, int courseId) {
+        ResultSet rs = dbc.executeQuery("SELECT * FROM intermediate;");
+        try{
+            while (rs != null && rs.next()) {
+                if(studentEmail.equals(rs.getString("student_email"))) {
+                    if(courseId == rs.getInt("course_id")) {
+                        return true;
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            throw new Error(e);
+        } finally {
+            closeResultSet(rs);
+        }
+        return false;
     }
 }
