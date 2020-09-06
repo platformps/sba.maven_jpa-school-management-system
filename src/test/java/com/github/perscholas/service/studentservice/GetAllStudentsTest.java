@@ -37,7 +37,7 @@ public class GetAllStudentsTest {
         StudentDao service = (StudentDao) new StudentService();
 
         // when
-        List<StudentInterface> studentList = service.getAllStudents();
+        List<StudentInterface<String>> studentList = service.getAllStudents();
 
         // then
         // TODO - define _then_ clause

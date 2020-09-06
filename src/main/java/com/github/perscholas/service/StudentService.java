@@ -1,19 +1,20 @@
 package com.github.perscholas.service;
 
 import com.github.perscholas.DatabaseConnection;
+import com.github.perscholas.dao.RepositoryInterface;
 import com.github.perscholas.dao.StudentDao;
 import com.github.perscholas.model.CourseInterface;
 import com.github.perscholas.model.Student;
 import com.github.perscholas.model.StudentInterface;
 
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 // TODO - Implement respective DAO interface
-public class StudentService implements StudentDao {
+public class StudentService  implements StudentDao {
     private final DatabaseConnection dbc;
+    List<StudentInterface<String>> list=new ArrayList<>();
 
     public StudentService(DatabaseConnection dbc) {
         this.dbc = dbc;
@@ -24,23 +25,40 @@ public class StudentService implements StudentDao {
     }
 
     @Override
-    public List<StudentInterface> getAllStudents() {
+    public List<StudentInterface<String>> getAllStudents() {
         ResultSet resultSet = dbc.executeQuery("SELECT * FROM students");
+
         try {
-            return null; // TODO - Parse `List<StudentInterface>` from `resultSet`
+            while(resultSet.next()){
+            Student student = new Student();
+            student.setEmail(resultSet.getString("email"));
+            student.setName(resultSet.getString("name"));
+            student.setPassword(resultSet.getString("password"));
+           list.add(student);
+        }
+            return list; // TODO - Parse `List<StudentInterface>` from `resultSet`
         } catch(Exception e) {
             throw new Error(e);
         }
     }
 
     @Override
-    public StudentInterface getStudentByEmail(String studentEmail) {
-        return null;
+    public StudentInterface<String> getStudentByEmail(String studentEmail) {
+        StudentInterface<String> student = list.stream()
+                .filter(e-> studentEmail.equals(e.getEmail()))
+                .findAny()
+                .orElse(null)
+                ;
+        return student;
     }
 
     @Override
     public Boolean validateStudent(String studentEmail, String password) {
-        return null;
+        Student student= (Student) getStudentByEmail(studentEmail);
+        if (list.stream().anyMatch(x -> x.getPassword().equals(student.getPassword()))){
+          return true; }
+
+        return false;
     }
 
     @Override
@@ -48,8 +66,11 @@ public class StudentService implements StudentDao {
 
     }
 
-    @Override
-    public List<CourseInterface> getStudentCourses(String studentEmail) {
+
+    @Override public List<CourseInterface> getStudentCourses(String studentEmail) {
         return null;
     }
 }
+
+
+
