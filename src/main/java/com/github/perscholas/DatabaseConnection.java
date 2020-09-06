@@ -68,7 +68,7 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
         try {
             Statement statement = getDatabaseEngineConnection().createStatement();
             statement.executeUpdate(sqlStatement);
-            
+
         } catch (SQLException e) {
             throw new Error(e);
         }
@@ -80,8 +80,6 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
         try {
             Statement statement = getDatabaseConnection().createStatement();
             rs = statement.executeQuery(sqlQuery);
-            statement.close();
-            rs.close();
         } catch (SQLException e) {
             throw new Error(e);
         }

@@ -34,9 +34,10 @@ public class StudentService implements StudentDao {
                         rs.getString("name"),
                         rs.getString("password")));
             }
-            closeResultSet(rs);
         } catch(Exception e) {
             throw new Error(e);
+        } finally {
+            closeResultSet(rs);
         }
         return studentInterfaces;
     }
@@ -51,17 +52,18 @@ public class StudentService implements StudentDao {
                         rs.getString("name"),
                         rs.getString("password"));
             }
-            closeResultSet(rs);
         } catch (SQLException e) {
             throw new Error(e);
+        } finally {
+            closeResultSet(rs);
         }
         return studentInterface;
     }
 
     @Override
     public Boolean validateStudent(String studentEmail, String password) {
+        ResultSet rs = dbc.executeQuery("SELECT * FROM student;");
         try{
-            ResultSet rs = dbc.executeQuery("SELECT * FROM Student");
             while (rs != null && rs.next()) {
                 if(studentEmail.equals(rs.getString("email"))) {
                     if(password.equals(rs.getString("password"))) {
@@ -69,35 +71,37 @@ public class StudentService implements StudentDao {
                     }
                 }
             }
-            closeResultSet(rs);
         } catch (SQLException e) {
             throw new Error(e);
+        } finally {
+            closeResultSet(rs);
         }
         return false;
     }
 
     @Override
     public void registerStudentToCourse(String studentEmail, int courseId) {
-        String sql = "INSERT INTO intermediate (student_email, course_id) VALUES (" + studentEmail + ", " + courseId + ")";
+        String sql = "INSERT INTO management_system.intermediate (student_email, course_id) VALUES ('" + studentEmail + "', '" + courseId + "');";
         dbc.executeStatement(sql);
     }
 
     @Override
     public List<CourseInterface> getStudentCourses(String studentEmail) {
         List<CourseInterface> courseInterfaceList = new ArrayList<>();
-        String sql = "SELECT * " +
-                "FROM Course c JOIN intermediate i " +
-                "WHERE i.student_email = " + studentEmail;
+        String sql = "SELECT c.id, c.name, c.instructor" +
+        "FROM course c, intermediate i " +
+        "WHERE i.student_email = '" + studentEmail + "' AND i.course_id = c.id;";
         ResultSet rs = dbc.executeQuery(sql);
         try {
             while (rs != null && rs.next()) {
-                courseInterfaceList.add(new Course(rs.getInt("id"),
-                        rs.getString("name"),
-                        rs.getString("instructor")));
+                courseInterfaceList.add(new Course(rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3)));
             }
-            closeResultSet(rs);
         } catch (SQLException e) {
             throw new Error(e);
+        } finally {
+            closeResultSet(rs);
         }
         return courseInterfaceList;
     }
