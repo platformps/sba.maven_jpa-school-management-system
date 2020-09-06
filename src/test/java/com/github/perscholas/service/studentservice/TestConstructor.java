@@ -1,6 +1,7 @@
 package com.github.perscholas.service.studentservice;
 
 import com.github.perscholas.model.Course;
+import com.github.perscholas.model.CourseInterface;
 import com.github.perscholas.model.Student;
 import org.junit.Assert;
 import org.junit.Test;
@@ -17,7 +18,7 @@ public class TestConstructor {
         @Test
         public void courseConstructorTest() {
                 Course course = new Course();
-                Assert.assertTrue(course instanceof Course);
+                Assert.assertTrue(course instanceof CourseInterface);
         }
 
         @Test
