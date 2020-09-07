@@ -46,7 +46,9 @@ public class SchoolManagementSystem implements Runnable {
                 .toString());
     }
 
-    private String getSchoolManagementSystemDashboardInput() {
+    private String
+
+    getSchoolManagementSystemDashboardInput() {
         return console.getStringInput(new StringBuilder()
                 .append("Welcome to the School Management System Dashboard!")
                 .append("\nFrom here, you can select any of the following options:")

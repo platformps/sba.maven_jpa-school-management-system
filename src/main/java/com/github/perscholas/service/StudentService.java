@@ -26,7 +26,7 @@ public class StudentService implements StudentDao {
     @Override
     public List<StudentInterface> getAllStudents() {
         ResultSet resultSet = dbc.executeQuery("SELECT * FROM students");
-        try {
+        try { //put result set into a list. then store into List<StudentInterface>?
             return null; // TODO - Parse `List<StudentInterface>` from `resultSet`
         } catch(Exception e) {
             throw new Error(e);
@@ -37,19 +37,22 @@ public class StudentService implements StudentDao {
     public StudentInterface getStudentByEmail(String studentEmail) {
         return null;
     }
+    //query
 
     @Override
     public Boolean validateStudent(String studentEmail, String password) {
         return null;
+        //query
     }
 
     @Override
     public void registerStudentToCourse(String studentEmail, int courseId) {
-
+        //statement
     }
 
     @Override
     public List<CourseInterface> getStudentCourses(String studentEmail) {
         return null;
     }
+    // read - query
 }
