@@ -1,0 +1,1 @@
+create table management_system.Student(email varchar(50) not null Primary Key,name varchar(50) not null,password varchar(50) not null);

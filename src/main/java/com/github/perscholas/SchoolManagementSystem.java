@@ -1,9 +1,15 @@
 package com.github.perscholas;
 
+import com.github.perscholas.dao.CourseDao;
 import com.github.perscholas.dao.StudentDao;
+import com.github.perscholas.model.Course;
 import com.github.perscholas.model.CourseInterface;
+import com.github.perscholas.service.CourseService;
+import com.github.perscholas.service.StudentService;
 import com.github.perscholas.utils.IOConsole;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class SchoolManagementSystem implements Runnable {
@@ -16,6 +22,7 @@ public class SchoolManagementSystem implements Runnable {
             smsDashboardInput = getSchoolManagementSystemDashboardInput();
             if ("login".equals(smsDashboardInput)) {
                 StudentDao studentService = null; // TODO - Instantiate `StudentDao` child
+                studentService = new StudentService();
                 String studentEmail = console.getStringInput("Enter your email:");
                 String studentPassword = console.getStringInput("Enter your password:");
                 Boolean isValidLogin = studentService.validateStudent(studentEmail, studentPassword);
@@ -64,7 +71,18 @@ public class SchoolManagementSystem implements Runnable {
 
 
     private Integer getCourseRegistryInput() {
-        List<String> listOfCoursesIds = null; // TODO - instantiate and populate `listOfCourseIds`
+        List<String> listOfCoursesIds = new ArrayList<String>(); // TODO - instantiate and populate `listOfCourseIds`
+        CourseDao courseService = new CourseService();
+        List<CourseInterface> listOfCoursesInterface = courseService.getAllCourses();
+
+        if(listOfCoursesInterface!=null&&listOfCoursesInterface.size()>0){
+            System.out.println("Enter into getCourseRegistryInput1"+listOfCoursesInterface.size());
+            for (Iterator i = listOfCoursesInterface.iterator(); i.hasNext();) {
+                Course c = (Course)(i.next());
+                System.out.println("Enter into getCourseRegistryInput2"+c.getId());
+                listOfCoursesIds.add(c.getId().toString());
+            }
+        }
         return console.getIntegerInput(new StringBuilder()
                 .append("Welcome to the Course Registration Dashboard!")
                 .append("\nFrom here, you can select any of the following options:")

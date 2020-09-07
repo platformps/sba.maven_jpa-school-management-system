@@ -9,6 +9,7 @@ public class JdbcConfigurator {
     static {
         try {
             // TODO - Attempt to register JDBC Driver
+            Class.forName("org.mariadb.jdbc.Driver");
         } catch (Exception e) {
             throw new Error(e);
         }

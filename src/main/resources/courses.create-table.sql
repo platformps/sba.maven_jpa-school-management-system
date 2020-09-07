@@ -1,0 +1,1 @@
+create table management_system.Course(id int not null Primary key,name varchar(50) not null,instructor varchar(50) not null);
