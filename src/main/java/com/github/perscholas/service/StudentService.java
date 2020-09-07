@@ -5,6 +5,7 @@ import com.github.perscholas.dao.StudentDao;
 import com.github.perscholas.model.CourseInterface;
 import com.github.perscholas.model.Student;
 import com.github.perscholas.model.StudentInterface;
+import org.w3c.dom.ls.LSOutput;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,7 +14,7 @@ import java.util.List;
 
 // TODO - Implement respective DAO interface
 public class StudentService implements StudentDao {
-    private final DatabaseConnection dbc;
+      private final DatabaseConnection dbc;
 
     public StudentService(DatabaseConnection dbc) {
         this.dbc = dbc;
@@ -27,11 +28,20 @@ public class StudentService implements StudentDao {
     public List<StudentInterface> getAllStudents() {
         ResultSet resultSet = dbc.executeQuery("SELECT * FROM students");
         List<StudentInterface> studentList = new ArrayList<>();
-        try { while (resultSet.next()){//put result set into a list. then store into List<StudentInterface>?
-            return null; // TODO - Parse `List<StudentInterface>` from `resultSet`
+        try { while (resultSet.next()){
+            Student student = new Student();
+            student.setEmail(resultSet.getString("email"));
+            student.setName(resultSet.getString("name"));
+            student.setPassword(resultSet.getString("password"));
+
+            studentList.add(student);//put result set into a list. then store into List<StudentInterface>?
+            System.out.println(studentList);
+        }
+             // TODO - Parse `List<StudentInterface>` from `resultSet`
         } catch(Exception e) {
             throw new Error(e);
-        }
+
+        }  return studentList;
     }
 
     @Override

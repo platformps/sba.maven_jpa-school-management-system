@@ -31,7 +31,7 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
                 .setPort(3306)
                 .setDatabaseVendor("mysql")
                 .setHost("127.0.0.1"));
-        System.out.println("Connect");
+
 
     }
 

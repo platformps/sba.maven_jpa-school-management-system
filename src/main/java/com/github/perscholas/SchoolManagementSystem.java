@@ -31,6 +31,7 @@ public class SchoolManagementSystem implements Runnable {
                                     .append("[ %s ] is registered to the following courses:")
                                     .append("\n\t" + courses)
                                     .toString(), studentEmail);
+
                         }
                     }
                 }

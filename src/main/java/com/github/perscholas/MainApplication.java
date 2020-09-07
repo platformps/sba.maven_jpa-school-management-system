@@ -5,5 +5,6 @@ public class MainApplication {
         JdbcConfigurator.initialize();
         Runnable sms = new SchoolManagementSystem();
         sms.run();
+
     }
 }
