@@ -24,4 +24,17 @@ public class ValidateStudentTest {
         //then
         Assert.assertTrue(validate);
     }
+
+    @Test
+    public void test2() {
+        //given
+        StudentDao studentDao = new StudentService();
+        Boolean validate;
+
+        //when
+        validate = studentDao.validateStudent("invalidemail@google.go", "Y9JI9dkw0");
+
+        //then
+        Assert.assertFalse(validate);
+    }
 }

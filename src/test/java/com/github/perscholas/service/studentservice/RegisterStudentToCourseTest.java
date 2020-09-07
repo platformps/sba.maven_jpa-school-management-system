@@ -58,4 +58,18 @@ public class RegisterStudentToCourseTest {
         // then
         Assert.assertTrue(courseInterfaceList.size() == 0);
     }
+
+    @Test
+    public void test3() {
+        StudentDao studentDao = new StudentService();
+        List<CourseInterface> courseInterfaceList;
+
+        // when
+        studentDao.registerStudentToCourse("ljiroudek8@sitemeter.com", 8);
+        studentDao.registerStudentToCourse("ljiroudek8@sitemeter.com", 8);
+        courseInterfaceList = studentDao.getStudentCourses("ljiroudek8@sitemeter.com");
+
+        // then
+        Assert.assertTrue(courseInterfaceList.size() == 1);
+    }
 }
