@@ -9,7 +9,7 @@ public interface DatabaseConnectionInterface {
     Connection getDatabaseEngineConnection();
     void drop();
     void create();
-    void use();
+    void populate();
     void executeStatement(String sqlStatement);
     ResultSet executeQuery(String sqlQuery);
 }

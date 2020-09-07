@@ -23,10 +23,12 @@ import java.util.List;
  * @created 02/12/2020 - 8:22 PM
  */
 public class GetAllStudentsTest {
-    private static final StudentService STUDENT_SERVICE = new StudentService(new StudentRepository(DatabaseConnection.getEntityManagerFactory(), new CourseRepository(DatabaseConnection.getEntityManagerFactory())));
+    private StudentService studentService;
     
     @Before
     public void setup() {
+        studentService = new StudentService(new StudentRepository(DatabaseConnection.getEntityManagerFactory(), new CourseRepository(DatabaseConnection.getEntityManagerFactory())));
+        DatabaseConnection.MANAGEMENT_SYSTEM.drop();
         DatabaseConnection.MANAGEMENT_SYSTEM.create();
     }
     
@@ -37,7 +39,7 @@ public class GetAllStudentsTest {
         int expectedSize = 0;
         
         // when
-        List<StudentInterface> actualStudents = STUDENT_SERVICE.getAllStudents();
+        List<StudentInterface> actualStudents = studentService.getAllStudents();
         
         
         // then
@@ -50,7 +52,7 @@ public class GetAllStudentsTest {
         DatabaseConnection.MANAGEMENT_SYSTEM.create();
         
         //when
-        List<StudentInterface> actualStudents = STUDENT_SERVICE.getAllStudents();
+        List<StudentInterface> actualStudents = studentService.getAllStudents();
         
         // then
         Assert.assertTrue(actualStudents.size() > 0);

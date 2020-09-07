@@ -11,7 +11,9 @@ public class JpaConfigurator {
     private static final DatabaseConnection dbc = DatabaseConnection.MANAGEMENT_SYSTEM;
 
     public static void initialize() {
+        dbc.drop();
         dbc.create();
+        dbc.populate();
     }
 
     public static void executeSqlFile(String fileName) {

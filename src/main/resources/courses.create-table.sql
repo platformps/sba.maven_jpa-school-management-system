@@ -1,5 +1,3 @@
-DROP TABLE IF EXISTS Course CASCADE;
-
 CREATE TABLE Course (
     /** Unique course identifier **/
     id INT NOT NULL PRIMARY KEY,

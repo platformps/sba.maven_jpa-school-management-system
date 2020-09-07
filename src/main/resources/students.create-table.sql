@@ -1,5 +1,3 @@
-DROP TABLE IF EXISTS Student CASCADE;
-
 CREATE TABLE Student(
     /** Student's current school email, unique student identifier **/
     email VARCHAR(50) NOT NULL PRIMARY KEY,

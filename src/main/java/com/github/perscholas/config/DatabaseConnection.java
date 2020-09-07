@@ -9,6 +9,7 @@ import javax.persistence.Persistence;
 import java.io.File;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.util.Arrays;
 
 /**
  * Created by leon on 2/18/2020.
@@ -50,22 +51,22 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
 
     @Override
     public void create() {
-        JpaConfigurator.executeSqlFile("student_course.create-table.sql");
         JpaConfigurator.executeSqlFile("courses.create-table.sql");
-        JpaConfigurator.executeSqlFile("courses.populate-table.sql");
         JpaConfigurator.executeSqlFile("students.create-table.sql");
-        JpaConfigurator.executeSqlFile("students.populate-table.sql");    }
-
+        JpaConfigurator.executeSqlFile("student_course.create-table.sql");
+    }
+    
     @Override
     public void drop() {
-        JpaConfigurator.executeSqlFile("student_course.drop-table.sql");
         JpaConfigurator.executeSqlFile("courses.drop-table.sql");
         JpaConfigurator.executeSqlFile("students.drop-table.sql");
+        JpaConfigurator.executeSqlFile("student_course.drop-table.sql");
     }
 
     @Override
-    public void use() {
-        //Not used
+    public void populate() {
+        JpaConfigurator.executeSqlFile("courses.populate-table.sql");
+        JpaConfigurator.executeSqlFile("students.populate-table.sql");
     }
 
     @Override
@@ -76,6 +77,7 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction entityTransaction = entityManager.getTransaction();
         entityTransaction.begin();
+        console.println(sqlStatement);
         entityManager.createNativeQuery(sqlStatement).executeUpdate();
         entityTransaction.commit();
         entityManager.close();
@@ -83,6 +85,6 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
 
     @Override
     public ResultSet executeQuery(String sqlQuery) {
-        return null;
+        throw new UnsupportedOperationException("Use correct respository if you need to perform queries.");
     }
 }
