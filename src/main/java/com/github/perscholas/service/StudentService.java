@@ -7,6 +7,10 @@ import com.github.perscholas.model.CourseInterface;
 import com.github.perscholas.model.Student;
 import com.github.perscholas.model.StudentInterface;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.persistence.Query;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -16,6 +20,8 @@ import java.util.Optional;
 // TODO - Implement respective DAO interface
 public class StudentService implements StudentDao {
     private final DatabaseConnection dbc;
+    private static final String persistentName = "SMS";
+    private static EntityManagerFactory factory;
 
     public StudentService(DatabaseConnection dbc) {
         this.dbc = dbc;
@@ -49,9 +55,11 @@ public class StudentService implements StudentDao {
 
     @Override
     public StudentInterface getStudentByEmail(String studentEmail) {
+     //   ResultSet resultSet = dbc.executeQuery("SELECT * FROM Student where email='"+studentEmail+"'");
         List<StudentInterface> list = getAllStudents();
         for (StudentInterface studentInterface : list) {
             if (studentInterface.getEmail().equals(studentEmail)) {
+                //System.out.println(studentInterface);
                 return studentInterface;
             }
         }
@@ -60,13 +68,21 @@ public class StudentService implements StudentDao {
 
     @Override
     public Boolean validateStudent(String studentEmail, String password) {
-        StudentInterface student = getStudentByEmail(studentEmail);
-        Boolean isPresent = password.equals(student.getPassword());
-        return isPresent;
+        Boolean isValid= getAllStudents().stream()
+                .anyMatch(students -> students.getEmail().equals(studentEmail) && students.getPassword().equals(password));
+    return isValid;
     }
 
     @Override
     public void registerStudentToCourse(String studentEmail, int courseId) {
+//        factory=Persistence.createEntityManagerFactory(persistentName);
+//        EntityManager entityManager = factory.createEntityManager();
+//        Query q = entityManager.createQuery();
+//        List<StudentInterface> studentInterfaceList = q.getResultList();
+//        System.out.println(studentInterfaceList);
+
+
+
         List<CourseInterface> courseList = new CourseService().getAllCourses();
         if (getStudentCourses(studentEmail).size() == 0) {
             Student student = (Student) getStudentByEmail(studentEmail);
@@ -75,6 +91,7 @@ public class StudentService implements StudentDao {
                     .findFirst().get();
 
             student.getCourses().add(addCourse);
+          //  System.out.println(student.getCourses());
         } else {
             for (CourseInterface course : getStudentCourses(studentEmail)) {
                 if (course.getId() != courseId) {
@@ -95,11 +112,12 @@ public class StudentService implements StudentDao {
 
     @Override
     public List<CourseInterface> getStudentCourses(String studentEmail) {
+
         Student student = (Student) getStudentByEmail(studentEmail);
-        if (student != null) {
             List<CourseInterface> courseList = student.getCourses();
             return courseList;
-        } else
-            return null;
+
     }
+
+
 }

@@ -7,7 +7,7 @@ import java.util.List;
 
 // TODO - Annotate and Implement respective interface and define behaviors
 @Entity
-@Table(name="course")
+@Table(name="course", schema = "management_system")
 public class Course implements CourseInterface, Serializable {
     @Id
     @Column(name="id")
@@ -21,12 +21,23 @@ public class Course implements CourseInterface, Serializable {
     @Column(name = "instructor")
     private String instructor;
 
-    @ManyToMany(mappedBy = "courses")
-    private List<Student> students=new ArrayList<>();
+//    @ManyToMany(mappedBy = "courses")
+//    @JoinTable(name = "student_course", joinColumns = {@JoinColumn(name = "email")},
+//            inverseJoinColumns = {@JoinColumn(name = "id")})
+ //   private List<Student> students;
+    @ManyToOne()
+    private Student student;
 
-    public List<Student> getStudents() {
-        return students;
+    public Student getStudent() {
+        return student;
     }
+
+    public void setStudent(Student student) {
+        this.student = student;
+    }
+    //    public List<Student> getStudents() {
+//        return students;
+//    }
 
     public Course() {
 

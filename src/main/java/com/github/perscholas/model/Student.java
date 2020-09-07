@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 // TODO - Annotate and Implement respective interface and define behaviors
 @Entity
-@Table(name = "student")
+@Table(name = "student", schema = "management_system")
 public class Student implements StudentInterface, Serializable {
     @Id
     @Column(name = "email")
@@ -22,12 +22,19 @@ public class Student implements StudentInterface, Serializable {
     @Column(name = "password")
     private String password;
 
-    @ManyToMany()
-    @JoinTable(name = "student_course", joinColumns = {@JoinColumn(name = "email")},
+   @OneToMany()
+    @JoinTable(name = "student-course", joinColumns = {@JoinColumn(name = "email")},
             inverseJoinColumns = {@JoinColumn(name = "id")})
-    private List<CourseInterface> courses=new ArrayList<>();
+    private List<CourseInterface> courses;
+
+    public void setCourses(List<CourseInterface> courses) {
+        this.courses = courses;
+    }
 
     public List<CourseInterface> getCourses() {
+        if(courses==null){
+            courses=new ArrayList<>();
+        }
         return courses;
     }
 
@@ -77,7 +84,7 @@ public class Student implements StudentInterface, Serializable {
                 "email='" + email + '\'' +
                 ", name='" + name + '\'' +
                 ", password='" + password + '\'' +
-                ", courses=" + courses.stream().map(CourseInterface::getId).collect(Collectors.toList()) +
+                ", courses=" + courses +
                 '}';
     }
 }
