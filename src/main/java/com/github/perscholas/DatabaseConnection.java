@@ -51,15 +51,18 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
 
     @Override
     public Connection getDatabaseEngineConnection() {
-        return connectionBuilder.build();
+        return connectionBuilder
+                .setParams(getParams()) // GN added this because db connection needs params on Ghassan's Mac
+                .build();
     }
 
     @Override
     public void create() {
-        String sqlStatement = "CREATE SCHEMA IF NOT EXISTS " + getDatabaseName(); // TODO - define statement instead of null
+        String sqlStatement = "CREATE OR REPLACE DATABASE " + getDatabaseName(); // TODO - define statement instead of null
         String info;
         try {
             // TODO - execute statement
+            executeStatementOnEngine(sqlStatement);
             info = "Successfully executed statement `%s`.";
         } catch (Exception sqlException) {
             info = "Failed to executed statement `%s`.";
@@ -69,10 +72,31 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
 
     @Override
     public void drop() {
+        String sqlStatement = "DROP DATABASE " + getDatabaseName(); // TODO - define statement instead of null
+        String info;
+        try {
+            // TODO - execute statement
+            executeStatementOnEngine(sqlStatement);
+            info = "Successfully executed statement `%s`.";
+        } catch (Exception sqlException) {
+            info = "Failed to executed statement `%s`.";
+        }
+        console.println(info, sqlStatement);
     }
 
     @Override
     public void use() {
+    }
+
+    // GN added this to get a connection on the database engine without a database name
+    public void executeStatementOnEngine(String sqlStatement) {
+        Connection conn = this.getDatabaseEngineConnection();
+        try {
+            Statement statement = conn.createStatement();
+            statement.executeUpdate(sqlStatement);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 
     @Override

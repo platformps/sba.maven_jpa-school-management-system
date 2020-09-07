@@ -1,5 +1,6 @@
 CREATE TABLE Course(
-    id INT NOT NULL PRIMARY KEY,
-    name TEXT NOT NULL,
-    instructor TEXT NOT NULL,
+    id INT NOT NULL,
+    name VARCHAR(50) NOT NULL,
+    instructor VARCHAR(50) NOT NULL,
+    PRIMARY KEY (id)
 );

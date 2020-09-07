@@ -20,10 +20,11 @@ public class JdbcConfigurator {
         dbc.drop();
         dbc.create();
         dbc.use();
-        //executeSqlFile("courses.create-table.sql");
-        //executeSqlFile("courses.populate-table.sql");
-        //executeSqlFile("students.create-table.sql");
-        //executeSqlFile("students.populate-table.sql");
+        executeSqlFile("courses.create-table.sql");
+        executeSqlFile("courses.populate-table.sql");
+        executeSqlFile("students.create-table.sql");
+        executeSqlFile("students.populate-table.sql");
+        executeSqlFile("studentcourse.create-table.sql"); //GN added for many-to-many relationship between Student and Course
     }
 
     private static void executeSqlFile(String fileName) {
