@@ -31,18 +31,7 @@ public class SchoolManagementSystem implements Runnable {
         this.entityManagerFactory = entityManagerFactory;
     }
     
-    public boolean isStudentLoggedIn() {
-        return loggedInStudentEmail != null;
-    }
-    
-    public void displayOptions() {
-        String dashboardOptionsOutput = currentDashboardOption.stream().map(DashboardOption::display).collect(Collectors.joining(" "));
-        
-        console.println(new StringBuilder()
-                .append("Welcome to the School Management System Dashboard!")
-                .append("\nFrom here, you can select any of the following options:")
-                .append(dashboardOptionsOutput).toString());
-    }
+
     
     @Override
     public void run() {
@@ -137,5 +126,18 @@ public class SchoolManagementSystem implements Runnable {
     public void logout() {
         loggedInStudentEmail = null;
         currentDashboardOption = LOGGED_OUT_OPTIONS;
+    }
+    
+    public boolean isStudentLoggedIn() {
+        return loggedInStudentEmail != null;
+    }
+    
+    public void displayOptions() {
+        String dashboardOptionsOutput = currentDashboardOption.stream().map(DashboardOption::display).collect(Collectors.joining(" "));
+        
+        console.println(new StringBuilder()
+                .append("Welcome to the School Management System Dashboard!")
+                .append("\nFrom here, you can select any of the following options:")
+                .append(dashboardOptionsOutput).toString());
     }
 }

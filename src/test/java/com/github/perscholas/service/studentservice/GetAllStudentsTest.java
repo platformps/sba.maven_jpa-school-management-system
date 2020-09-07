@@ -1,11 +1,19 @@
 package com.github.perscholas.service.studentservice;
 
-import com.github.perscholas.config.JdbcConfigurator;
-import com.github.perscholas.dao.StudentDao;
+import com.github.perscholas.config.DatabaseConnection;
+import com.github.perscholas.config.JpaConfigurator;
+import com.github.perscholas.dao.CourseRepository;
+import com.github.perscholas.dao.StudentRepository;
+import com.github.perscholas.model.CourseInterface;
+import com.github.perscholas.model.Student;
 import com.github.perscholas.model.StudentInterface;
+import com.github.perscholas.service.CourseService;
 import com.github.perscholas.service.StudentService;
 import com.github.perscholas.utils.DirectoryReference;
+import org.h2.engine.Database;
+import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Test;
 
 import java.io.File;
 import java.util.List;
@@ -15,31 +23,36 @@ import java.util.List;
  * @created 02/12/2020 - 8:22 PM
  */
 public class GetAllStudentsTest {
-    @Before // TODO (OPTIONAL) - Use files to execute SQL commands
+    private static final StudentService STUDENT_SERVICE = new StudentService(new StudentRepository(DatabaseConnection.getEntityManagerFactory(), new CourseRepository(DatabaseConnection.getEntityManagerFactory())));
+    
+    @Before
     public void setup() {
-        DirectoryReference directoryReference = DirectoryReference.RESOURCE_DIRECTORY;
-        File coursesSchemaFile = directoryReference.getFileFromDirectory("courses.create-table.sql");
-        File studentsSchemaFile = directoryReference.getFileFromDirectory("students.create-table.sql");
-        File coursesPopulatorFile = directoryReference.getFileFromDirectory("courses.populate-table.sql");
-        File studentsPopulatorFile = directoryReference.getFileFromDirectory("students.populate-table.sql");
-        File[] filesToExecute = new File[]{
-                coursesSchemaFile,
-                studentsSchemaFile,
-                coursesPopulatorFile,
-                studentsPopulatorFile
-        };
+        DatabaseConnection.MANAGEMENT_SYSTEM.create();
     }
-
-    // given
-    // TODO - Add `@Test` annotation
-    public void test() {
-        JdbcConfigurator.initialize();
-        //StudentDao service = (StudentDao) new StudentService(studentRepository);
-
+    
+    @Test
+    private void givenNoStudentsInDatabaseTest() {
+        //given
+        DatabaseConnection.MANAGEMENT_SYSTEM.drop();
+        int expectedSize = 0;
+        
         // when
-        //List<StudentInterface> studentList = service.getAllStudents();
-
+        List<StudentInterface> actualStudents = STUDENT_SERVICE.getAllStudents();
+        
+        
         // then
-        // TODO - define _then_ clause
+        Assert.assertEquals(expectedSize , actualStudents.size());
+    }
+    
+    @Test
+    private void givenWhenStudentsAreInitialized(){
+        //given
+        DatabaseConnection.MANAGEMENT_SYSTEM.create();
+        
+        //when
+        List<StudentInterface> actualStudents = STUDENT_SERVICE.getAllStudents();
+        
+        // then
+        Assert.assertTrue(actualStudents.size() > 0);
     }
 }

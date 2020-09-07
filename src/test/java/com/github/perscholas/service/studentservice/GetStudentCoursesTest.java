@@ -1,6 +1,6 @@
 package com.github.perscholas.service.studentservice;
 
-import com.github.perscholas.config.JdbcConfigurator;
+import com.github.perscholas.config.JpaConfigurator;
 import com.github.perscholas.utils.DirectoryReference;
 import org.junit.Before;
 
@@ -29,7 +29,7 @@ public class GetStudentCoursesTest {
     // given
     // TODO - Add `@Test` annotation
     public void test() {
-        JdbcConfigurator.initialize();
+        JpaConfigurator.initialize();
 
         // when
         // TODO - define `when` clause

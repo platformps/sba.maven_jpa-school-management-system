@@ -50,16 +50,17 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
 
     @Override
     public void create() {
-        executeSqlFile("student_course.create-table.sql");
-        executeSqlFile("courses.create-table.sql");
-        executeSqlFile("courses.populate-table.sql");
-        executeSqlFile("students.create-table.sql");
-        executeSqlFile("students.populate-table.sql");
-    }
+        JpaConfigurator.executeSqlFile("student_course.create-table.sql");
+        JpaConfigurator.executeSqlFile("courses.create-table.sql");
+        JpaConfigurator.executeSqlFile("courses.populate-table.sql");
+        JpaConfigurator.executeSqlFile("students.create-table.sql");
+        JpaConfigurator.executeSqlFile("students.populate-table.sql");    }
 
     @Override
     public void drop() {
-        //Not used
+        JpaConfigurator.executeSqlFile("student_course.drop-table.sql");
+        JpaConfigurator.executeSqlFile("courses.drop-table.sql");
+        JpaConfigurator.executeSqlFile("students.drop-table.sql");
     }
 
     @Override
@@ -69,26 +70,15 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
 
     @Override
     public void executeStatement(String sqlStatement) {
-        return;
-    }
-    
-    private static void executeSqlFile(String fileName) {
-        File creationStatementFile = DirectoryReference.RESOURCE_DIRECTORY.getFileFromDirectory(fileName);
-        FileReader fileReader = new FileReader(creationStatementFile.getAbsolutePath());
-        String[] statements = fileReader.toString().split(";");
-        for (int i = 0; i < statements.length; i++) {
-            String statement = statements[i];
-            EntityManager entityManager = entityManagerFactory.createEntityManager();
-            EntityTransaction entityTransaction = entityManager.getTransaction();
-            entityTransaction.begin();
-            if (statement == null || statement.isEmpty()) {
-                continue;
-            }
-            //console.println(statement);
-            entityManager.createNativeQuery(statement).executeUpdate();
-            entityTransaction.commit();
-            entityManager.close();
+        if (sqlStatement == null || sqlStatement.isEmpty()) {
+            return;
         }
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction entityTransaction = entityManager.getTransaction();
+        entityTransaction.begin();
+        entityManager.createNativeQuery(sqlStatement).executeUpdate();
+        entityTransaction.commit();
+        entityManager.close();
     }
 
     @Override

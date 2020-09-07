@@ -6,27 +6,15 @@ import com.github.perscholas.utils.FileReader;
 
 import java.io.File;
 
-public class JdbcConfigurator {
-    static {
-        try {
-            // TODO - Attempt to register JDBC Driver
-        } catch (Exception e) {
-            throw new Error(e);
-        }
-    }
+public class JpaConfigurator {
 
     private static final DatabaseConnection dbc = DatabaseConnection.MANAGEMENT_SYSTEM;
 
     public static void initialize() {
         dbc.create();
-        executeSqlFile("student_course.create-table.sql");
-        executeSqlFile("courses.create-table.sql");
-        executeSqlFile("courses.populate-table.sql");
-        executeSqlFile("students.create-table.sql");
-        executeSqlFile("students.populate-table.sql");
     }
 
-    private static void executeSqlFile(String fileName) {
+    public static void executeSqlFile(String fileName) {
         File creationStatementFile = DirectoryReference.RESOURCE_DIRECTORY.getFileFromDirectory(fileName);
         FileReader fileReader = new FileReader(creationStatementFile.getAbsolutePath());
         String[] statements = fileReader.toString().split(";");
