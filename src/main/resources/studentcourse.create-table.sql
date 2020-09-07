@@ -1,4 +1,4 @@
-CREATE TABLE management_system.Student_Course (
+CREATE TABLE management_system.StudentCourse (
    Student_email varchar(50) NOT NULL,
   Course_id int not null,
   FOREIGN KEY (Student_email) REFERENCES Student(email),

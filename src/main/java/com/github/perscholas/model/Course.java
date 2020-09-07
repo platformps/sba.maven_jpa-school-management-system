@@ -1,12 +1,14 @@
 package com.github.perscholas.model;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 // TODO - Annotate and Implement respective interface and define behaviors
 @Entity
 @Table(name = "Course")
 public class Course implements CourseInterface{
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private Integer id;
     @Basic
@@ -61,6 +63,15 @@ public class Course implements CourseInterface{
                 ", name='" + name + '\'' +
                 ", instructor='" + instructor + '\'' +
                 '}';
+    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Course)) return false;
+        Course course = (Course) o;
+        return Objects.equals(id, course.id) &&
+                Objects.equals(name, course.name) &&
+                Objects.equals(instructor, course.instructor);
     }
 }
 

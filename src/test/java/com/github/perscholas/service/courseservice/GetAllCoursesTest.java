@@ -34,11 +34,6 @@ class GetAllCoursesTest {
                 studentsPopulatorFile
         };
     }
-
-<<<<<<< HEAD
-=======
-
->>>>>>> d1ff7b9599907e7695a218c180940c96da835eb7
     @Test
     public void test() {
         // given
@@ -63,8 +58,6 @@ class GetAllCoursesTest {
 
         // then
         // TODO - define `then` clause
-
-        //Assert.assertEquals(expectedCourses.toArray(), actualCourses.toArray());     Deprecated
 
         Assert.assertArrayEquals(listExpectedCourses.toArray(), listActualCourses.toArray());
     }

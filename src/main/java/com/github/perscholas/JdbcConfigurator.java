@@ -18,6 +18,7 @@ public class JdbcConfigurator {
     }
 
     private static final DatabaseConnection dbc = DatabaseConnection.MANAGEMENT_SYSTEM;
+    private  static final DatabaseConnection dbUAT = DatabaseConnection.UAT;
 
     public static void initialize() {
         dbc.drop();
@@ -27,7 +28,8 @@ public class JdbcConfigurator {
         executeSqlFile("courses.populate-table.sql");
         executeSqlFile("students.create-table.sql");
         executeSqlFile("students.populate-table.sql");
-        //executeSqlFile("studentcourse.create-table.sql");
+        executeSqlFile("studentcourse.create-table.sql");
+        //executeSqlFile("studentcourse.populate-table.sql");
     }
 
     private static void executeSqlFile(String fileName) {

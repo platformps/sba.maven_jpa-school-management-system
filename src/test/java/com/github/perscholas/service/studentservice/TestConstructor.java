@@ -1,6 +1,7 @@
 package com.github.perscholas.service.studentservice;
 
 import com.github.perscholas.model.Course;
+import com.github.perscholas.model.CourseInterface;
 import com.github.perscholas.model.Student;
 import com.github.perscholas.model.StudentInterface;
 import com.github.perscholas.utils.DirectoryReference;
@@ -27,7 +28,7 @@ public class TestConstructor {
         Course courses = new Course();
 
         //then
-        Assert.assertTrue(courses instanceof Course);
+        Assert.assertTrue(courses instanceof CourseInterface);
     }
 
     @Test
@@ -36,7 +37,7 @@ public class TestConstructor {
         Student students = new Student();
 
         //then
-        Assert.assertTrue(students instanceof Student);
+        Assert.assertTrue(students instanceof StudentInterface);
     }
      //given
     @Test
@@ -70,5 +71,13 @@ public class TestConstructor {
         Assert.assertNotNull(actualEmail);
         Assert.assertNotNull(actualName);
         Assert.assertNotNull(actualPassword);
+    }
+
+
+    @Test
+    public void studentConstructorTest1() {
+        Student student = new Student();
+        Assert.assertTrue(student instanceof Student);
+        Assert.assertNotNull(student.getStudentCourses());
     }
 }

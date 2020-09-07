@@ -6,22 +6,18 @@ import com.github.perscholas.utils.IOConsole;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 /**
- * SBA Test Week12
+ * Created by leon on 2/18/2020.
  */
 public enum DatabaseConnection implements DatabaseConnectionInterface {
     MANAGEMENT_SYSTEM,
     UAT;
-
     private static final IOConsole console = new IOConsole(IOConsole.AnsiColor.CYAN);
     private final ConnectionBuilder connectionBuilder;
-
     DatabaseConnection(ConnectionBuilder connectionBuilder) {
         this.connectionBuilder = connectionBuilder;
     }
-
     DatabaseConnection() {
         this(new ConnectionBuilder()
                 .setUser("root")
@@ -30,110 +26,91 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
                 .setDatabaseVendor("mysql")
                 .setHost("127.0.0.1"));
     }
-
     @Override
-    public String getDatabaseName() {
+    public String getDatabaseName()
+    {
         return name().toLowerCase();
     }
-
     @Override
-    public Connection getDatabaseConnection() {
+    public Connection getDatabaseConnection()
+    {
         return connectionBuilder
                 .setDatabaseName(getDatabaseName())
                 .build();
     }
-
     @Override
-    public Connection getDatabaseEngineConnection() {
+    public Connection getDatabaseEngineConnection()
+    {
         return connectionBuilder.build();
     }
-
     @Override
     public void create() {
-        String sqlStatement = "CREATE DATABASE IF NOT EXISTS " + name().toLowerCase() + ";"; // TODO - define statement
+        //creating Database
+        String sqlStatement = "CREATE DATABASE " + name().toLowerCase();
         String info;
         try {
-            // TODO - execute statement
-            getDatabaseEngineConnection()
-                    .prepareStatement(sqlStatement)
-                    .execute();
-<<<<<<< HEAD
-           info = "Successfully executed statement `%s`.";
-=======
-            info = "Successfully executed statement `%s`.";
->>>>>>> d1ff7b9599907e7695a218c180940c96da835eb7
-        } catch (Exception sqlException) {
-            info = "Failed to executed statement `%s`.";
+            //Database Created
+            executeStatement(sqlStatement);
+            info = "Successfully executed CREATE statement `%s`.";
+        }
+        catch (Exception sqlException) {
+            info = "Failed to execute CREATE statement `%s`.";
         }
         console.println(info, sqlStatement);
     }
-
     @Override
     public void drop() {
+        //Dropping Database if already exists
+        //System.out.println("Database Name : " + name().toLowerCase());
+        String sqlStatement = "DROP DATABASE IF EXISTS " +name().toLowerCase();
+        String info;
         try {
-            String sqlStatement = "DROP DATABASE IF EXISTS " + name().toLowerCase() + ";";
-            getDatabaseEngineConnection()
-                    .prepareStatement(sqlStatement)
-                    .execute();
-            String successMessage = String.format("Successfully executed statement \n\t`%s`", sqlStatement);
-            console.println(successMessage);
-        } catch (SQLException e) {
-            throw new Error(e);
+            executeStatement(sqlStatement);
+            info = "Successfully executed DROP statement '%s'.";
         }
+        catch (Exception sqlException){
+            info = "Failed to execute DROP statement '%s'.";
+        }
+        console.println(info, name().toLowerCase());
+        //console.println(info, sqlStatement);
     }
 
     @Override
     public void use() {
+        //Use Main Schema
+        String sqlStatement = "ALTER SESSION SET CURRENT_SCHEMA= " + name().toLowerCase();
+        //String sqlStatement = "USE " + name().toLowerCase();
+        String info;
         try {
-            String sqlStatement = "USE " + name().toLowerCase() + ";";
-            getDatabaseEngineConnection()
-                    .prepareStatement(sqlStatement)
-                    .execute();
-            String successMessage = String.format("Successfully executed statement \n\t`%s`", sqlStatement);
-            console.println(successMessage);
-        } catch (SQLException e) {
-            throw new Error(e);
+            executeStatement(sqlStatement);
+            info = "Successfully executed USE statement '%s'.";
         }
+        catch (Exception sqlException) {
+            info = "Failed to execute USE statement '%s'.";
+        }
+        console.println(info, name().toLowerCase());
+        //console.println(info, sqlStatement);
     }
 
     @Override
     public void executeStatement(String sqlStatement) {
+        //Executing SQL Statement
         try {
-            sqlStatement = sqlStatement.trim();
-            getScrollableStatement().execute(sqlStatement);
-            String successMessage = String.format("Successfully executed statement \n\t`%s`", sqlStatement);
-            console.println(successMessage);
-        } catch (SQLException e) {
-            String errorMessage = String.format("Failed to execute statement \n\t`%s`", sqlStatement);
-            throw new Error(errorMessage, e);
+            console.println( sqlStatement);
+            getDatabaseEngineConnection().createStatement().execute(sqlStatement);
         }
-    }
-    public Statement getScrollableStatement() {
-        int resultSetType = ResultSet.TYPE_SCROLL_INSENSITIVE;
-        int resultSetConcurrency = ResultSet.CONCUR_READ_ONLY;
-        try {
-            return getDatabaseConnection().createStatement(resultSetType, resultSetConcurrency);
-        } catch (SQLException e) {
-            throw new Error(e);
+        catch (SQLException se) {
+            System.out.println("SQL exception is thrown");;
         }
     }
     @Override
     public ResultSet executeQuery(String sqlQuery) {
+        //Executing SQL Query
         try {
-<<<<<<< HEAD
-            sqlQuery = sqlQuery.trim();
-            ResultSet result = getScrollableStatement().executeQuery(sqlQuery);
-            String successMessage = String.format("Successfully executed query \n\t`%s`", sqlQuery);
-            console.println(successMessage);
-            return result;
-        } catch (SQLException e) {
-            String errorMessage = String.format("Failed to execute query \n\t`%s`", sqlQuery);
-            throw new Error(errorMessage, e);
-=======
             return getDatabaseConnection().createStatement().executeQuery(sqlQuery);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
->>>>>>> d1ff7b9599907e7695a218c180940c96da835eb7
+        }
+        catch (SQLException se){
+            throw new RuntimeException(se);
         }
     }
 }
