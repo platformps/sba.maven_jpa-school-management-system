@@ -7,6 +7,11 @@ import java.sql.SQLException;
 /**
  * Created by leon on 3/13/18.
  */
+
+/**
+ * toString method updated. hasPortbeenSet statement corrected.
+ * Monica Deshmukh 9/7/2020
+ */
 public class ConnectionBuilder {
     private Integer portNumber;
     private String userName;
@@ -65,7 +70,11 @@ public class ConnectionBuilder {
     public String toString() {
         Boolean isHostNull = this.hostName == null;
         Boolean isPortNull = portNumber == null;
-        Boolean hasPortBeenSet = !isPortNull && !Integer.valueOf(3306).equals(portNumber);
+       // Boolean hasPortBeenSet = !isPortNull && !Integer.valueOf(3306).equals(portNumber);
+
+        //using port no.3300 for my database. Also the second value in the && operation should check if portNumber==3300
+        //Boolean hasPortBeenSet = !isPortNull && Integer.valueOf(3300).equals(portNumber);
+        Boolean hasPortBeenSet = !isPortNull && Integer.valueOf(3306).equals(portNumber);
 
         String jdbcUrl = new StringBuilder()
                 .append("jdbc:")
@@ -78,6 +87,7 @@ public class ConnectionBuilder {
                 .append("/")
                 .append(databaseName != null ? databaseName : "")
                 .toString();
+        //System.out.println("jdbcUrl: " + jdbcUrl);
         return jdbcUrl;
     }
 }

@@ -1,14 +1,23 @@
 package com.github.perscholas;
+import com.github.perscholas.DatabaseConnectionInterface;
+import org.mariadb.jdbc.Driver;
 
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import com.github.perscholas.utils.DirectoryReference;
 import com.github.perscholas.utils.FileReader;
-
+//import com.mysql.cj.jdbc.Driver;
 import java.io.File;
-
+import java.sql.DriverManager;
+/**
+ * TODO implemented by Monica Deshmukh
+ * 9/6/2020
+ */
 public class JdbcConfigurator {
     static {
         try {
             // TODO - Attempt to register JDBC Driver
+            DriverManager.registerDriver(Driver.class.newInstance());
         } catch (Exception e) {
             throw new Error(e);
         }
@@ -24,6 +33,7 @@ public class JdbcConfigurator {
         executeSqlFile("courses.populate-table.sql");
         executeSqlFile("students.create-table.sql");
         executeSqlFile("students.populate-table.sql");
+        executeSqlFile("studentCourses.create-table.sql");
     }
 
     private static void executeSqlFile(String fileName) {
