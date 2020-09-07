@@ -1,5 +1,6 @@
-package com.github.perscholas;
+package com.github.perscholas.config;
 
+import com.github.perscholas.config.DatabaseConnection;
 import com.github.perscholas.utils.DirectoryReference;
 import com.github.perscholas.utils.FileReader;
 

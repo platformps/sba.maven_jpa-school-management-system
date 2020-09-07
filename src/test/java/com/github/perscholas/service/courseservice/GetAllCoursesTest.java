@@ -1,6 +1,6 @@
 package com.github.perscholas.service.courseservice;
 
-import com.github.perscholas.JdbcConfigurator;
+import com.github.perscholas.config.JdbcConfigurator;
 import com.github.perscholas.utils.DirectoryReference;
 import org.junit.Before;
 

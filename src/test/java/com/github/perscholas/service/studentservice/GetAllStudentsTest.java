@@ -1,6 +1,6 @@
 package com.github.perscholas.service.studentservice;
 
-import com.github.perscholas.JdbcConfigurator;
+import com.github.perscholas.config.JdbcConfigurator;
 import com.github.perscholas.dao.StudentDao;
 import com.github.perscholas.model.StudentInterface;
 import com.github.perscholas.service.StudentService;
@@ -34,10 +34,10 @@ public class GetAllStudentsTest {
     // TODO - Add `@Test` annotation
     public void test() {
         JdbcConfigurator.initialize();
-        StudentDao service = (StudentDao) new StudentService();
+        //StudentDao service = (StudentDao) new StudentService(studentRepository);
 
         // when
-        List<StudentInterface> studentList = service.getAllStudents();
+        //List<StudentInterface> studentList = service.getAllStudents();
 
         // then
         // TODO - define _then_ clause

@@ -1,4 +1,4 @@
-package com.github.perscholas;
+package com.github.perscholas.config;
 
 import java.sql.Connection;
 import java.sql.ResultSet;

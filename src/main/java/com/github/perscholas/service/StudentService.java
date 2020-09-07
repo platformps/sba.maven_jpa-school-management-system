@@ -1,55 +1,51 @@
 package com.github.perscholas.service;
 
-import com.github.perscholas.DatabaseConnection;
 import com.github.perscholas.dao.StudentDao;
+import com.github.perscholas.dao.StudentRepository;
 import com.github.perscholas.model.CourseInterface;
 import com.github.perscholas.model.Student;
 import com.github.perscholas.model.StudentInterface;
 
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
-// TODO - Implement respective DAO interface
 public class StudentService implements StudentDao {
-    private final DatabaseConnection dbc;
-
-    public StudentService(DatabaseConnection dbc) {
-        this.dbc = dbc;
+    private final StudentRepository studentRepository;
+    
+    public StudentService(StudentRepository studentRepository) {
+        this.studentRepository = studentRepository;
     }
-
-    public StudentService() {
-        this(DatabaseConnection.UAT);
-    }
-
+    
+    
     @Override
     public List<StudentInterface> getAllStudents() {
-        ResultSet resultSet = dbc.executeQuery("SELECT * FROM students");
-        try {
-            return null; // TODO - Parse `List<StudentInterface>` from `resultSet`
-        } catch(Exception e) {
-            throw new Error(e);
-        }
+        return new ArrayList<>(studentRepository.findAll());
     }
 
     @Override
     public StudentInterface getStudentByEmail(String studentEmail) {
-        return null;
+        return studentRepository.findBy("email", studentEmail).orElse(null);
     }
 
     @Override
     public Boolean validateStudent(String studentEmail, String password) {
-        return null;
+        return studentRepository.findByEmailAndPassword(studentEmail,password).isPresent();
     }
 
     @Override
     public void registerStudentToCourse(String studentEmail, int courseId) {
-
+        studentRepository.registerStudentToCourse(studentEmail, courseId);
     }
 
     @Override
     public List<CourseInterface> getStudentCourses(String studentEmail) {
-        return null;
+        Optional<Student> opStudent = studentRepository.findBy("email", studentEmail);
+        if(opStudent .isPresent()){
+            return new ArrayList<>(opStudent.get().getCourses());
+        }
+        return Collections.EMPTY_LIST;
     }
 }
