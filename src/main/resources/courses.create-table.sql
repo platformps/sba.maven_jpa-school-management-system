@@ -1,10 +1,12 @@
-CREATE TABLE COURSE (
+DROP TABLE IF EXISTS Course CASCADE;
+
+CREATE TABLE Course (
     /** Unique course identifier **/
-    ID INT NOT NULL PRIMARY KEY,
+    id INT NOT NULL PRIMARY KEY,
 
     /** Provides the name of the course **/
-    NAME VARCHAR(50) NOT NULL,
+    name VARCHAR(50) NOT NULL,
 
     /** Provides the name of the instructor **/
-    INSTRUCTOR VARCHAR(50) NOT NULL
+    instructor VARCHAR(50) NOT NULL
 );
