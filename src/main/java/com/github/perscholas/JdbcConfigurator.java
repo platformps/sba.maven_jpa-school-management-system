@@ -14,16 +14,16 @@ public class JdbcConfigurator {
         }
     }
 
-    private static final DatabaseConnection dbc = DatabaseConnection.MANAGEMENT_SYSTEM;
+    private static final DatabaseConnection dbc = DatabaseConnection.UAT;
 
     public static void initialize() {
         dbc.drop();
         dbc.create();
         dbc.use();
-        executeSqlFile("courses.create-table.sql");
-        executeSqlFile("courses.populate-table.sql");
-        executeSqlFile("students.create-table.sql");
-        executeSqlFile("students.populate-table.sql");
+        //executeSqlFile("courses.create-table.sql");
+        //executeSqlFile("courses.populate-table.sql");
+        //executeSqlFile("students.create-table.sql");
+        //executeSqlFile("students.populate-table.sql");
     }
 
     private static void executeSqlFile(String fileName) {

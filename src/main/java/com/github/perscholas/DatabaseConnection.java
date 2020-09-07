@@ -5,6 +5,8 @@ import com.github.perscholas.utils.IOConsole;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 /**
  * Created by leon on 2/18/2020.
@@ -25,7 +27,7 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
                 .setUser("root")
                 .setPassword("")
                 .setPort(3306)
-                .setDatabaseVendor("mariadb")
+                .setDatabaseVendor("mysql")
                 .setHost("127.0.0.1"));
     }
 
@@ -34,10 +36,16 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
         return name().toLowerCase();
     }
 
+    public String getParams() {
+        return "?serverTimezone=UTC&useLegacyDatetimeCode=false";
+    }
+
     @Override
     public Connection getDatabaseConnection() {
+
         return connectionBuilder
                 .setDatabaseName(getDatabaseName())
+                .setParams(getParams())
                 .build();
     }
 
@@ -48,7 +56,7 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
 
     @Override
     public void create() {
-        String sqlStatement = null; // TODO - define statement
+        String sqlStatement = "CREATE SCHEMA IF NOT EXISTS " + getDatabaseName(); // TODO - define statement instead of null
         String info;
         try {
             // TODO - execute statement
@@ -69,10 +77,25 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
 
     @Override
     public void executeStatement(String sqlStatement) {
+        Connection conn = this.getDatabaseConnection();
+        try {
+            Statement statement = conn.createStatement();
+            statement.executeUpdate(sqlStatement);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 
     @Override
     public ResultSet executeQuery(String sqlQuery) {
+        Connection conn = this.getDatabaseConnection();
+        try {
+            Statement statement = conn.createStatement();
+            ResultSet resultSet = statement.executeQuery(sqlQuery);
+            return resultSet;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
         return null;
     }
 }
