@@ -23,10 +23,10 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
     DatabaseConnection() {
         this(new ConnectionBuilder()
                 .setUser("root")
-                .setPassword("")
-                .setPort(3306)
-                .setDatabaseVendor("mariadb")
-                .setHost("127.0.0.1"));
+                .setPassword("root")
+                .setPort(8889)
+                .setDatabaseVendor("mysql")
+                .setHost("localhost"));
     }
 
     @Override
@@ -37,7 +37,7 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
     @Override
     public Connection getDatabaseConnection() {
         return connectionBuilder
-                .setDatabaseName(getDatabaseName())
+                .setDatabaseName("")
                 .build();
     }
 
@@ -48,10 +48,12 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
 
     @Override
     public void create() {
-        String sqlStatement = null; // TODO - define statement
+        String sqlStatement ="DROP DATABASE IF EXISTS management_system; CREATE DATABASE IF NOT EXISTS management_system; USE management_system;"; // TODO - define statement
         String info;
         try {
             // TODO - execute statement
+            getDatabaseConnection();
+            executeStatement(sqlStatement);
             info = "Successfully executed statement `%s`.";
         } catch (Exception sqlException) {
             info = "Failed to executed statement `%s`.";
@@ -69,6 +71,7 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
 
     @Override
     public void executeStatement(String sqlStatement) {
+
     }
 
     @Override
