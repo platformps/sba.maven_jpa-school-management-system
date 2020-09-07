@@ -5,7 +5,7 @@ import javax.persistence.*;
 // TODO - Annotate and Implement respective interface and define behaviors
 @Entity
 @Table(name = "student")
-public class Student implements StudentInterface <String>{
+public class Student implements StudentInterface{
 
     @Id
     @Column(name = "email")

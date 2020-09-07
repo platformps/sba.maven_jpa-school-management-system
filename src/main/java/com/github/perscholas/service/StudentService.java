@@ -14,7 +14,7 @@ import java.util.List;
 // TODO - Implement respective DAO interface
 public class StudentService  implements StudentDao {
     private final DatabaseConnection dbc;
-    List<StudentInterface<String>> list=new ArrayList<>();
+    List<StudentInterface> list=new ArrayList<>();
 
     public StudentService(DatabaseConnection dbc) {
         this.dbc = dbc;
@@ -25,7 +25,7 @@ public class StudentService  implements StudentDao {
     }
 
     @Override
-    public List<StudentInterface<String>> getAllStudents() {
+    public List<StudentInterface> getAllStudents() {
         ResultSet resultSet = dbc.executeQuery("SELECT * FROM students");
 
         try {
@@ -43,8 +43,8 @@ public class StudentService  implements StudentDao {
     }
 
     @Override
-    public StudentInterface<String> getStudentByEmail(String studentEmail) {
-        StudentInterface<String> student = list.stream()
+    public StudentInterface getStudentByEmail(String studentEmail) {
+        StudentInterface student = list.stream()
                 .filter(e-> studentEmail.equals(e.getEmail()))
                 .findAny()
                 .orElse(null)

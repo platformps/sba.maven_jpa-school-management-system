@@ -10,7 +10,7 @@ import javax.persistence.Table;
 // TODO - Annotate and Implement respective interface and define behaviors
 @Entity
 @Table(name = "course")
-public class Course implements CourseInterface <Integer> {
+public class Course implements CourseInterface {
 
     @Id
     @Column(name = "id")

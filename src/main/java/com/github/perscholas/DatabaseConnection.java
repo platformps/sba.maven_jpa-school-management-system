@@ -25,7 +25,7 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
     DatabaseConnection() {
         this(new ConnectionBuilder()
                 .setUser("root")
-                .setPassword("BLocktoe1488!!**")
+                .setPassword(System.getenv("JBDC_PASSWORD"))
                 .setPort(3306)
                 .setDatabaseVendor("mysql")
                 .setHost("127.0.0.1"));

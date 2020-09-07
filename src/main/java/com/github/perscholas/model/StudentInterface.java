@@ -1,6 +1,6 @@
 package com.github.perscholas.model;
 
-public interface StudentInterface<S> extends EntityInterface<String>{
+public interface StudentInterface extends EntityInterface<String>{
     String getEmail();
     String getName();
     String getPassword();
