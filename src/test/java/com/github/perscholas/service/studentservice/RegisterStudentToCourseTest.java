@@ -51,8 +51,9 @@ public class RegisterStudentToCourseTest {
 
         //Select a random student from the list of stuents
         StudentInterface randomStudent = studentList.get((int)(Math.random() * studentList.size()));
+        //Select a random course from the list of courses
         CourseInterface ExpectedCourse = courseList.get((int)(Math.random() * courseList.size()));
-
+         //Register the random student to a random course
         studentService.registerStudentToCourse(randomStudent.getEmail(), ExpectedCourse.getId());
         List<CourseInterface> actualStudentCourses = studentService.getStudentCourses(randomStudent.getEmail());
 

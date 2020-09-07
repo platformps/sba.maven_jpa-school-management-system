@@ -40,44 +40,12 @@ public class TestConstructor {
         Assert.assertTrue(students instanceof StudentInterface);
     }
      //given
-    @Test
-    public void courseNotNullaryConstructorTest() {
-
-        //when
-        Course courses = new Course();
-        Integer actualId = courses.getId();
-        String actualName = courses.getName();
-        String actualInstructor = courses.getInstructor();
-
-        //then
-        Assert.assertNotNull(actualId);
-        Assert.assertNotNull(actualName);
-        Assert.assertNotNull(actualInstructor);
-       }
-
-    //given
-    @Test
-    public void studentNotNullaryConstructorTest() {
-        //given
-        Student students = new Student();
-
-
-        //when
-        String actualEmail = students.getEmail();
-        String actualName = students.getName();
-        String actualPassword = students.getPassword();
-
-        //then
-        Assert.assertNotNull(actualEmail);
-        Assert.assertNotNull(actualName);
-        Assert.assertNotNull(actualPassword);
-    }
 
 
     @Test
-    public void studentConstructorTest1() {
+    public void studentConstructorNotNullaryTest() {
         Student student = new Student();
-        Assert.assertTrue(student instanceof Student);
+
         Assert.assertNotNull(student.getStudentCourses());
     }
 }

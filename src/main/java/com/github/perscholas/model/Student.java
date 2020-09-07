@@ -19,6 +19,12 @@ public class Student implements StudentInterface {
         studentCourses = new ArrayList<>();
     }
 
+    public Student(String email, String name, String password) {
+        this.email = email;
+        this.name = name;
+        this.password = password;
+    }
+
     @Override
     public String getEmail() {
         return email;

@@ -44,6 +44,6 @@ public class GetAllStudentsTest {
 
         // then
         // TODO - define _then_ clause
-        Assert.assertTrue(studentList.contains(service));
+        Assert.assertNotNull(studentList);
     }
 }
