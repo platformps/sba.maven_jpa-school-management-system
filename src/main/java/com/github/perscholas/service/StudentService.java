@@ -1,4 +1,5 @@
 package com.github.perscholas.service;
+import com.github.perscholas.model.*;
 
 import com.github.perscholas.DatabaseConnection;
 import com.github.perscholas.dao.StudentDao;

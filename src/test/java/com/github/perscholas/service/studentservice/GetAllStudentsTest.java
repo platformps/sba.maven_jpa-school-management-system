@@ -1,13 +1,18 @@
 package com.github.perscholas.service.studentservice;
 
+import com.github.perscholas.DatabaseConnection;
 import com.github.perscholas.JdbcConfigurator;
 import com.github.perscholas.dao.StudentDao;
 import com.github.perscholas.model.StudentInterface;
 import com.github.perscholas.service.StudentService;
 import com.github.perscholas.utils.DirectoryReference;
+import org.junit.After;
 import org.junit.Before;
+import org.junit.Test;
+import org.junit.Assert;
 
 import java.io.File;
+import java.sql.SQLException;
 import java.util.List;
 
 /**
