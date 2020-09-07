@@ -26,7 +26,8 @@ public class StudentService implements StudentDao {
     @Override
     public List<StudentInterface> getAllStudents() {
         ResultSet resultSet = dbc.executeQuery("SELECT * FROM students");
-        try { //put result set into a list. then store into List<StudentInterface>?
+        List<StudentInterface> studentList = new ArrayList<>();
+        try { while (resultSet.next()){//put result set into a list. then store into List<StudentInterface>?
             return null; // TODO - Parse `List<StudentInterface>` from `resultSet`
         } catch(Exception e) {
             throw new Error(e);
