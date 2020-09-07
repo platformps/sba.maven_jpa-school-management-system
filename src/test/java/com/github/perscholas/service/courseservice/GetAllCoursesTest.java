@@ -1,6 +1,7 @@
 package com.github.perscholas.service.courseservice;
 
 import com.github.perscholas.DatabaseConnection;
+import com.github.perscholas.DatabaseConnectionInterface;
 import com.github.perscholas.JdbcConfigurator;
 import com.github.perscholas.model.CourseInterface;
 import com.github.perscholas.service.CourseService;
@@ -11,6 +12,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.File;
+import java.sql.SQLException;
 import java.util.List;
 
 /**

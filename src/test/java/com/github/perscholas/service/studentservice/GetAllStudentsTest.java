@@ -36,14 +36,13 @@ public class GetAllStudentsTest {
     // TODO - Add `@Test` annotation
     @Test
     public void test() {
-        JdbcConfigurator.initialize();
+        //JdbcConfigurator.initialize();
         StudentDao service = (StudentDao) new StudentService();
 
         // when
         List<StudentInterface> studentList = service.getAllStudents();
 
         // then
-        // TODO - define _then_ clause
         Assert.assertFalse(studentList.isEmpty());
     }
 }

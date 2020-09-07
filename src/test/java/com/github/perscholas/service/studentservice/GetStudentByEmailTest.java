@@ -35,7 +35,7 @@ public class GetStudentByEmailTest {
     // TODO - Add `@Test` annotation
     @Test
     public void test() {
-        JdbcConfigurator.initialize();
+        //JdbcConfigurator.initialize();
         StudentService studentService = new StudentService();
         StudentInterface studentInterface = new Student();
 

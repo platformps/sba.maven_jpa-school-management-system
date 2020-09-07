@@ -1,11 +1,18 @@
 package com.github.perscholas.service.studentservice;
 
 import com.github.perscholas.JdbcConfigurator;
+import com.github.perscholas.dao.StudentDao;
+import com.github.perscholas.model.CourseInterface;
+import com.github.perscholas.model.Student;
+import com.github.perscholas.model.StudentInterface;
+import com.github.perscholas.service.StudentService;
 import com.github.perscholas.utils.DirectoryReference;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.File;
+import java.util.stream.Collectors;
 
 /**
  * @author leonhunter
@@ -31,13 +38,20 @@ public class GetStudentCoursesTest {
     // TODO - Add `@Test` annotation
     @Test
     public void test() {
-        JdbcConfigurator.initialize();
+        //JdbcConfigurator.initialize();
+        StudentDao studentDao = new StudentService();
+        String expectedCourseName = "Anatomy";
 
         // when
         // TODO - define `when` clause
-
+        studentDao.registerStudentToCourse("aiannitti7@is.gd", 3);
+        String actualCourseName = studentDao.getStudentCourses("aiannitti7@is.gd")
+                .stream()
+                .map(CourseInterface::getName)
+                .collect(Collectors.joining());
 
         // then
         // TODO - define `then` clause
+        Assert.assertEquals(expectedCourseName, actualCourseName);
     }
 }
