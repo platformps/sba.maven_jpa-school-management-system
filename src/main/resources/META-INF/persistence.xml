@@ -9,18 +9,22 @@ http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
 
         <!--changes made to connect to local database-->
         <!-- Configuring The Database Connection Details -->
-       <!-- <properties>
+       <properties>
             <property name="javax.persistence.jdbc.driver"
                       value="org.mariadb.jdbc.Driver"/>
 
-            <property name="javax.persistence.jdbc.url"
-                      value="jdbc:mariadb://127.0.0.1:3300/production_database"/>
+           <!-- <property name="javax.persistence.jdbc.url"
+                      value="jdbc:mariadb://127.0.0.1:3300/production_database"/>-->
+           <property name="javax.persistence.jdbc.url"
+                     value="jdbc:mariadb://127.0.0.1:3306/production_database"/>
 
             <property name="javax.persistence.jdbc.user"
                       value="root"/>
 
-            <property name="javax.persistence.jdbc.password"
-                      value="5000"/>
+           <!-- <property name="javax.persistence.jdbc.password"
+                      value="5000"/>-->
+           <property name="javax.persistence.jdbc.password"
+                     value=""/>
 
             <property name="eclipselink.logging.level.sql"
                       value="FINE"/>
@@ -30,9 +34,8 @@ http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
 
             <property name="eclipselink.ddl-generation.output-mode"
                       value="database" />
-        </properties>-->
-       <properties>
-            <!-- Configuring The Database Connection Details -->
+        </properties>
+      <!-- <properties>
            <property name="javax.persistence.jdbc.driver"
                       value="mysql"/>
 
@@ -53,6 +56,6 @@ http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
 
             <property name="eclipselink.ddl-generation.output-mode"
                       value="database" />
-        </properties>
+        </properties>-->
     </persistence-unit>
 </persistence>
