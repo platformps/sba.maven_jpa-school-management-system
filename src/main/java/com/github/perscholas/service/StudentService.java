@@ -5,11 +5,11 @@ import com.github.perscholas.dao.StudentDao;
 import com.github.perscholas.model.CourseInterface;
 import com.github.perscholas.model.Student;
 import com.github.perscholas.model.StudentInterface;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 // TODO - Implement respective DAO interface
 public class StudentService implements StudentDao {
@@ -25,22 +25,37 @@ public class StudentService implements StudentDao {
 
     @Override
     public List<StudentInterface> getAllStudents() {
-        ResultSet resultSet = dbc.executeQuery("SELECT * FROM students");
+        List<StudentInterface> studentList = new ArrayList<>();
+        ResultSet resultSet = dbc.executeQuery("SELECT * FROM Student;");
+
         try {
-            return null; // TODO - Parse `List<StudentInterface>` from `resultSet`
-        } catch(Exception e) {
-            throw new Error(e);
+            do {
+                studentList.add(new Student(resultSet.getString("email"),
+                        resultSet.getString("name"),
+                        resultSet.getString("password")));
+
+            } while (Objects.requireNonNull(resultSet).next());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
+        return studentList;
     }
 
     @Override
     public StudentInterface getStudentByEmail(String studentEmail) {
-        return null;
+        return getAllStudents().stream()
+                .filter(studentInterface -> studentInterface.getEmail().equals(studentEmail))
+                .findAny()
+                .get();
     }
 
     @Override
     public Boolean validateStudent(String studentEmail, String password) {
-        return null;
+        return getAllStudents().stream()
+                .anyMatch(studentInterface ->
+                        studentInterface.getEmail().equals(studentEmail)
+                        &&
+                        studentInterface.getPassword().equals(password));
     }
 
     @Override
