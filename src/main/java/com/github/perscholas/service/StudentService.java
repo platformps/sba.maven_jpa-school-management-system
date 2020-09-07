@@ -96,8 +96,13 @@ public class StudentService implements StudentDao {
         else {
             if (registeredCourses != null && registeredCourses.stream().anyMatch(thisCourse -> thisCourse.getId().equals(courseId))) {
                 System.out.println("The Student is already registered for this course.");
-            } else {
+            }
+            else {
                 registerForCourse(studentEmail, courseId);
+
+                //display registered courses after successfully registering to the course
+                registeredCourses =  getStudentCourses(studentEmail);
+                System.out.println("[ " + studentEmail + " ] is registered for the following courses: " + registeredCourses.toString());
             }
         }
     }
