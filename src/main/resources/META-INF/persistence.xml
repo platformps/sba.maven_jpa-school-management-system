@@ -9,10 +9,10 @@ http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
         <properties>
             <!-- Configuring The Database Connection Details -->
             <property name="javax.persistence.jdbc.driver"
-                      value="mysql"/>
+                      value="org.h2.Driver"/>
 
             <property name="javax.persistence.jdbc.url"
-                      value="jdbc:mysql://127.0.0.1/"/>
+                      value="jdbc:h2:~/test"/>
 
             <property name="javax.persistence.jdbc.user"
                       value=""/>
@@ -24,10 +24,10 @@ http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
                       value="OFF"/>
 
             <property name="eclipselink.ddl-generation"
-                      value="drop-and-create-tables" />
+                      value="drop-and-create-tables"/>
 
             <property name="eclipselink.ddl-generation.output-mode"
-                      value="database" />
+                      value="database"/>
         </properties>
     </persistence-unit>
 </persistence>

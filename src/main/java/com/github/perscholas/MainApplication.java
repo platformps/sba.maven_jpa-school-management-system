@@ -1,5 +1,6 @@
 package com.github.perscholas;
 
+import com.github.perscholas.config.DatabaseConnection;
 import com.github.perscholas.config.JdbcConfigurator;
 import com.github.perscholas.dao.CourseRepository;
 import com.github.perscholas.dao.StudentRepository;
@@ -12,7 +13,7 @@ import javax.persistence.Persistence;
 public class MainApplication {
     public static void main(String[] args) {
         JdbcConfigurator.initialize();
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("SMS");
+        EntityManagerFactory entityManagerFactory = DatabaseConnection.getEntityManagerFactory();
         CourseRepository courseRepository = new CourseRepository(entityManagerFactory);
         StudentRepository studentRepository = new StudentRepository(entityManagerFactory, courseRepository);
         StudentService studentService = new StudentService(studentRepository);

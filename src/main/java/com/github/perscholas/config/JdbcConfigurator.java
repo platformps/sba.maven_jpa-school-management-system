@@ -18,9 +18,8 @@ public class JdbcConfigurator {
     private static final DatabaseConnection dbc = DatabaseConnection.MANAGEMENT_SYSTEM;
 
     public static void initialize() {
-        dbc.drop();
         dbc.create();
-        dbc.use();
+        executeSqlFile("student_course.create-table.sql");
         executeSqlFile("courses.create-table.sql");
         executeSqlFile("courses.populate-table.sql");
         executeSqlFile("students.create-table.sql");

@@ -23,7 +23,7 @@ public class SchoolManagementSystem implements Runnable {
     
     public static final List<DashboardOption> LOGGED_IN_OPTIONS = Arrays.asList(DashboardOption.VIEW, DashboardOption.REGISTER, DashboardOption.LOGOUT, DashboardOption.DEBUG);
     public static final List<DashboardOption> LOGGED_OUT_OPTIONS = Arrays.asList(DashboardOption.LOGIN, DashboardOption.EXIT, DashboardOption.DEBUG);
-    
+    public List<DashboardOption> currentDashboardOption = LOGGED_OUT_OPTIONS;
     
     public SchoolManagementSystem(StudentService studentService, CourseService courseService, EntityManagerFactory entityManagerFactory) {
         this.studentService = studentService;
@@ -36,8 +36,7 @@ public class SchoolManagementSystem implements Runnable {
     }
     
     public void displayOptions() {
-        List<DashboardOption> dashboardOptions = isStudentLoggedIn() ? LOGGED_IN_OPTIONS : LOGGED_OUT_OPTIONS;
-        String dashboardOptionsOutput = dashboardOptions.stream().map(DashboardOption::display).collect(Collectors.joining(" "));
+        String dashboardOptionsOutput = currentDashboardOption.stream().map(DashboardOption::display).collect(Collectors.joining(" "));
         
         console.println(new StringBuilder()
                 .append("Welcome to the School Management System Dashboard!")
@@ -91,6 +90,7 @@ public class SchoolManagementSystem implements Runnable {
         
         if (isValidLogin) {
             this.loggedInStudentEmail = studentEmail;
+            this.currentDashboardOption = LOGGED_IN_OPTIONS;
             console.println(String.format("SUCCESSFULLY logged in as %s", loggedInStudentEmail));
         } else {
             console.println(String.format("Failed login, returning to menu."));
@@ -136,5 +136,6 @@ public class SchoolManagementSystem implements Runnable {
     
     public void logout() {
         loggedInStudentEmail = null;
+        currentDashboardOption = LOGGED_OUT_OPTIONS;
     }
 }

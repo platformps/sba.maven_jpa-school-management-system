@@ -1,8 +1,12 @@
 package com.github.perscholas.config;
 
-import com.github.perscholas.utils.ConnectionBuilder;
-import com.github.perscholas.utils.IOConsole;
+import com.github.perscholas.utils.*;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
+import javax.persistence.Persistence;
+import java.io.File;
 import java.sql.Connection;
 import java.sql.ResultSet;
 
@@ -14,21 +18,21 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
     UAT;
 
     private static final IOConsole console = new IOConsole(IOConsole.AnsiColor.CYAN);
-    private final ConnectionBuilder connectionBuilder;
-
-    DatabaseConnection(ConnectionBuilder connectionBuilder) {
+    private final JpaConnectionBuilder connectionBuilder;
+    private static final EntityManagerFactory entityManagerFactory =  Persistence.createEntityManagerFactory("SMS");
+    
+    DatabaseConnection(JpaConnectionBuilder connectionBuilder) {
         this.connectionBuilder = connectionBuilder;
     }
 
     DatabaseConnection() {
-        this(new ConnectionBuilder()
-                .setUser("")
-                .setPassword("")
-                .setPort(3306)
-                .setDatabaseVendor("h2")
-                .setHost("127.0.0.1"));
+        this(new JpaConnectionBuilder().setUrl("jdbc:h2:~/test").setUser("").setPassword(""));
     }
-
+    
+    public static EntityManagerFactory getEntityManagerFactory() {
+        return entityManagerFactory;
+    }
+    
     @Override
     public String getDatabaseName() {
         return "test";
@@ -36,9 +40,7 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
 
     @Override
     public Connection getDatabaseConnection() {
-        return connectionBuilder
-                .setDatabaseName(getDatabaseName())
-                .build();
+        return connectionBuilder.build();
     }
 
     @Override
@@ -48,27 +50,45 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
 
     @Override
     public void create() {
-        String sqlStatement = null; // TODO - define statement
-        String info;
-        try {
-            // TODO - execute statement
-            info = "Successfully executed statement `%s`.";
-        } catch (Exception sqlException) {
-            info = "Failed to executed statement `%s`.";
-        }
-        console.println(info, sqlStatement);
+        executeSqlFile("student_course.create-table.sql");
+        executeSqlFile("courses.create-table.sql");
+        executeSqlFile("courses.populate-table.sql");
+        executeSqlFile("students.create-table.sql");
+        executeSqlFile("students.populate-table.sql");
     }
 
     @Override
     public void drop() {
+        //Not used
     }
 
     @Override
     public void use() {
+        //Not used
     }
 
     @Override
     public void executeStatement(String sqlStatement) {
+        return;
+    }
+    
+    private static void executeSqlFile(String fileName) {
+        File creationStatementFile = DirectoryReference.RESOURCE_DIRECTORY.getFileFromDirectory(fileName);
+        FileReader fileReader = new FileReader(creationStatementFile.getAbsolutePath());
+        String[] statements = fileReader.toString().split(";");
+        for (int i = 0; i < statements.length; i++) {
+            String statement = statements[i];
+            EntityManager entityManager = entityManagerFactory.createEntityManager();
+            EntityTransaction entityTransaction = entityManager.getTransaction();
+            entityTransaction.begin();
+            if (statement == null || statement.isEmpty()) {
+                continue;
+            }
+            //console.println(statement);
+            entityManager.createNativeQuery(statement).executeUpdate();
+            entityTransaction.commit();
+            entityManager.close();
+        }
     }
 
     @Override
