@@ -1,8 +1,13 @@
 package com.github.perscholas.service.studentservice;
 
 import com.github.perscholas.JdbcConfigurator;
+import com.github.perscholas.model.Student;
+import com.github.perscholas.model.StudentInterface;
+import com.github.perscholas.service.StudentService;
 import com.github.perscholas.utils.DirectoryReference;
+import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Test;
 
 import java.io.File;
 
@@ -28,14 +33,18 @@ public class GetStudentByEmailTest {
 
     // given
     // TODO - Add `@Test` annotation
+    @Test
     public void test() {
         JdbcConfigurator.initialize();
+        StudentService studentService = new StudentService();
+        StudentInterface studentInterface = new Student();
 
         // when
         // TODO - define `when` clause
-
+        studentInterface = studentService.getStudentByEmail("tattwool4@biglobe.ne.jp");
 
         // then
         // TODO - define `then` clause
+        Assert.assertNotNull(studentInterface);
     }
 }

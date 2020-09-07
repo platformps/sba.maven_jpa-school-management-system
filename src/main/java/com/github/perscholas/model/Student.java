@@ -20,8 +20,6 @@ public class Student implements StudentInterface {
     @Column(name = "password")
     private String password;
 
-    List<Course> studentCourses;
-
     public Student() {
         this(null, null, null);
     }

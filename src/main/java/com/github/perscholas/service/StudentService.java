@@ -44,7 +44,7 @@ public class StudentService implements StudentDao {
 
     @Override
     public StudentInterface getStudentByEmail(String studentEmail) {
-        ResultSet rs = dbc.executeQuery("SELECT * FROM Student WHERE email = " + studentEmail + ";");
+        ResultSet rs = dbc.executeQuery("SELECT * FROM Student WHERE email = '" + studentEmail + "';");
         StudentInterface studentInterface = new Student();
         try{
             if (rs.next()) {
@@ -81,7 +81,7 @@ public class StudentService implements StudentDao {
 
     @Override
     public void registerStudentToCourse(String studentEmail, int courseId) {
-        if(!existingEntry(studentEmail, courseId)) {
+        if(!existingCourseEntry(studentEmail, courseId)) {
             String sql = "INSERT INTO management_system.intermediate (student_email, course_id) VALUES ('" + studentEmail + "', '" + courseId + "');";
             dbc.executeStatement(sql);
         }
@@ -106,7 +106,7 @@ public class StudentService implements StudentDao {
         } finally {
             closeResultSet(rs);
         }
-        return courseInterfaceList;
+        return courseInterfaceList; //This is the way it was designed but it not good for readability of output
     }
 
     public void closeResultSet(ResultSet rs) {
@@ -121,7 +121,7 @@ public class StudentService implements StudentDao {
         }
     }
 
-    private Boolean existingEntry(String studentEmail, int courseId) {
+    private Boolean existingCourseEntry(String studentEmail, int courseId) {
         ResultSet rs = dbc.executeQuery("SELECT * FROM intermediate;");
         try{
             while (rs != null && rs.next()) {
