@@ -10,6 +10,11 @@ import java.util.Scanner;
  * used to output prompt to user and get input from user
  */
 public class IOConsole {
+    public static final IOConsole NORMAL = new IOConsole();
+    public static final IOConsole SUCCESS = new IOConsole(IOConsole.AnsiColor.GREEN);
+    public static final IOConsole DATABASE = new IOConsole(AnsiColor.CYAN);
+    public static final IOConsole ERROR = new IOConsole(AnsiColor.RED);
+    
     public enum AnsiColor {
         AUTO("\u001B[0m"),
         BLACK("\u001B[30m"),
@@ -37,11 +42,11 @@ public class IOConsole {
     private final PrintStream output;
     private final AnsiColor ansiColor;
     
-    public IOConsole() {
+    private IOConsole() {
         this(AnsiColor.AUTO, System.in, System.out);
     }
     
-    public IOConsole(AnsiColor ansiColor) {
+    private IOConsole(AnsiColor ansiColor) {
         this(ansiColor, System.in, System.out);
     }
     

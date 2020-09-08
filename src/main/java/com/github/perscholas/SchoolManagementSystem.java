@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class SchoolManagementSystem implements Runnable {
-    private static final IOConsole console = new IOConsole();
     private final StudentService studentService;
     private final CourseService courseService;
     private String loggedInStudentEmail;
@@ -34,13 +33,13 @@ public class SchoolManagementSystem implements Runnable {
     public void run() {
         String input;
         do {
-            displayOptions();
-            input = console.getStringInput("");
+            input = displayOptions();
             if (!DashboardOption.isValid(input)) {
-                console.println("Invalid Option, please try again...");
+                IOConsole.ERROR.println("Invalid input, please try again...");
                 continue;
             }
             lastDashboardOption = DashboardOption.valueOf(input);
+            IOConsole.SUCCESS.println(String.format("Successful input %s", lastDashboardOption.display()));
             switch (lastDashboardOption) {
                 case LOGIN:
                     login();
@@ -69,53 +68,49 @@ public class SchoolManagementSystem implements Runnable {
     }
     
     private void login() {
-        console.print("\nWelcome to the Login Dashboard!");
-        String studentEmail = console.getStringInput("Enter your email:");
-        String studentPassword = console.getStringInput("Enter your password:");
+        IOConsole.NORMAL.print("\nWelcome to the Login Dashboard!e");
+        String studentEmail = IOConsole.NORMAL.getStringInput("\nEnter your email:");
+        String studentPassword = IOConsole.NORMAL.getStringInput("Enter your password:");
         boolean isValidLogin = studentService.validateStudent(studentEmail, studentPassword);
         
         if (isValidLogin) {
             this.loggedInStudentEmail = studentEmail;
             this.currentDashboardOption = LOGGED_IN_OPTIONS;
-            console.println(String.format("SUCCESSFULLY logged in as %s", loggedInStudentEmail));
+            IOConsole.SUCCESS.println(String.format("SUCCESSFULLY logged in as %s", loggedInStudentEmail));
         } else {
-            console.println(String.format("Failed login, returning to menu."));
+            IOConsole.ERROR.println(String.format("Failed login, returning to menu."));
         }
     }
     
     private void debug() {
-        String input = console.getStringInput(new StringBuilder()
+        String input = IOConsole.NORMAL.getStringInput(new StringBuilder()
                 .append("Welcome to the Debug Dashboard!")
                 .append("\nFrom here, you can select any of the following options:")
                 .append("\n[ student ] [ course ]").toString());
         if ("student".equals(input)) {
-            console.println(studentService.getAllStudents().stream().map(StudentInterface::toString).collect(Collectors.joining("\n")));
+            IOConsole.DATABASE.println(studentService.getAllStudents().stream().map(StudentInterface::toString).collect(Collectors.joining("\n")));
         } else if ("course".equals(input)) {
-            console.println(courseService.getAllCourses().stream().map(CourseInterface::toString).collect(Collectors.joining("\n")));
+            IOConsole.DATABASE.println(courseService.getAllCourses().stream().map(CourseInterface::toString).collect(Collectors.joining("\n")));
         } else {
-            console.println(String.format("Invalid input %s", input));
+            IOConsole.ERROR.println(String.format("Invalid input %s", input));
         }
-        console.println("Returning to Main Dashboard");
+        IOConsole.NORMAL.println("Returning to Main Dashboard");
     }
     
     private void viewCourses() {
         List<CourseInterface> courses = studentService.getStudentCourses(loggedInStudentEmail);
-        console.println(new StringBuilder()
+        IOConsole.DATABASE.println(new StringBuilder()
                 .append(String.format("[ %s ] is registered to the following courses:", loggedInStudentEmail))
                 .append("\n\t" + courses)
                 .toString());
     }
     
     public void register() {
-        List<String> courseIds = courseService.getAllCourses().stream().map(CourseInterface::getId).map(value -> value.toString()).collect(Collectors.toList());
-        Integer courseId = console.getIntegerInput(new StringBuilder()
+        String coursesOutput = courseService.getAllCourses().stream().map(CourseInterface::toString).map(output -> "\t"+output).collect(Collectors.joining("\n"));
+        Integer courseId = IOConsole.NORMAL.getIntegerInput(new StringBuilder()
                 .append("Welcome to the Course Registration Dashboard!")
-                .append("\nFrom here, you can select any of the following options:")
-                .append("\n\t" + courseIds
-                        .toString()
-                        .replaceAll("\\[", "")
-                        .replaceAll("\\]", "")
-                        .replaceAll(", ", "\n\t"))
+                .append("\nFrom here, select ID of the course you would like to register for:")
+                .append("\n" + coursesOutput)
                 .toString());
         studentService.registerStudentToCourse(loggedInStudentEmail, courseId);
     }
@@ -129,10 +124,10 @@ public class SchoolManagementSystem implements Runnable {
         return loggedInStudentEmail != null;
     }
     
-    public void displayOptions() {
+    public String displayOptions() {
         String dashboardOptionsOutput = currentDashboardOption.stream().map(DashboardOption::display).collect(Collectors.joining(" "));
         
-        console.println(new StringBuilder()
+        return IOConsole.NORMAL.getStringInput(new StringBuilder()
                 .append("Welcome to the School Management System Dashboard!")
                 .append("\nFrom here, you can select any of the following options:")
                 .append(dashboardOptionsOutput).toString());

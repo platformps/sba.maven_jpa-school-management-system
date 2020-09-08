@@ -18,7 +18,6 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
     MANAGEMENT_SYSTEM,
     UAT;
     
-    private static final IOConsole console = new IOConsole(IOConsole.AnsiColor.CYAN);
     private final JpaConnectionBuilder connectionBuilder;
     
     DatabaseConnection(JpaConnectionBuilder connectionBuilder) {
@@ -46,9 +45,13 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
     
     @Override
     public void create() {
+        IOConsole.DATABASE.println("Creating tables...");
         JpaConfigurator.executeSqlFile("courses.create-table.sql");
+        IOConsole.DATABASE.println("Course table created");
         JpaConfigurator.executeSqlFile("students.create-table.sql");
+        IOConsole.DATABASE.println("Student table created");
         JpaConfigurator.executeSqlFile("student_course.create-table.sql");
+        IOConsole.DATABASE.println("Student_Course table created");
     }
     
     @Override
