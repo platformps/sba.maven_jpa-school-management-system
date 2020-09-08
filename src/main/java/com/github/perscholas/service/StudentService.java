@@ -5,6 +5,7 @@ import com.github.perscholas.dao.StudentDao;
 import com.github.perscholas.model.CourseInterface;
 import com.github.perscholas.model.Student;
 import com.github.perscholas.model.StudentInterface;
+import org.springframework.stereotype.Service;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 // TODO - Implement respective DAO interface
+@Service
 public class StudentService implements StudentDao {
     private final DatabaseConnection dbc;
 
@@ -27,10 +29,13 @@ public class StudentService implements StudentDao {
     public List<StudentInterface> getAllStudents() {
         ResultSet resultSet = dbc.executeQuery("SELECT * FROM students");
         try {
-            return null; // TODO - Parse `List<StudentInterface>` from `resultSet`
-        } catch(Exception e) {
-            throw new Error(e);
-        }
+            // TODO - Parse `List<StudentInterface>` from `resultSet`
+            while(resultSet.next()) {
+                Student student = new Student();
+                student.setEmail(resultSet.getString("email"));
+                student.setName(resultSet.getString("name"));
+                student.setPassword(resultSet.getString("password"));
+
     }
 
     @Override
