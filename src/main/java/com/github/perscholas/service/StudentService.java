@@ -44,17 +44,32 @@ public class StudentService implements StudentDao {
 
     @Override
     public StudentInterface getStudentByEmail(String studentEmail) {
-        return getAllStudents().stream()
-                .filter(std -> std.getEmail().equals(studentEmail))
-                .findFirst()
-                .get();
+        String query = "SELECT * FROM student WHERE email=?";
+        try {
+            PreparedStatement preparedStatement = dbc.getDatabaseConnection().prepareStatement(query);
+            preparedStatement.setString(1, studentEmail);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if(resultSet.next()) {
+                Student student = new Student();
+                student.setEmail(resultSet.getString("email"));
+                student.setName(resultSet.getString("name"));
+                student.setPassword(resultSet.getString("password"));
+                return student;
+            } else {
+                return null;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public Boolean validateStudent(String studentEmail, String password) {
-        return getAllStudents().stream()
-                .filter(std -> std.getEmail().equals(studentEmail) && std.getPassword().equals(password))
-                .count() == 1 ? true : false;
+        StudentInterface student = getStudentByEmail(studentEmail);
+        if(student == null) return false;
+        if(student.getPassword().equals(password)) return true;
+        return false;
     }
 
     @Override
