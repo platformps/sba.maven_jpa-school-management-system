@@ -26,16 +26,16 @@ public class StudentService implements StudentDao {
 
     @Override
     public List<StudentInterface> getAllStudents() {
-        ResultSet resultSet = dbc.executeQuery("SELECT * FROM students");
+         ResultSet resultSet = dbc.executeQuery("SELECT * FROM students");
         List<StudentInterface> studentList = new ArrayList<>();
-        try { while (resultSet.next()){
+            try {  while (resultSet.next()){
             Student student = new Student();
             student.setEmail(resultSet.getString("email"));
             student.setName(resultSet.getString("name"));
             student.setPassword(resultSet.getString("password"));
 
             studentList.add(student);//put result set into a list. then store into List<StudentInterface>?
-            System.out.println(studentList);
+
         }
              // TODO - Parse `List<StudentInterface>` from `resultSet`
         } catch(Exception e) {
@@ -46,6 +46,8 @@ public class StudentService implements StudentDao {
 
     @Override
     public StudentInterface getStudentByEmail(String studentEmail) {
+        getAllStudents().stream().filter(studentInterface -> getStudentByEmail(studentEmail));
+
         return null;
     }
     //query
