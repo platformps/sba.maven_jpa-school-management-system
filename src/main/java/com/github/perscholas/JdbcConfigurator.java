@@ -4,12 +4,16 @@ import com.github.perscholas.utils.DirectoryReference;
 import com.github.perscholas.utils.FileReader;
 
 import java.io.File;
+import java.sql.Driver;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public class JdbcConfigurator {
-    static {
+    public JdbcConfigurator() {
         try {
             // TODO - Attempt to register JDBC Driver
-        } catch (Exception e) {
+            DriverManager.registerDriver(Driver.class.newInstance());
+        } catch (InstantiationException | IllegalAccessException | SQLException e) {
             throw new Error(e);
         }
     }
