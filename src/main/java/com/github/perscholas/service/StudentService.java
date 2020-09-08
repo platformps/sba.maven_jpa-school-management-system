@@ -21,7 +21,7 @@ public class StudentService implements StudentDao {
     }
 
     public StudentService() {
-        this(DatabaseConnection.UAT);
+        this(DatabaseConnection.MANAGEMENT_SYSTEM);
     }
 
     @Override
@@ -99,11 +99,11 @@ public class StudentService implements StudentDao {
                 String instructor = result.getString("instructor");
                 CourseInterface course = new Course(id, name, instructor);
                 listCourseByEmail.add(course);
-                return listCourseByEmail;
             }
+            return listCourseByEmail;
+
         } catch (SQLException se) {
             throw new Error(se);
         }
-        return null;
     }
 }
