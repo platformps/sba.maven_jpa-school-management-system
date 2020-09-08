@@ -30,10 +30,10 @@ public class SchoolManagementSystem implements Runnable {
                         studentService.registerStudentToCourse(studentEmail, courseId);
                         String studentCourseViewInput = getCourseViewInput();
                         if ("view".equals(studentCourseViewInput)) {
-                            List<CourseInterface> courses =  studentService.getStudentCourses(studentEmail); // TODO - Instantiate and populate `courses`;
+                            List<CourseInterface> courseList =  studentService.getStudentCourses(studentEmail); // TODO - Instantiate and populate `courses`;
                             console.println(new StringBuilder()
                                     .append("[ %s ] is registered to the following courses:")
-                                    .append("\n\t" + courses)
+                                    .append("\n\t" + courseList.toString())
                                     .toString(), studentEmail);
                         }
                     }
@@ -68,9 +68,12 @@ public class SchoolManagementSystem implements Runnable {
 
 
     private Integer getCourseRegistryInput() {
+
+
+
         List<CourseInterface> courseList=new CourseService().getAllCourses();
         List<String> listOfCoursesIds = courseList.stream()
-                .map(courseInterface -> String.valueOf(courseInterface.getId()))
+                .map(CourseInterface::toString)
                 .collect(Collectors.toList()); // TODO - instantiate and populate `listOfCourseIds`
         return console.getIntegerInput(new StringBuilder()
                 .append("Welcome to the Course Registration Dashboard!")

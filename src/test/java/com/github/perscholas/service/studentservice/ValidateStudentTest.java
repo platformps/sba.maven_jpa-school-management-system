@@ -35,7 +35,7 @@ public class ValidateStudentTest {
     public void nonValidtest() {
         JdbcConfigurator.initialize();
         StudentDao service = new StudentService();
-        String email="";
+        String email="rtheyte";
         String password="W6rJuxd";
         Boolean expected=service.validateStudent(email,password);
         // when

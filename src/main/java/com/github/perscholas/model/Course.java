@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 // TODO - Annotate and Implement respective interface and define behaviors
 @Entity
@@ -21,23 +22,8 @@ public class Course implements CourseInterface, Serializable {
     @Column(name = "instructor")
     private String instructor;
 
-//    @ManyToMany(mappedBy = "courses")
-//    @JoinTable(name = "student_course", joinColumns = {@JoinColumn(name = "email")},
-//            inverseJoinColumns = {@JoinColumn(name = "id")})
- //   private List<Student> students;
-    @ManyToOne()
-    private Student student;
 
-    public Student getStudent() {
-        return student;
-    }
 
-    public void setStudent(Student student) {
-        this.student = student;
-    }
-    //    public List<Student> getStudents() {
-//        return students;
-//    }
 
     public Course() {
 
@@ -81,5 +67,15 @@ public class Course implements CourseInterface, Serializable {
                 ", name='" + name + '\'' +
                 ", instructor='" + instructor + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Course)) return false;
+        Course course = (Course) o;
+        return Objects.equals(id, course.id) &&
+                Objects.equals(name, course.name) &&
+                Objects.equals(instructor, course.instructor);
     }
 }

@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 // TODO - Annotate and Implement respective interface and define behaviors
@@ -22,9 +23,9 @@ public class Student implements StudentInterface, Serializable {
     @Column(name = "password")
     private String password;
 
-   @OneToMany()
-    @JoinTable(name = "student-course", joinColumns = {@JoinColumn(name = "email")},
-            inverseJoinColumns = {@JoinColumn(name = "id")})
+ //@OneToMany()
+//    @JoinTable(name = "studentcourse", joinColumns = {@JoinColumn(name = "email")},
+//            inverseJoinColumns = {@JoinColumn(name = "id")})
     private List<CourseInterface> courses;
 
     public void setCourses(List<CourseInterface> courses) {
@@ -87,4 +88,15 @@ public class Student implements StudentInterface, Serializable {
                 ", courses=" + courses +
                 '}';
     }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Student)) return false;
+        Student student = (Student) o;
+        return Objects.equals(email, student.email) &&
+                Objects.equals(name, student.name) &&
+                Objects.equals(password, student.password);
+    }
+
+
 }

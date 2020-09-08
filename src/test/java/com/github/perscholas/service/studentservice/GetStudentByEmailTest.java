@@ -3,6 +3,7 @@ package com.github.perscholas.service.studentservice;
 import com.github.perscholas.DatabaseConnection;
 import com.github.perscholas.JdbcConfigurator;
 import com.github.perscholas.dao.StudentDao;
+import com.github.perscholas.model.Student;
 import com.github.perscholas.model.StudentInterface;
 import com.github.perscholas.service.StudentService;
 import com.github.perscholas.utils.DirectoryReference;
@@ -41,22 +42,16 @@ public class GetStudentByEmailTest {
     public void test() {
         JdbcConfigurator.initialize();
         StudentDao service = (StudentDao) new StudentService();
-        String email="sbowden1@yellowbook.com";
-
+        String expectedEmail = "sbowden1@yellowbook.com";
+        String expectedName ="Sonnnie Bowden";
+        String expectedPassword = "SJc4aWSU";
+        Student expectedStudent = new Student(expectedName,expectedEmail,expectedPassword);
         // when
         // TODO - define `when` clause
-        String expected= service.getStudentByEmail(email).getEmail();
-        ResultSet resultSet = dbc.executeQuery("SELECT email FROM Student where email='"+email+"'");
-        String actual = null;
-        try {
-            resultSet.next();
-            actual= resultSet.getString("email");
-        } catch (SQLException sql) {
-            sql.printStackTrace();
-        }
+        Student actualStudent = (Student)service.getStudentByEmail(expectedEmail);
 
         // then
         // TODO - define `then` clause
-        Assert.assertTrue(expected.equals(actual));
+        Assert.assertEquals(expectedStudent,actualStudent);
     }
 }

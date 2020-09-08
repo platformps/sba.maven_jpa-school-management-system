@@ -1,18 +1,19 @@
 package com.github.perscholas.service;
 
 import com.github.perscholas.DatabaseConnection;
+import com.github.perscholas.dao.CourseDao;
 import com.github.perscholas.dao.StudentDao;
-import com.github.perscholas.model.Course;
-import com.github.perscholas.model.CourseInterface;
-import com.github.perscholas.model.Student;
-import com.github.perscholas.model.StudentInterface;
+import com.github.perscholas.model.*;
+import com.github.perscholas.utils.IOConsole;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -20,16 +21,12 @@ import java.util.Optional;
 // TODO - Implement respective DAO interface
 public class StudentService implements StudentDao {
     private final DatabaseConnection dbc;
-    private static final String persistentName = "SMS";
-    private static EntityManagerFactory factory;
+    private static final IOConsole console = new IOConsole();
 
     public StudentService(DatabaseConnection dbc) {
         this.dbc = dbc;
     }
 
-    //    public StudentService() {
-//        this(DatabaseConnection.UAT);
-//    }
     public StudentService() {
         this(DatabaseConnection.MANAGEMENT_SYSTEM);
     }
@@ -55,7 +52,6 @@ public class StudentService implements StudentDao {
 
     @Override
     public StudentInterface getStudentByEmail(String studentEmail) {
-     //   ResultSet resultSet = dbc.executeQuery("SELECT * FROM Student where email='"+studentEmail+"'");
         List<StudentInterface> list = getAllStudents();
         for (StudentInterface studentInterface : list) {
             if (studentInterface.getEmail().equals(studentEmail)) {
@@ -68,54 +64,64 @@ public class StudentService implements StudentDao {
 
     @Override
     public Boolean validateStudent(String studentEmail, String password) {
-        Boolean isValid= getAllStudents().stream()
+        Boolean isValid = getAllStudents().stream()
                 .anyMatch(students -> students.getEmail().equals(studentEmail) && students.getPassword().equals(password));
-    return isValid;
+        // password.equals(Objects.requireNonNull(getStudentByEmail(studentEmail)).getPassword());
+        return isValid;
     }
 
     @Override
     public void registerStudentToCourse(String studentEmail, int courseId) {
-//        factory=Persistence.createEntityManagerFactory(persistentName);
-//        EntityManager entityManager = factory.createEntityManager();
-//        Query q = entityManager.createQuery();
-//        List<StudentInterface> studentInterfaceList = q.getResultList();
-//        System.out.println(studentInterfaceList);
-
-
-
         List<CourseInterface> courseList = new CourseService().getAllCourses();
-        if (getStudentCourses(studentEmail).size() == 0) {
-            Student student = (Student) getStudentByEmail(studentEmail);
-            CourseInterface addCourse = courseList.stream()
-                    .filter(courseInterface -> courseInterface.getId().equals(courseId))
-                    .findFirst().get();
+        if (getStudentCourses(studentEmail).size()==0) {
+            studentRegisterCourse(studentEmail, courseId);
 
-            student.getCourses().add(addCourse);
-          //  System.out.println(student.getCourses());
         } else {
             for (CourseInterface course : getStudentCourses(studentEmail)) {
                 if (course.getId() != courseId) {
-                    Student student = (Student) getStudentByEmail(studentEmail);
-                    CourseInterface addCourse = courseList.stream()
-                            .filter(courseInterface -> courseInterface.getId().equals(courseId))
-                            .findFirst().get();
-
-                    student.getCourses().add(addCourse);
+                    studentRegisterCourse(studentEmail, courseId);
                 } else
-                    System.out.println("Already registered to course");
+                    console.println("Already registered to course");
             }
         }
 
 
     }
 
+    public void studentRegisterCourse(String studentEmail, int courseId) {
+        String query = "insert into StudentCourse (email,courseId ) values (?,?)";
+        try {
+            PreparedStatement preparedStatement = dbc.getDatabaseConnection().prepareStatement(query);
+            preparedStatement.setString(1, studentEmail);
+            preparedStatement.setInt(2, courseId);
+            preparedStatement.execute();
+        } catch (SQLException throwables) {
+            console.println("Error, cannot register");
+        }
+    }
+
 
     @Override
     public List<CourseInterface> getStudentCourses(String studentEmail) {
+        List<CourseInterface> courseList = new ArrayList<>();
+        String query = "Select c.id,c.name,c.instructor" +
+                " from course c, studentcourse sc where sc.email='" + studentEmail + "' and c.id=sc.courseId";
+        try {
+            Statement statement = dbc.getDatabaseConnection().createStatement();
+            ResultSet resultSet = statement.executeQuery(query);
+            CourseInterface course = new Course();
+            while (resultSet.next()) {
+                course.setId(resultSet.getInt(1));
+                course.setName(resultSet.getString(2));
+                course.setInstructor(resultSet.getString(3));
+                courseList.add(course);
+            }
 
-        Student student = (Student) getStudentByEmail(studentEmail);
-            List<CourseInterface> courseList = student.getCourses();
-            return courseList;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            console.println("Error, cannot fetch student courses");
+        }
+        return courseList;
 
     }
 
