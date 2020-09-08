@@ -67,7 +67,7 @@ public class StudentService implements StudentDao {
 
     @Override
     public void registerStudentToCourse(String studentEmail, int courseId) {
-        //statement
+        //StudentDao  instructions say to use JPA to accomplish the join table required here.
     }
 
     @Override
