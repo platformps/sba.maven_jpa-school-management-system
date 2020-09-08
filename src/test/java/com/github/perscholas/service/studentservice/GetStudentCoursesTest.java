@@ -35,23 +35,22 @@ public class GetStudentCoursesTest {
     }
 
     // given
-    // TODO - Add `@Test` annotation
     @Test
     public void test() {
         //JdbcConfigurator.initialize();
         StudentDao studentDao = new StudentService();
         String expectedCourseName = "Anatomy";
+        String studentEmail = "aiannitti7@is.gd";
+        int courseId = 3;
 
         // when
-        // TODO - define `when` clause
-        studentDao.registerStudentToCourse("aiannitti7@is.gd", 3);
-        String actualCourseName = studentDao.getStudentCourses("aiannitti7@is.gd")
+        studentDao.registerStudentToCourse(studentEmail, courseId);
+        String actualCourseName = studentDao.getStudentCourses(studentEmail)
                 .stream()
                 .map(CourseInterface::getName)
                 .collect(Collectors.joining());
 
         // then
-        // TODO - define `then` clause
         Assert.assertEquals(expectedCourseName, actualCourseName);
     }
 }

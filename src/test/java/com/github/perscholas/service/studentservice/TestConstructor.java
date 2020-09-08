@@ -22,7 +22,7 @@ public class TestConstructor {
         actual[2] = studentInterface.getPassword();
 
         //then
-        Assert.assertEquals(expected, actual);
+        Assert.assertArrayEquals(expected, actual);
     }
 
     @Test
@@ -37,6 +37,6 @@ public class TestConstructor {
         actual[2] = studentInterface.getPassword();
 
         //then
-        Assert.assertEquals(expected, actual);
+        Assert.assertArrayEquals(expected, actual);
     }
 }

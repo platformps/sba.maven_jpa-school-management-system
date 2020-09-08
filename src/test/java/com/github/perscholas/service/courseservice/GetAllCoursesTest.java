@@ -63,6 +63,6 @@ public class GetAllCoursesTest {
                 .toArray(String[]::new);
 
         //then
-        Assert.assertEquals(expectedCourseNames, actualCourseNames);
+        Assert.assertArrayEquals(expectedCourseNames, actualCourseNames);
     }
 }

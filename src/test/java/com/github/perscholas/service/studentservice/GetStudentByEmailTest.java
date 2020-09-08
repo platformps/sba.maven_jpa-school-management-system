@@ -32,19 +32,18 @@ public class GetStudentByEmailTest {
     }
 
     // given
-    // TODO - Add `@Test` annotation
     @Test
     public void test() {
         //JdbcConfigurator.initialize();
         StudentService studentService = new StudentService();
-        StudentInterface studentInterface = new Student();
+        String studentEmail = "tattwool4@biglobe.ne.jp";
+        String expectedName = "Thornie Attwool";
 
         // when
-        // TODO - define `when` clause
-        studentInterface = studentService.getStudentByEmail("tattwool4@biglobe.ne.jp");
+        StudentInterface studentInterface = studentService.getStudentByEmail(studentEmail);
+        String actualName = studentInterface.getName();
 
         // then
-        // TODO - define `then` clause
-        Assert.assertNotNull(studentInterface);
+        Assert.assertEquals(expectedName, actualName);
     }
 }
