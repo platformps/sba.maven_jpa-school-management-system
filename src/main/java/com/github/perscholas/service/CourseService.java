@@ -42,7 +42,7 @@ public class CourseService implements CourseDao {
                 courseList.add(course);//put result set into a list. then store into List<CourseInterface>?
                 System.out.println(courseList);
             }
-            return courseList; //TODO Should this return null or something else? pk
+            return courseList;
         } catch (Exception e) {
             throw new Error(e);
         }
