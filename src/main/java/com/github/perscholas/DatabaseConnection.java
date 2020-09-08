@@ -26,27 +26,34 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
     DatabaseConnection() {
         this(new ConnectionBuilder()
                 .setUser("root")
-                .setPassword("password")
+                .setPassword("")
                 .setPort(3306)
-                .setDatabaseVendor("mariadb")
+                .setDatabaseVendor("mysql")
                 .setHost("127.0.0.1"));
     }
 
     @Override
     public String getDatabaseName() {
-        return name;
+        return name().toLowerCase;
+    }
+
+    public String getParameters(){
+        return "?serverTimezone=UTC&useLegacyDatetimeCode=false";
     }
 
     @Override
     public Connection getDatabaseConnection() {
         return connectionBuilder
                 .setDatabaseName(getDatabaseName())
+                .setParameters(getParameters())
                 .build();
     }
 
     @Override
     public Connection getDatabaseEngineConnection() {
-        return connectionBuilder.build();
+        return connectionBuilder
+                .setParameters(getParameters())
+                .build();
     }
 
     @Override
