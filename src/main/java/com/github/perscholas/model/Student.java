@@ -16,4 +16,36 @@ public class Student implements StudentInterface {
     @Basic
     @Column(name = "name")
     private String name;
+
+    @Basic
+    @Column(name = "password")
+    private String password;
+
+    public Student() {
+
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getName(){
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password)  {
+        this.password = password;
+    }
 }
