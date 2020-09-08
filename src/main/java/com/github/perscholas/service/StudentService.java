@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 // TODO - Implement respective DAO interface
 public class StudentService implements StudentDao {
@@ -46,16 +47,19 @@ public class StudentService implements StudentDao {
 
     @Override
     public StudentInterface getStudentByEmail(String studentEmail) {
-        getAllStudents().stream().filter(studentInterface -> getStudentByEmail(studentEmail));
+     List<StudentInterface> studentByEmail = getAllStudents().stream().filter( student -> student.getEmail().equals(studentEmail))
+             .collect(Collectors.toList());
 
-        return null;
+        return (StudentInterface) studentByEmail;
     }
-    //query
+
 
     @Override
     public Boolean validateStudent(String studentEmail, String password) {
+        getAllStudents()
+
         return null;
-        //query
+
     }
 
     @Override
