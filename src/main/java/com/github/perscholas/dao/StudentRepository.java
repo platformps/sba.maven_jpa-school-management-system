@@ -2,6 +2,7 @@ package com.github.perscholas.dao;
 
 import com.github.perscholas.model.Course;
 import com.github.perscholas.model.Student;
+import com.github.perscholas.utils.IOConsole;
 
 import javax.persistence.*;
 import java.util.Optional;
@@ -41,6 +42,7 @@ public class StudentRepository extends AbstractJpaRepository<Student, String> {
         entityTransaction.begin();
         Optional<Student> opStudent = findBy("email", studentEmail);
         if (!opStudent.isPresent()) {
+            IOConsole.ERROR.println("Student does not exists");
             entityTransaction.rollback();
             entityManager.close();
             return;
@@ -49,16 +51,21 @@ public class StudentRepository extends AbstractJpaRepository<Student, String> {
         for (int index = 0; student.getCourses().size() > index; index++) {
             Course course = student.getCourses().get(index);
             if (course.getId() == courseId) {
+                IOConsole.ERROR.println("Already enrolled into course");
                 entityTransaction.rollback();
                 entityManager.close();
                 return;
             }
         }
-        Optional<Course> opCourseEntity = courseRepository.findBy("id", courseId);
-        opCourseEntity.ifPresent(course -> {
+        Optional<Course> opCourse = courseRepository.findBy("id", courseId);
+        if (opCourse.isPresent()) {
+            Course course = opCourse.get();
             student.getCourses().add(course);
             entityManager.merge(student);
-        });
+            IOConsole.SUCCESS.println("Enrolling into course");
+        }   else{
+            IOConsole.ERROR.println("Course does not exist...");
+        }
         entityTransaction.commit();
         entityManager.close();
     }

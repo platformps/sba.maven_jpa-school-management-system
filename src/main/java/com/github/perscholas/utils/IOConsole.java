@@ -75,8 +75,8 @@ public class IOConsole {
             Double doubleInput = Double.parseDouble(stringInput);
             return doubleInput;
         } catch (NumberFormatException nfe) {
-            println("[ %s ] is an invalid user input!", stringInput);
-            println("Try inputting a numeric value!");
+            IOConsole.ERROR.println("[ %s ] is an invalid user input!", stringInput);
+            IOConsole.ERROR.println("Try inputting a numeric value!\n");
             return getDoubleInput(prompt, args);
         }
     }
@@ -87,8 +87,8 @@ public class IOConsole {
             Long longInput = Long.parseLong(stringInput);
             return longInput;
         } catch (NumberFormatException nfe) {
-            println("[ %s ] is an invalid user input!", stringInput);
-            println("Try inputting an integer value!");
+            IOConsole.ERROR.println("[ %s ] is an invalid user input!", stringInput);
+            IOConsole.ERROR.println("Try inputting an integer value!\n");
             return getLongInput(prompt, args);
         }
     }

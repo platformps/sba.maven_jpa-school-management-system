@@ -35,11 +35,11 @@ public class SchoolManagementSystem implements Runnable {
         do {
             input = displayOptions();
             if (!DashboardOption.isValid(input)) {
-                IOConsole.ERROR.println("Invalid input, please try again...");
+                IOConsole.ERROR.println("Invalid input, please try again...\n");
                 continue;
             }
             lastDashboardOption = DashboardOption.valueOf(input);
-            IOConsole.SUCCESS.println(String.format("Successful input %s", lastDashboardOption.display()));
+            IOConsole.SUCCESS.println(String.format("Successful input %s\n", lastDashboardOption.display()));
             switch (lastDashboardOption) {
                 case LOGIN:
                     login();
@@ -68,7 +68,7 @@ public class SchoolManagementSystem implements Runnable {
     }
     
     private void login() {
-        IOConsole.NORMAL.print("\nWelcome to the Login Dashboard!e");
+        IOConsole.NORMAL.print("Welcome to the Login Dashboard!e");
         String studentEmail = IOConsole.NORMAL.getStringInput("\nEnter your email:");
         String studentPassword = IOConsole.NORMAL.getStringInput("Enter your password:");
         boolean isValidLogin = studentService.validateStudent(studentEmail, studentPassword);
@@ -76,9 +76,9 @@ public class SchoolManagementSystem implements Runnable {
         if (isValidLogin) {
             this.loggedInStudentEmail = studentEmail;
             this.currentDashboardOption = LOGGED_IN_OPTIONS;
-            IOConsole.SUCCESS.println(String.format("SUCCESSFULLY logged in as %s", loggedInStudentEmail));
+            IOConsole.SUCCESS.println(String.format("logged in as %s\n", loggedInStudentEmail));
         } else {
-            IOConsole.ERROR.println(String.format("Failed login, returning to menu."));
+            IOConsole.ERROR.println(String.format("Failed login, returning to menu.\n"));
         }
     }
     
@@ -92,16 +92,17 @@ public class SchoolManagementSystem implements Runnable {
         } else if ("course".equals(input)) {
             IOConsole.DATABASE.println(courseService.getAllCourses().stream().map(CourseInterface::toString).collect(Collectors.joining("\n")));
         } else {
-            IOConsole.ERROR.println(String.format("Invalid input %s", input));
+            IOConsole.ERROR.println(String.format("\nInvalid input %s", input));
         }
-        IOConsole.NORMAL.println("Returning to Main Dashboard");
+        IOConsole.NORMAL.println("\nReturning to Main Dashboard");
     }
     
     private void viewCourses() {
         List<CourseInterface> courses = studentService.getStudentCourses(loggedInStudentEmail);
         IOConsole.DATABASE.println(new StringBuilder()
-                .append(String.format("[ %s ] is registered to the following courses:", loggedInStudentEmail))
-                .append("\n\t" + courses)
+                .append(String.format("[ %s ] is registered to the following courses:\n", loggedInStudentEmail))
+                .append(courses.stream().map(CourseInterface::toString).map(output -> "\t"+output).collect(Collectors.joining("\n")))
+                .append("\n")
                 .toString());
     }
     
@@ -112,7 +113,9 @@ public class SchoolManagementSystem implements Runnable {
                 .append("\nFrom here, select ID of the course you would like to register for:")
                 .append("\n" + coursesOutput)
                 .toString());
+        IOConsole.SUCCESS.println(String.format("Will try to register to course with id = %s", courseId));
         studentService.registerStudentToCourse(loggedInStudentEmail, courseId);
+        IOConsole.NORMAL.println("");
     }
     
     public void logout() {
