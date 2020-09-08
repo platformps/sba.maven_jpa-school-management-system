@@ -26,6 +26,12 @@ public class Course implements CourseInterface {
 
     }
 
+    public Course(Integer id, String name, String instructor) {
+        this.id = id;
+        this.name = name;
+        this.instructor = instructor;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -49,6 +55,7 @@ public class Course implements CourseInterface {
     public void setInstructor(String instructor) {
         this.instructor = instructor;
     }
+
 
     @Override
     public String toString() {

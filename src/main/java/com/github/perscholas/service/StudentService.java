@@ -84,7 +84,7 @@ public class StudentService implements StudentDao {
             isValidStudent = resultSet.next();
 
             if(!isValidStudent) {
-                throw new Exception("Student was not found. Please try again with a different email and/or password.");
+                throw new Exception("Wrong credentials. Please try again with a different email and/or password.\n");
             }
         } catch(Exception e) {
             System.out.println(e.getMessage());

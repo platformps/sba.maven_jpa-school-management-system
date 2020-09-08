@@ -1,6 +1,7 @@
 package com.github.perscholas.model;
 
 import javax.persistence.*;
+import java.util.Objects;
 import java.util.Set;
 
 // TODO - Annotate and Implement respective interface and define behaviors
@@ -20,16 +21,14 @@ public class Student implements StudentInterface {
     @Column(name = "password")
     private String password;
 
-//    @ManyToMany
-//    @JoinTable(
-//            name = "course_registered",
-//            joinColumns = @JoinColumn(name = "student_id"),
-//            inverseJoinColumns = @JoinColumn(name = "course_id"))
-//    Set<Course> registeredCourses;
-
-
     public Student() {
 
+    }
+
+    public Student(String email, String name, String password) {
+        this.email = email;
+        this.name = name;
+        this.password = password;
     }
 
     public String getEmail() {
@@ -54,5 +53,29 @@ public class Student implements StudentInterface {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Override
+    public String toString() {
+        return "Student{" +
+                "email='" + email + '\'' +
+                ", name='" + name + '\'' +
+                ", password='" + password + '\'' +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Student student = (Student) o;
+        return Objects.equals(email, student.email) &&
+                Objects.equals(name, student.name) &&
+                Objects.equals(password, student.password);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(email, name, password);
     }
 }

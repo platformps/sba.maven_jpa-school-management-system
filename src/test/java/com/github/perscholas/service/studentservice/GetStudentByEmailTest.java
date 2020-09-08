@@ -8,6 +8,7 @@ import com.github.perscholas.service.StudentService;
 import com.github.perscholas.utils.DirectoryReference;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
 
@@ -18,8 +19,8 @@ import java.io.File;
  * @created 02/12/2020 - 8:23 PM
  */
 public class GetStudentByEmailTest {
-    @Before // TODO (OPTIONAL) - Use files to execute SQL commands
-    public void setup() {
+    @BeforeAll // TODO (OPTIONAL) - Use files to execute SQL commands
+    public static void setup() {
         DirectoryReference directoryReference = DirectoryReference.RESOURCE_DIRECTORY;
         File coursesSchemaFile = directoryReference.getFileFromDirectory("courses.create-table.sql");
         File studentsSchemaFile = directoryReference.getFileFromDirectory("students.create-table.sql");
@@ -31,6 +32,8 @@ public class GetStudentByEmailTest {
                 coursesPopulatorFile,
                 studentsPopulatorFile
         };
+
+        JdbcConfigurator.initialize();
     }
 
 
