@@ -9,6 +9,8 @@ import com.github.perscholas.utils.DirectoryReference;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvFilesSource;
 import org.junit.Test;
 
 import java.io.File;
@@ -35,16 +37,42 @@ public class GetStudentByEmailTest {
         };
     }
 
+    @ParameterizedTest
+    @CsvFileSource(resources = "/students.csv", numLinesToSkip = 1)
+    void test_forStudentsThatExist(String studentEmail, String name, String password) {
+
+        String expectedStudentEmail = studentEmail;
+        String expectedStudentName = name;
+        String expectedStudentPassword = password;
+
+        StudentDao Service = (StudentDao) new StudentService();
+        StudentInterface student = service.getSTudentByEmail(studentEmail);
+
+        String actualStudentEmail = student.getEmail();
+        String actualStudentName = student.getName();
+        String actualStudentPassword = student.getPassword();
+
+        Assert.assertEquals(expectedStudentEmail, actualStudentEmail);
+        Assert.assertEquals(expectedStudentName, actualStudentName);
+        Assert.assertEquals(expectedStudentPassword, actualStudentPassword);
+    }
+
+    @ParameterizedTest
+    @CsvFileSource(resources = "/nonstudents.csv", numLinesToSkip = 1)
+    void test_forStudentsThatDoNotExist(String studentEmail) {
     // given
-    // TODO - Add `@Test` annotation
-    public void test() {
-        JdbcConfigurator.initialize();
+        boolean expectedStudentIsFoundByEmail = false;
+
 
         // when
         // TODO - define `when` clause
+        StudentDao service = (StudentDoa) new StudentService();
+        StudentInterface student = service.getStudentByEmail(studentEmail);
+        boolean actualStudentIsFoundByEmail = (student != null);
 
 
         // then
         // TODO - define `then` clause
+        Assert.assertTrue(expectedStudentIsFoundByEmail == actualStudentIsFoundByEmail)
     }
 }

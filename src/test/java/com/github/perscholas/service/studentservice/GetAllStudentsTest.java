@@ -37,6 +37,7 @@ public class GetAllStudentsTest {
 
     // given
     // TODO - Add `@Test` annotation
+    @Test
     public void test() {
         JdbcConfigurator.initialize();
         StudentDao service = (StudentDao) new StudentService();
