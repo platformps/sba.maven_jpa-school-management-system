@@ -65,7 +65,7 @@ public class ConnectionBuilder {
     public String toString() {
         Boolean isHostNull = this.hostName == null;
         Boolean isPortNull = portNumber == null;
-        Boolean hasPortBeenSet = !isPortNull && !Integer.valueOf(3306).equals(portNumber);
+        Boolean hasPortBeenSet = !isPortNull && !Integer.valueOf(3300).equals(portNumber);
 
         String jdbcUrl = new StringBuilder()
                 .append("jdbc:")

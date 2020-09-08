@@ -2,21 +2,26 @@ package com.github.perscholas;
 
 import com.github.perscholas.utils.DirectoryReference;
 import com.github.perscholas.utils.FileReader;
-
+import java.sql.Driver;
 import java.io.File;
 
 public class JdbcConfigurator {
+    private static DatabaseConnectionInterface dbc;
+
     static {
         try {
             // TODO - Attempt to register JDBC Driver
+            Class.forName(Driver.class.getName());
         } catch (Exception e) {
             throw new Error(e);
         }
     }
 
-    private static final DatabaseConnection dbc = DatabaseConnection.MANAGEMENT_SYSTEM;
+    public static void initialize(){ initialize( DatabaseConnection.MANAGEMENT_SYSTEM);
+}
 
-    public static void initialize() {
+    public static void initialize(DatabaseConnectionInterface dbConnection) {
+        dbc = dbConnection;
         dbc.drop();
         dbc.create();
         dbc.use();
