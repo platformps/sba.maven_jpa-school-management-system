@@ -15,6 +15,9 @@ public class CourseService implements CourseDao {
     private final CourseRepository courseRepository;
     
     public CourseService(CourseRepository courseRepository) {
+        if(courseRepository == null){
+            throw new IllegalArgumentException("courseRepository must not equal null");
+        }
         this.courseRepository = courseRepository;
     }
     

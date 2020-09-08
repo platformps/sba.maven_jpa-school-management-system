@@ -1,6 +1,5 @@
 package com.github.perscholas;
 
-import com.github.perscholas.config.DatabaseConnection;
 import com.github.perscholas.config.JpaConfigurator;
 import com.github.perscholas.dao.CourseRepository;
 import com.github.perscholas.dao.StudentRepository;

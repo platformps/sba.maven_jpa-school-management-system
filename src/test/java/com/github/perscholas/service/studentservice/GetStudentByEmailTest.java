@@ -6,12 +6,10 @@ import com.github.perscholas.dao.CourseRepository;
 import com.github.perscholas.dao.StudentRepository;
 import com.github.perscholas.model.StudentInterface;
 import com.github.perscholas.service.StudentService;
-import com.github.perscholas.utils.DirectoryReference;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.File;
 import java.util.List;
 import java.util.Objects;
 
