@@ -27,7 +27,7 @@ public class GetStudentByEmailTest {
     }
     
     @Test
-    public void givenNoStudentsThenFindNoStudents() {
+    public void givenNoStudentsThenFindNoStudentsTest() {
         // given
         DatabaseConnection.MANAGEMENT_SYSTEM.drop();
         DatabaseConnection.MANAGEMENT_SYSTEM.create();
@@ -41,7 +41,7 @@ public class GetStudentByEmailTest {
     }
     
     @Test
-    public void givenStudentsThenFindByEmail() {
+    public void givenStudentsThenFindByEmailTest() {
         // given
         // populated on initialization
         

@@ -42,7 +42,7 @@ public class GetAllStudentsTest {
     }
     
     @Test
-    public void givenWhenStudentsAreInitialized() {
+    public void givenWhenStudentsAreInitializedTest() {
         //given
         // populated on initialization
         
