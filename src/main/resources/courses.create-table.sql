@@ -3,4 +3,4 @@ CREATE TABLE Course(
     name VARCHAR(50) NOT NULL,
     instructor VARCHAR(50) NOT NULL,
     PRIMARY KEY (id)
-); 
+);
