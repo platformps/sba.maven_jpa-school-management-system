@@ -41,7 +41,7 @@ public class RegisterStudentToCourseTest {
         String studentEmail = student.getEmail();
         
         // when
-        List<Course> actualStudentCourses = studentService.getStudentByEmail(studentEmail).getCourses();
+        List<CourseInterface> actualStudentCourses = studentService.getStudentCourses(studentEmail);
         int actualRegisteredCourseAmount = actualStudentCourses.size();
         
         // then
@@ -59,7 +59,7 @@ public class RegisterStudentToCourseTest {
         
         // when
         studentService.registerStudentToCourse(studentEmail, courseId);
-        List<Course> actualStudentCourses = studentService.getStudentByEmail(studentEmail).getCourses();
+        List<CourseInterface> actualStudentCourses = studentService.getStudentCourses(studentEmail);
         int actualRegisteredCourseAmount = actualStudentCourses.size();
         
         // then
@@ -100,7 +100,7 @@ public class RegisterStudentToCourseTest {
         
         // when
         expectedCourses.stream().map(CourseInterface::getId).forEach(courseId -> studentService.registerStudentToCourse(studentEmail, courseId));
-        List<Course> actualStudentCourses = studentService.getStudentByEmail(studentEmail).getCourses();
+        List<CourseInterface> actualStudentCourses = studentService.getStudentCourses(studentEmail);
         int actualRegisteredCourseAmount = actualStudentCourses.size();
         
         // then
