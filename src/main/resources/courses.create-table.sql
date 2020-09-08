@@ -1,0 +1,5 @@
+CREATE TABLE Courses (
+    ID int NOT NULL PRIMARY KEY,
+    NAME varchar(50) NOT NULL,
+    INSTRUCTOR varchar(50) NOT NULL
+);
