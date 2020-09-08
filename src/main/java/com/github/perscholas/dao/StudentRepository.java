@@ -6,7 +6,7 @@ import com.github.perscholas.model.Student;
 import javax.persistence.*;
 import java.util.Optional;
 
-public class StudentRepository extends AbstractJpaRepository<Student, String>{
+public class StudentRepository extends AbstractJpaRepository<Student, String> {
     
     private final CourseRepository courseRepository;
     
@@ -41,13 +41,15 @@ public class StudentRepository extends AbstractJpaRepository<Student, String>{
         entityTransaction.begin();
         Optional<Student> opStudent = findBy("email", studentEmail);
         if (!opStudent.isPresent()) {
+            entityTransaction.rollback();
+            entityManager.close();
             return;
         }
         Student student = opStudent.get();
         for (int index = 0; student.getCourses().size() > index; index++) {
             Course course = student.getCourses().get(index);
             if (course.getId() == courseId) {
-                entityTransaction.commit();
+                entityTransaction.rollback();
                 entityManager.close();
                 return;
             }

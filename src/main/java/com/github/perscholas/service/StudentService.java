@@ -16,6 +16,9 @@ public class StudentService implements StudentDao {
     private final StudentRepository studentRepository;
     
     public StudentService(StudentRepository studentRepository) {
+        if(studentRepository == null){
+            throw new IllegalArgumentException("studentRepository must not be null");
+        }
         this.studentRepository = studentRepository;
     }
     
@@ -24,26 +27,26 @@ public class StudentService implements StudentDao {
     public List<StudentInterface> getAllStudents() {
         return new ArrayList<>(studentRepository.findAll());
     }
-
+    
     @Override
     public StudentInterface getStudentByEmail(String studentEmail) {
         return studentRepository.findBy("email", studentEmail).orElse(null);
     }
-
+    
     @Override
     public Boolean validateStudent(String studentEmail, String password) {
-        return studentRepository.findByEmailAndPassword(studentEmail,password).isPresent();
+        return studentRepository.findByEmailAndPassword(studentEmail, password).isPresent();
     }
-
+    
     @Override
     public void registerStudentToCourse(String studentEmail, int courseId) {
         studentRepository.registerStudentToCourse(studentEmail, courseId);
     }
-
+    
     @Override
     public List<CourseInterface> getStudentCourses(String studentEmail) {
         Optional<Student> opStudent = studentRepository.findBy("email", studentEmail);
-        if(opStudent .isPresent()){
+        if (opStudent.isPresent()) {
             return new ArrayList<>(opStudent.get().getCourses());
         }
         return Collections.EMPTY_LIST;

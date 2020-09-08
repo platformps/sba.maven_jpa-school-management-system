@@ -18,6 +18,7 @@ public interface JpaRepository<E, ID> {
     
     /**
      * Finds all Entities for specific type
+     *
      * @return List of entites of type T
      */
     public List<E> findAll();

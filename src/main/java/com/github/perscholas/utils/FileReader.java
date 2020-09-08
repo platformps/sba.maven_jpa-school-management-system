@@ -11,18 +11,18 @@ import java.util.Scanner;
  * used to convert files contents to String
  */
 public class FileReader {
-
+    
     private final String filename;
-
+    
     public FileReader(String filename) {
         this.filename = filename;
     }
-
+    
     @Override
     public String toString() {
         try {
-            byte[] readAllBytes = java.nio.file.Files.readAllBytes(Paths.get( filename ));
-            return new String( readAllBytes );
+            byte[] readAllBytes = java.nio.file.Files.readAllBytes(Paths.get(filename));
+            return new String(readAllBytes);
         } catch (IOException e) {
             throw new Error(e);
         }

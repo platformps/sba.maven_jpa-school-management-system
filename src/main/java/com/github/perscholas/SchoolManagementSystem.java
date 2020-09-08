@@ -31,7 +31,6 @@ public class SchoolManagementSystem implements Runnable {
         this.entityManagerFactory = entityManagerFactory;
     }
     
-
     
     @Override
     public void run() {

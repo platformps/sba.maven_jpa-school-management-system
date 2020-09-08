@@ -20,7 +20,7 @@ public class JpaConnectionBuilder {
         return this;
     }
     
-    public JpaConnectionBuilder setUrl(String url){
+    public JpaConnectionBuilder setUrl(String url) {
         this.url = url;
         return this;
     }

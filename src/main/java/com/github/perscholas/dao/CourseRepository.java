@@ -4,7 +4,7 @@ import com.github.perscholas.model.Course;
 
 import javax.persistence.EntityManagerFactory;
 
-public class CourseRepository extends AbstractJpaRepository<Course, Integer>{
+public class CourseRepository extends AbstractJpaRepository<Course, Integer> {
     
     public CourseRepository(EntityManagerFactory entityManagerFactory) {
         super(entityManagerFactory);

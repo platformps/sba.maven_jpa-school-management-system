@@ -24,15 +24,15 @@ public class GetStudentByEmailTest {
     
     @Before
     public void setup() {
-        studentService = new StudentService(new StudentRepository(DatabaseConnection.getEntityManagerFactory(), new CourseRepository(DatabaseConnection.getEntityManagerFactory())));
-        DatabaseConnection.MANAGEMENT_SYSTEM.drop();
-        DatabaseConnection.MANAGEMENT_SYSTEM.create();
+        JpaConfigurator.initialize();
+        studentService = new StudentService(new StudentRepository(JpaConfigurator.getEntityManagerFactory(), new CourseRepository(JpaConfigurator.getEntityManagerFactory())));
     }
     
     @Test
     public void givenNoStudentsThenFindNoStudents() {
         // given
-        // Students don't get populated
+        DatabaseConnection.MANAGEMENT_SYSTEM.drop();
+        DatabaseConnection.MANAGEMENT_SYSTEM.create();
         int expected = 0;
         
         // when
@@ -45,7 +45,7 @@ public class GetStudentByEmailTest {
     @Test
     public void givenStudentsThenFindByEmail() {
         // given
-        DatabaseConnection.MANAGEMENT_SYSTEM.populate();
+        // populated on initialization
         
         // when
         List<StudentInterface> actualStudents = studentService.getAllStudents();

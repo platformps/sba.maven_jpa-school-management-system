@@ -23,7 +23,7 @@ public abstract class AbstractJpaRepository<E, ID> implements JpaRepository<E, I
     @Override
     public List<E> findAll() {
         EntityManager entityManager = getEntityManager();
-        TypedQuery typedQuery = entityManager.createQuery(
+        TypedQuery<E> typedQuery = entityManager.createQuery(
                 String.format("SELECT e FROM %s e", getEntityClass().getSimpleName()),
                 getEntityClass());
         List<E> entities = typedQuery.getResultList();
@@ -32,7 +32,7 @@ public abstract class AbstractJpaRepository<E, ID> implements JpaRepository<E, I
     }
     
     @Override
-    public Optional<E> findBy(String fieldName, Object value){
+    public Optional<E> findBy(String fieldName, Object value) {
         EntityManager entityManager = getEntityManager();
         TypedQuery<E> typedQuery = entityManager.createQuery(String.format("SELECT e FROM %s e WHERE e.%s = :%s", getEntityClass().getSimpleName(), fieldName, fieldName, value), getEntityClass());
         typedQuery.setParameter(String.format("%s", fieldName), value);

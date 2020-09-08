@@ -2,6 +2,7 @@ package com.github.perscholas.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.util.Objects;
 
 @Entity(name = "Course")
 public class Course implements CourseInterface {
@@ -51,5 +52,20 @@ public class Course implements CourseInterface {
                 ", name='" + name + '\'' +
                 ", instructor='" + instructor + '\'' +
                 '}';
+    }
+    
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Course course = (Course) o;
+        return Objects.equals(id, course.id) &&
+                Objects.equals(name, course.name) &&
+                Objects.equals(instructor, course.instructor);
+    }
+    
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, instructor);
     }
 }

@@ -12,7 +12,7 @@ import javax.persistence.EntityManagerFactory;
 public class MainApplication {
     public static void main(String[] args) {
         JpaConfigurator.initialize();
-        EntityManagerFactory entityManagerFactory = DatabaseConnection.getEntityManagerFactory();
+        EntityManagerFactory entityManagerFactory = JpaConfigurator.getEntityManagerFactory();
         CourseRepository courseRepository = new CourseRepository(entityManagerFactory);
         StudentRepository studentRepository = new StudentRepository(entityManagerFactory, courseRepository);
         StudentService studentService = new StudentService(studentRepository);

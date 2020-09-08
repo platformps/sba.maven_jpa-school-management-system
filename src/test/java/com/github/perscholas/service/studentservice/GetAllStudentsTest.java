@@ -27,15 +27,16 @@ public class GetAllStudentsTest {
     
     @Before
     public void setup() {
-        studentService = new StudentService(new StudentRepository(DatabaseConnection.getEntityManagerFactory(), new CourseRepository(DatabaseConnection.getEntityManagerFactory())));
-        DatabaseConnection.MANAGEMENT_SYSTEM.drop();
-        DatabaseConnection.MANAGEMENT_SYSTEM.create();
+        JpaConfigurator.initialize();
+        studentService = new StudentService(new StudentRepository(JpaConfigurator.getEntityManagerFactory(), new CourseRepository(JpaConfigurator.getEntityManagerFactory())));
     }
     
     @Test
-    private void givenNoStudentsInDatabaseTest() {
+    public void givenNoStudentsInDatabaseTest() {
         //given
         DatabaseConnection.MANAGEMENT_SYSTEM.drop();
+        DatabaseConnection.MANAGEMENT_SYSTEM.create();
+        
         int expectedSize = 0;
         
         // when
@@ -43,13 +44,13 @@ public class GetAllStudentsTest {
         
         
         // then
-        Assert.assertEquals(expectedSize , actualStudents.size());
+        Assert.assertEquals(expectedSize, actualStudents.size());
     }
     
     @Test
-    private void givenWhenStudentsAreInitialized(){
+    public void givenWhenStudentsAreInitialized() {
         //given
-        DatabaseConnection.MANAGEMENT_SYSTEM.create();
+        // populated on initialization
         
         //when
         List<StudentInterface> actualStudents = studentService.getAllStudents();

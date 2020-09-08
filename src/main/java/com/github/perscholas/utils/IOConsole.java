@@ -20,50 +20,50 @@ public class IOConsole {
         PURPLE("\u001B[35m"),
         CYAN("\u001B[36m"),
         WHITE("\u001B[37m");
-
+        
         private final String color;
-
+        
         AnsiColor(String ansiColor) {
             this.color = ansiColor;
         }
-
+        
         public String getColor() {
             return color;
         }
-
+        
     }
-
+    
     private final Scanner input;
     private final PrintStream output;
     private final AnsiColor ansiColor;
-
+    
     public IOConsole() {
         this(AnsiColor.AUTO, System.in, System.out);
     }
-
+    
     public IOConsole(AnsiColor ansiColor) {
         this(ansiColor, System.in, System.out);
     }
-
+    
     public IOConsole(AnsiColor ansiColor, InputStream in, PrintStream out) {
         this.ansiColor = ansiColor;
         this.input = new Scanner(in);
         this.output = out;
     }
-
+    
     public void print(String val, Object... args) {
         output.format(ansiColor.getColor() + val, args);
     }
-
+    
     public void println(String val, Object... vals) {
         print(val + "\n", vals);
     }
-
+    
     public String getStringInput(String prompt, Object... args) {
         println(prompt, args);
         return input.nextLine();
     }
-
+    
     public Double getDoubleInput(String prompt, Object... args) {
         String stringInput = getStringInput(prompt, args);
         try {
@@ -75,7 +75,7 @@ public class IOConsole {
             return getDoubleInput(prompt, args);
         }
     }
-
+    
     public Long getLongInput(String prompt, Object... args) {
         String stringInput = getStringInput(prompt, args);
         try {
@@ -87,7 +87,7 @@ public class IOConsole {
             return getLongInput(prompt, args);
         }
     }
-
+    
     public Integer getIntegerInput(String prompt, Object... args) {
         return getLongInput(prompt, args).intValue();
     }

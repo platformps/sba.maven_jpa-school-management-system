@@ -26,15 +26,15 @@ public class GetAllCoursesTest {
     
     @Before
     public void setup() {
-        courseService = new CourseService(new CourseRepository(DatabaseConnection.getEntityManagerFactory()));
-        DatabaseConnection.MANAGEMENT_SYSTEM.drop();
-        DatabaseConnection.MANAGEMENT_SYSTEM.create();
+        JpaConfigurator.initialize();
+        courseService = new CourseService(new CourseRepository(JpaConfigurator.getEntityManagerFactory()));
     }
 
     @Test
-    private void givenNoCoursesInDatabaseTest() {
+    public void givenNoCoursesInDatabaseTest() {
         //given
-        // Course(s) doesn't get populated
+        DatabaseConnection.MANAGEMENT_SYSTEM.drop();
+        DatabaseConnection.MANAGEMENT_SYSTEM.create();
         int expectedSize = 0;
         
         // when
@@ -46,9 +46,9 @@ public class GetAllCoursesTest {
     }
     
     @Test
-    private void givenWhenCoursesAreInitialized(){
+    public void givenWhenCoursesAreInitialized(){
         //given
-        DatabaseConnection.MANAGEMENT_SYSTEM.populate();
+        // populated during initialization
         
         //when
         List<CourseInterface> actualCourses = courseService.getAllCourses();
