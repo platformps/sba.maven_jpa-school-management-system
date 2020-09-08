@@ -12,8 +12,8 @@ public class Course implements CourseInterface {
     @Column
     private Integer id;
 
-    @ManyToMany(mappedBy = "likedCourses")
-    Set<Student> likes;
+    @ManyToMany(mappedBy = "studentCourse")
+    Set<Student> inCourse;
 
 
     private String name;
