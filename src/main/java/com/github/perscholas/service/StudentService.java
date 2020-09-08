@@ -86,6 +86,25 @@ public class StudentService implements StudentDao {
 
     @Override
     public List<CourseInterface> getStudentCourses(String studentEmail) {
-        return null;
+        String sqlQuery =
+                "SELECT c.id, c.name, c.instructor " +
+                        "FROM Course c JOIN StudentCourse sc " +
+                        "ON c.id = sc.courseId AND sc.studentEmail = " +
+                        "\'" + studentEmail + "\';";
+
+        ResultSet resultSet = dbc.executeQuery(sqlQuery);
+        try{
+            List<CourseInterface> courseList = new ArrayList<CourseInterface>();
+            while(resultSet.next()) {
+                CourseInterface course = new Course();
+                course.setId(resultSet.getInt("id"));
+                course.setName(resultSet.getString("name"));
+                course.setInstructor(resultSet.getString("instructor"));
+                courseList.add(course);
+            }
+            return courseList;
+        } catch(Exception e) {
+            throw new Error(e);
+        }
     }
 }
