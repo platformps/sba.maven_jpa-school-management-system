@@ -78,14 +78,18 @@ public class StudentService implements StudentDao {
                 "AND password = \'" +
                 password + "\';";
         ResultSet resultSet = dbc.executeQuery(query);
+        boolean isValidStudent = false;
         try {
             //TODO check for corner cases
-            return resultSet.next();
-        } catch(Exception e) {
-            throw new Error(e);
-        }
+            isValidStudent = resultSet.next();
 
-        //return null;
+            if(!isValidStudent) {
+                throw new Exception("Student was not found. Please try again with a different email and/or password.");
+            }
+        } catch(Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return isValidStudent;
     }
 
     @Override
