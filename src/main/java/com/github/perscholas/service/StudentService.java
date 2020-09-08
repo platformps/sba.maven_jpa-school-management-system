@@ -54,18 +54,21 @@ public class StudentService implements StudentDao {
         try {
             //TODO check for corner cases
 
-            resultSet.next();
-            StudentInterface student = new Student();
-            student.setEmail(resultSet.getString("email"));
-            student.setName(resultSet.getString("name"));
-            student.setPassword(resultSet.getString("password"));
+            if(resultSet.next()) {
+                StudentInterface student = new Student();
+                student.setEmail(resultSet.getString("email"));
+                student.setName(resultSet.getString("name"));
+                student.setPassword(resultSet.getString("password"));
 
-            return student; // TODO - Parse `List<StudentInterface>` from `resultSet`
+                return student; // TODO - Parse `List<StudentInterface>` from `resultSet`
+            }
+            else {
+                return null;
+            }
 
         } catch(Exception e) {
             throw new Error(e);
         }
-        //return null;
     }
 
     @Override
@@ -76,11 +79,7 @@ public class StudentService implements StudentDao {
                 password + "\';";
         ResultSet resultSet = dbc.executeQuery(query);
         try {
-            //GN implemented while loop
             //TODO check for corner cases
-            //if(resultSet.next())
-              //  System.out.println("FOUND A RESULT.");
-            //return null;
             return resultSet.next();
         } catch(Exception e) {
             throw new Error(e);
@@ -91,8 +90,6 @@ public class StudentService implements StudentDao {
 
     @Override
     public void registerStudentToCourse(String studentEmail, int courseId) {
-        // first check if student is allready registered
-        //int count = "SELECT count FROM StudentCourse"
 
         String query = "INSERT INTO StudentCourse (studentEmail, courseId) values (" +
                 "\'" + studentEmail + "\'," +
