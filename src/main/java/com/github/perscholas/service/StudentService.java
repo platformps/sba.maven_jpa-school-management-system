@@ -35,10 +35,9 @@ public class StudentService implements StudentDao {
             student.setName(resultSet.getString("name"));
             student.setPassword(resultSet.getString("password"));
 
-            studentList.add(student);//put result set into a list. then store into List<StudentInterface>?
-
+            studentList.add(student);
         }
-             // TODO - Parse `List<StudentInterface>` from `resultSet`
+                                                    // TODO - Parse `List<StudentInterface>` from `resultSet`
         } catch(Exception e) {
             throw new Error(e);
 
@@ -67,7 +66,7 @@ public class StudentService implements StudentDao {
 
     @Override
     public void registerStudentToCourse(String studentEmail, int courseId) {
-        //StudentDao  instructions say to use JPA to accomplish the join table required here.
+        //StudentDao instructions say to use JPA to accomplish the join table required here. Adding Join annotations to student and course classes.
     }
 
     @Override

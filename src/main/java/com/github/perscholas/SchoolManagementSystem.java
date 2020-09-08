@@ -31,7 +31,7 @@ public class SchoolManagementSystem implements Runnable {
                         String studentCourseViewInput = getCourseViewInput();
                         if ("view".equals(studentCourseViewInput)) {
                             List<CourseInterface> courses = new ArrayList<>();
-
+                                    //Need getStudentCourses method here?
                              // TODO - Instantiate and populate `courses`;
                             console.println(new StringBuilder()
                                     .append("[ %s ] is registered to the following courses:")
@@ -73,7 +73,7 @@ public class SchoolManagementSystem implements Runnable {
 
 
     private Integer getCourseRegistryInput() {
-        List<String> listOfCoursesIds = null; // TODO - instantiate and populate `listOfCourseIds`
+        List<String> listOfCoursesIds = new ArrayList<>(); // TODO - instantiate and populate `listOfCourseIds`
         return console.getIntegerInput(new StringBuilder()
                 .append("Welcome to the Course Registration Dashboard!")
                 .append("\nFrom here, you can select any of the following options:")
