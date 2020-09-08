@@ -40,13 +40,13 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
     }
 
     DatabaseConnection() {
-        this(new ConnectionBuilder()
+       this(new ConnectionBuilder()
                 .setUser("root")
                 .setPassword("")
                 .setPort(3306)
                 .setDatabaseVendor("mariadb")
                 .setHost("127.0.0.1"));
-       /* this(new ConnectionBuilder()
+       /*this(new ConnectionBuilder()
                 .setUser("root")
                 .setPassword("5000")
                 .setPort(3300)

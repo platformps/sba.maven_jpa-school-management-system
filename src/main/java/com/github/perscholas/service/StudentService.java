@@ -14,6 +14,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 
 
 // TODO - Implement respective DAO interface
@@ -76,12 +77,22 @@ public class StudentService implements StudentDao {
 
     @Override
     public Boolean validateStudent(String studentEmail, String password) {
-       Boolean studentExists = getAllStudents()
+       /*Boolean studentExists = getAllStudents()
                                 .stream()
                                 .anyMatch(student -> student.getEmail().equals(studentEmail) && student.getPassword().equals(password));
        if (!studentExists)
             System.out.println("No entry found for this student. Please enter valid email and password.");
-        return studentExists;
+        return studentExists;*/
+        //Leon's approach
+        try {
+            Boolean studentExists =  password.equals(Objects.requireNonNull(getStudentByEmail(studentEmail)).getPassword());
+            if (!studentExists)
+                System.out.println("No entry found for this student. Please enter valid email and password.");
+            return studentExists;
+        }catch (NullPointerException e){
+            System.out.println("No entry found for this student. Please enter valid email and password.");
+        }
+        return false;
     }
 
     @Override

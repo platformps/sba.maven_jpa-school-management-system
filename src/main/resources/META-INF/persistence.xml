@@ -13,7 +13,7 @@ http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
             <property name="javax.persistence.jdbc.driver"
                       value="org.mariadb.jdbc.Driver"/>
 
-           <!-- <property name="javax.persistence.jdbc.url"
+            <!--<property name="javax.persistence.jdbc.url"
                       value="jdbc:mariadb://127.0.0.1:3300/production_database"/>-->
            <property name="javax.persistence.jdbc.url"
                      value="jdbc:mariadb://127.0.0.1:3306/production_database"/>
@@ -21,7 +21,7 @@ http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
             <property name="javax.persistence.jdbc.user"
                       value="root"/>
 
-           <!-- <property name="javax.persistence.jdbc.password"
+           <!--<property name="javax.persistence.jdbc.password"
                       value="5000"/>-->
            <property name="javax.persistence.jdbc.password"
                      value=""/>
