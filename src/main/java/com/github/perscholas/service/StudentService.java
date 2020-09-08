@@ -44,10 +44,17 @@ public class StudentService implements StudentDao {
                 student.setPassword(resultSet.getString("password"));
                 studentsList.add((StudentInterface) student);
             }
-            return studentsList;
         } catch(Exception e) {
+            e.printStackTrace();
             throw new Error(e);
+        } finally{
+            try{
+                resultSet.close();
+            }catch(SQLException e){
+                e.printStackTrace();
+            }
         }
+        return studentsList;
     }
 
     @Override
