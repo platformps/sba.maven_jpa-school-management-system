@@ -98,10 +98,12 @@ public class StudentService implements StudentDao {
         String query = "INSERT INTO StudentCourse (studentEmail, courseId) values (" +
                 "\'" + studentEmail + "\'," +
                 "\'" + courseId + "\');";
-            dbc.executeStatement(query);
-            //throw new SQLIntegrityConstraintViolationException("Student " + studentEmail + " is already registered for course with id = " +courseId);
 
-            //System.out.println("Student " + studentEmail + " is already registered for course with id = " +courseId);
+        int rowsaffected = dbc.executeStatement(query);
+
+        if(rowsaffected == -1) {
+            System.out.println("The student is already registered for the course with course id " + courseId);
+        }
     }
 
     @Override

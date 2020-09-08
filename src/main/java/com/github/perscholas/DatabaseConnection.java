@@ -100,14 +100,19 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
     }
 
     @Override
-    public void executeStatement(String sqlStatement) {
+    //GN changed return type to account for error code
+    public int executeStatement(String sqlStatement) {
         Connection conn = this.getDatabaseConnection();
+        int rowsaffected = -1;
         try {
             Statement statement = conn.createStatement();
-            statement.executeUpdate(sqlStatement);
+            rowsaffected = statement.executeUpdate(sqlStatement);
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            System.out.print("Database update failed: ");
+            System.out.println("Error code: " + throwables.getErrorCode());
+            //throwables.printStackTrace();
         }
+        return rowsaffected;
     }
 
     @Override

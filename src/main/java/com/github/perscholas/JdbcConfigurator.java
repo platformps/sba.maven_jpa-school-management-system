@@ -4,6 +4,7 @@ import com.github.perscholas.utils.DirectoryReference;
 import com.github.perscholas.utils.FileReader;
 
 import java.io.File;
+import java.sql.SQLException;
 
 public class JdbcConfigurator {
     static {

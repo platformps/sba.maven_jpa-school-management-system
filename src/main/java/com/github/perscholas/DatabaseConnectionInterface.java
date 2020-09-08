@@ -2,6 +2,7 @@ package com.github.perscholas;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public interface DatabaseConnectionInterface {
     String getDatabaseName();
@@ -10,6 +11,7 @@ public interface DatabaseConnectionInterface {
     void drop();
     void create();
     void use();
-    void executeStatement(String sqlStatement);
+    //GN changed return type to account for error code
+    int executeStatement(String sqlStatement) throws SQLException;
     ResultSet executeQuery(String sqlQuery);
 }

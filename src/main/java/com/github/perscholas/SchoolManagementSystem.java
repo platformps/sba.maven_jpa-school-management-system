@@ -6,6 +6,7 @@ import com.github.perscholas.service.CourseService;
 import com.github.perscholas.service.StudentService;
 import com.github.perscholas.utils.IOConsole;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -13,7 +14,7 @@ public class SchoolManagementSystem implements Runnable {
     private static final IOConsole console = new IOConsole();
 
     @Override
-    public void run() {
+    public void run()  {
         String smsDashboardInput;
         do {
             smsDashboardInput = getSchoolManagementSystemDashboardInput();
