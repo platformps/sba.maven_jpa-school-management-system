@@ -6,6 +6,8 @@ import com.github.perscholas.model.CourseInterface;
 import com.github.perscholas.model.Student;
 import com.github.perscholas.model.StudentInterface;
 
+import javax.xml.transform.Result;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -25,9 +27,17 @@ public class StudentService implements StudentDao {
 
     @Override
     public List<StudentInterface> getAllStudents() {
-        ResultSet resultSet = dbc.executeQuery("SELECT * FROM students");
+        ResultSet resultSet = dbc.executeQuery("SELECT * FROM Student");
         try {
-            return null; // TODO - Parse `List<StudentInterface>` from `resultSet`
+            List<StudentInterface> studentList = new ArrayList<>();
+            while(resultSet.next()){
+                Student student = new Student();
+                student.setEmail(resultSet.getString(1));
+                student.setName(resultSet.getString(2));
+                student.setPassword(resultSet.getString(3));
+                studentList.add(student);
+            }
+            return studentList;
         } catch(Exception e) {
             throw new Error(e);
         }
@@ -35,12 +45,21 @@ public class StudentService implements StudentDao {
 
     @Override
     public StudentInterface getStudentByEmail(String studentEmail) {
+        List<StudentInterface> studentList = getAllStudents();
+        for(StudentInterface studentInterface:studentList){
+            if(studentInterface.getEmail().equals(studentEmail))
+                return studentInterface;
+        }
         return null;
     }
 
     @Override
     public Boolean validateStudent(String studentEmail, String password) {
-        return null;
+        StudentInterface student = getStudentByEmail(studentEmail);
+        if(student == null){
+            return false;
+        }
+        return password.equals(student.getPassword());
     }
 
     @Override
