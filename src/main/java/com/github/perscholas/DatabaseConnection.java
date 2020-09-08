@@ -71,6 +71,15 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
 
     @Override
     public void drop() {
+        String sqlStatement = "DROP DATABASE " + getDatabaseName();
+        String info;
+        try{
+            executeStatementOnEngine(sqlStatement);
+            info = "Successfully executed statement '%s'.";
+        } catch (Exception sqlException) {
+            info = "Failed to executed statement '%s'.";
+        }
+        console.println(into, sqlStatement);
     }
 
     @Override
