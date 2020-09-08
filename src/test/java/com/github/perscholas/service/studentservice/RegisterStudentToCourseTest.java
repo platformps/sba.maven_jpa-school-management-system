@@ -64,7 +64,7 @@ public class RegisterStudentToCourseTest {
         
         // then
         Assert.assertEquals(expectedRegisteredCourseAmount, actualRegisteredCourseAmount);
-        Assert.assertTrue(actualStudentCourses.stream().map(Course::getId).allMatch(studentCourseId -> Objects.equals(courseId, studentCourseId)));
+        Assert.assertTrue(actualStudentCourses.stream().map(CourseInterface::getId).allMatch(studentCourseId -> Objects.equals(courseId, studentCourseId)));
     }
     
     @Test
