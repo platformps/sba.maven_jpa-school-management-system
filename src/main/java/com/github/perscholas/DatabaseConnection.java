@@ -21,6 +21,7 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
         this.connectionBuilder = connectionBuilder;
     }
 
+    //Added database details to connect with Database
     DatabaseConnection() {
         this(new ConnectionBuilder()
                 .setUser("root")
@@ -51,12 +52,11 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
     }
 
     @Override
+    //creating Database
     public void create() {
-        //creating Database
         String sqlStatement = "CREATE DATABASE " + name().toLowerCase();
         String info;
         try {
-            //Database Created
             executeStatement(sqlStatement);
             info = "Successfully executed CREATE statement `%s`.";
         }
@@ -67,8 +67,8 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
     }
 
     @Override
+    //Dropping Database if already exists
     public void drop() {
-        //Dropping Database if already exists
         System.out.println("Database Name : " + name().toLowerCase());
         String sqlStatement = "DROP DATABASE IF EXISTS " +name().toLowerCase();
         String info;
@@ -83,8 +83,8 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
     }
 
     @Override
+    //Use Main Schema
     public void use() {
-        //Use Main Schema
         String sqlStatement = "USE " + name().toLowerCase();
         String info;
         try {

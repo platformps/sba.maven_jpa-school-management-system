@@ -23,6 +23,7 @@ public class CourseService implements CourseDao {
     }
 
     @Override
+    //This method will return all the courses available in course table
     public List<CourseInterface> getAllCourses() {
         List<CourseInterface> courses = new ArrayList<>();
         try {

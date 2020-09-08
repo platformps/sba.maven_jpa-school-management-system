@@ -22,12 +22,14 @@ public class SchoolManagementSystem implements Runnable {
                 String studentEmail = console.getStringInput("Enter your email:");
                 String studentPassword = console.getStringInput("Enter your password:");
                 Boolean isValidLogin = studentService.validateStudent(studentEmail, studentPassword);
+                //Handled the invalid case
                 if (isValidLogin) {
                     String studentDashboardInput = getStudentDashboardInput(studentEmail);
                     if ("register".equals(studentDashboardInput)) {
                         Integer courseId = getCourseRegistryInput();
                         studentService.registerStudentToCourse(studentEmail, courseId);
                         String studentCourseViewInput = getCourseViewInput();
+                        //Formatted the output based on the example workflow
                         if ("view".equals(studentCourseViewInput)) {
                             List<String> courses =  new StudentService().getStudentCourses(studentEmail)
                                     .stream()
@@ -67,6 +69,7 @@ public class SchoolManagementSystem implements Runnable {
                 .toString());
     }
 
+    //Formatted the output based on the example workflow
     private String getStudentDashboardInput(String studentEmail) {
         List<String> listOfStudentClass = new StudentService().getStudentCourses(studentEmail)
                 .stream()
@@ -86,7 +89,7 @@ public class SchoolManagementSystem implements Runnable {
                 .toString());
     }
 
-
+    //Formatted the output based on the example workflow
     private Integer getCourseRegistryInput() {
         List<String> listOfCoursesIds = new CourseService().getAllCourses()
                 .stream()

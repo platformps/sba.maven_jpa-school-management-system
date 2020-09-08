@@ -26,6 +26,7 @@ public class StudentService implements StudentDao {
     }
 
     @Override
+    //This method will return all students available in Students table
     public List<StudentInterface> getAllStudents() {
         ResultSet resultSet = dc.executeQuery("SELECT * FROM student");
         try {
@@ -44,6 +45,7 @@ public class StudentService implements StudentDao {
     }
 
     @Override
+    //This method will return all students available in Students table using email id
     public StudentInterface getStudentByEmail(String studentEmail) {
 
         return getAllStudents().stream()
@@ -53,6 +55,7 @@ public class StudentService implements StudentDao {
     }
 
     @Override
+    //This method will validate student using email and password
     public Boolean validateStudent(String studentEmail, String password) {
 
         return getAllStudents().stream()
@@ -61,6 +64,7 @@ public class StudentService implements StudentDao {
     }
 
     @Override
+    //This method will register the course to Student
     public void registerStudentToCourse(String studentEmail, int courseId) {
 
         List<CourseInterface> studentCourses = getStudentCourses(studentEmail);
@@ -83,6 +87,7 @@ public class StudentService implements StudentDao {
     }
 
     @Override
+    //This method will return all courses mapped to Student
     public List<CourseInterface> getStudentCourses(String studentEmail) {
 
         List<CourseInterface> studentCourses = new ArrayList<>();
