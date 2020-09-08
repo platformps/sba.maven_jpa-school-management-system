@@ -73,6 +73,7 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
 
     @Override
     public ResultSet executeQuery(String sqlQuery) {
+
         return null;
     }
 }
