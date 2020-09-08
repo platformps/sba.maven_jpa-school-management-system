@@ -2,10 +2,8 @@ package com.github.perscholas.model;
 
 // TODO - Annotate and Implement respective interface and define behaviors
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 public class Course implements CourseInterface {
@@ -13,6 +11,11 @@ public class Course implements CourseInterface {
     @Id
     @Column
     private Integer id;
+
+    @ManyToMany(mappedBy = "likedCourses")
+    Set<Student> likes;
+
+
     private String name;
     private String instructor;
 

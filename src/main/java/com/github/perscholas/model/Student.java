@@ -1,6 +1,7 @@
 package com.github.perscholas.model;
 
 import javax.persistence.*;
+import java.util.Set;
 
 // TODO - Annotate and Implement respective interface and define behaviors
 
@@ -9,6 +10,15 @@ import javax.persistence.*;
 public class Student implements StudentInterface {
     @Id
     private String email;
+
+    @ManyToMany
+            @JoinTable(
+                    name = "student_course",
+                    joinColumns = @JoinColumn(name = "email"),
+                    inverseJoinColumns = @JoinColumn(name = "course_id")
+            )
+    Set<Course> studentCourse;
+
     private String name;
     private String password;
 
