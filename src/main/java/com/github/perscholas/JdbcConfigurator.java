@@ -15,7 +15,7 @@ public class JdbcConfigurator {
         }
     }
 
-    private static final DatabaseConnection dbc = DatabaseConnection.MANAGEMENT_SYSTEM;
+    private static final DatabaseConnection dbc = DatabaseConnection.UAT;
 
     public static void initialize() {
         dbc.drop();
