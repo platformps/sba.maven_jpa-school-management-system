@@ -30,7 +30,7 @@ public class StudentService implements StudentDao {
         ResultSet resultSet = dbc.executeQuery("SELECT * FROM students");
         try {
             // TODO - Parse `List<StudentInterface>` from `resultSet`
-            List<StudentInterface> students = null;
+            List<StudentInterface> students = new ArrayList<>();
             while(resultSet.next()) {
                 Student student = new Student();
                 student.setEmail(resultSet.getString("email"));
@@ -40,8 +40,9 @@ public class StudentService implements StudentDao {
             }
             return students;
         } catch(Exception e) {
-            throw new Error(e);
+            System.out.println(e);
         }
+        return null;
     }
 
     @Override
