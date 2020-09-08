@@ -15,6 +15,7 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
     MANAGEMENT_SYSTEM,
     UAT;
 
+    private String name = null;
     private static final IOConsole console = new IOConsole(IOConsole.AnsiColor.CYAN);
     private final ConnectionBuilder connectionBuilder;
 
@@ -25,7 +26,7 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
     DatabaseConnection() {
         this(new ConnectionBuilder()
                 .setUser("root")
-                .setPassword("")
+                .setPassword("password")
                 .setPort(3306)
                 .setDatabaseVendor("mariadb")
                 .setHost("127.0.0.1"));
@@ -33,7 +34,7 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
 
     @Override
     public String getDatabaseName() {
-        return name().toLowerCase();
+        return name;
     }
 
     @Override
