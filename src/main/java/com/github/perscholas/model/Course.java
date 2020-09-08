@@ -8,13 +8,13 @@ import javax.persistence.*;
 public class Course implements CourseInterface {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
+    @Column(name = "id", unique = true)
     private Integer id;
 
-    @Column(name = "name")
+    @Column(name = "name", nullable = false, length = 50)
     private String name;
 
-    @Column(name = "instructor")
+    @Column(name = "instructor", nullable = false, length = 50)
     private String instructor;
 
 

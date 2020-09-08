@@ -9,18 +9,16 @@ import javax.persistence.*;
 public class Student implements StudentInterface {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
-    private Long id;
+    @Column(unique = true, nullable = false, name = "email", length = 50)
+    private String email;
 
-    @Column(name = "password")
+    @Column(name = "password", length = 50, nullable = false)
     private String password;
 
-    @Column(name = "name")
+    @Column(name = "name", length = 50, nullable = false)
     private String name;
 
-    @Column(name = "email")
-    private String email;
+
 
 
     @Override
