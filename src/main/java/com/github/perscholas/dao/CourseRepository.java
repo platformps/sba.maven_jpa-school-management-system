@@ -1,11 +1,10 @@
 package com.github.perscholas.dao;
 
-import com.github.perscholas.model.Course;
-import com.github.perscholas.model.CourseBuilder;
-import com.github.perscholas.model.Student;
-import com.github.perscholas.model.StudentBuilder;
+import com.github.perscholas.model.*;
 
-public class CourseRepository extends AbstractJpaRepository<Integer,Course>{
+import java.util.List;
+
+public class CourseRepository extends AbstractJpaRepository<Integer,Course> {
 
         public CourseRepository(String persistenceUnitName) {
             super(persistenceUnitName);
@@ -24,5 +23,7 @@ public class CourseRepository extends AbstractJpaRepository<Integer,Course>{
                     .setInstructor(newEntityData.getInstructor())
                     .build();
         }
-    }
+
+
+}
 

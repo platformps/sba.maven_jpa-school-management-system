@@ -3,6 +3,7 @@ package com.github.perscholas.service;
 import com.github.perscholas.DatabaseConnection;
 import com.github.perscholas.dao.RepositoryInterface;
 import com.github.perscholas.dao.StudentDao;
+import com.github.perscholas.model.Course;
 import com.github.perscholas.model.CourseInterface;
 import com.github.perscholas.model.Student;
 import com.github.perscholas.model.StudentInterface;
@@ -55,7 +56,7 @@ public class StudentService  implements StudentDao {
     @Override
     public Boolean validateStudent(String studentEmail, String password) {
         Student student= (Student) getStudentByEmail(studentEmail);
-        if (list.stream().anyMatch(x -> x.getPassword().equals(student.getPassword()))){
+        if (list.stream().anyMatch(x -> x.getPassword().equals(password))){
           return true; }
 
         return false;
@@ -68,7 +69,14 @@ public class StudentService  implements StudentDao {
 
 
     @Override public List<CourseInterface> getStudentCourses(String studentEmail) {
-        return null;
+
+  StudentInterface student =  list.stream()
+                .filter(e ->studentEmail.equals(e.getEmail()))
+                .findFirst()
+                .orElse(null);
+       if(null==student.getClasses()) return null;
+
+        return student.getClasses();
     }
 }
 

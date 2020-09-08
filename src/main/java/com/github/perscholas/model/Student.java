@@ -1,6 +1,10 @@
 package com.github.perscholas.model;
 
+import com.github.perscholas.service.CourseService;
+
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 // TODO - Annotate and Implement respective interface and define behaviors
 @Entity
@@ -19,8 +23,10 @@ public class Student implements StudentInterface{
     @Column(name = "password")
      private String password;
 
-    public Student(){
+    private List<CourseInterface> studentCourses;
 
+    public Student(){
+        studentCourses = new ArrayList<>();
     }
 
     public Student(String name, String email, String password){
@@ -29,9 +35,33 @@ public class Student implements StudentInterface{
         this.password=password;
     }
 
-public String getId(){
+@Override
+    public List<CourseInterface> getClasses(){
+
+        return studentCourses;
+    }
+
+    public void addClasses(int course){
+        CourseService service= new CourseService();
+
+        studentCourses.add(service.getAllCourses().stream()
+        .filter(c ->c.getId()
+                .equals(course))
+                .findFirst()
+                .orElse(null));
+    }
+
+    public void removeClasses(int id){
+        for (CourseInterface course:studentCourses) {
+            if(id == course.getId()) studentCourses.remove(course);
+        }
+    }
+
+    public String getId(){
         return getEmail();
 }
+
+
 
     @Override
     public String getEmail() {
@@ -69,5 +99,5 @@ this.password=password;
                 ", email='" + email + '\'' +
                 ", name='" + name + '\'' +
                 ", password='" + password + '\'' +
-                '}';}
+                ", Classes='"+ getClasses().toString()+'}';}
 }
