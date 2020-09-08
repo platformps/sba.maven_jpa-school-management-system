@@ -2,13 +2,16 @@ package com.github.perscholas;
 
 import com.github.perscholas.utils.DirectoryReference;
 import com.github.perscholas.utils.FileReader;
+import com.mysql.cj.jdbc.Driver;
 
 import java.io.File;
+import java.sql.DriverManager;
 
 public class JdbcConfigurator {
     static {
         try {
             // TODO - Attempt to register JDBC Driver
+            Class.forName("com.mysql.cj.jdbc.Driver");
         } catch (Exception e) {
             throw new Error(e);
         }
