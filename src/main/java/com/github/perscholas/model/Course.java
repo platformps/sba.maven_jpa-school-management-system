@@ -22,9 +22,6 @@ public class Course implements CourseInterface {
     private String instructor;
 
 
-//    @ManyToMany(mappedBy = "registeredCourses")
-//    Set<Student> registered;
-
     public Course() {
 
     }
@@ -51,5 +48,14 @@ public class Course implements CourseInterface {
 
     public void setInstructor(String instructor) {
         this.instructor = instructor;
+    }
+
+    @Override
+    public String toString() {
+        return "Course{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", instructor='" + instructor + '\'' +
+                '}';
     }
 }
