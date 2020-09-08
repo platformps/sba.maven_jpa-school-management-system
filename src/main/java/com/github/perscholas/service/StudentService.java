@@ -22,7 +22,7 @@ public class StudentService implements StudentDao {
     }
 
     public StudentService() {
-        this(DatabaseConnection.UAT);
+        this(DatabaseConnection.school_sba);
     }
 
     @Override
