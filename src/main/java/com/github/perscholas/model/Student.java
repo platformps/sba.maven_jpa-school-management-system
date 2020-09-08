@@ -8,6 +8,8 @@ import javax.persistence.*;
 @Table(name = "student")
 public class Student implements StudentInterface {
 
+
+
     @Id
     @Column(unique = true, nullable = false, name = "email", length = 50)
     private String email;
@@ -19,7 +21,13 @@ public class Student implements StudentInterface {
     private String name;
 
 
+    public Student(){}
 
+    public Student(String email, String password, String name) {
+        this.email = email;
+        this.password = password;
+        this.name = name;
+    }
 
     @Override
     public String getEmail() {
@@ -49,5 +57,14 @@ public class Student implements StudentInterface {
     @Override
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Override
+    public String toString() {
+        return "Student{" +
+                "email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

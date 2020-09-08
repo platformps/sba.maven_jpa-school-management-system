@@ -7,8 +7,7 @@ import javax.persistence.*;
 @Table(name = "course")
 public class Course implements CourseInterface {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id", unique = true)
+    @Column(name = "id", unique = true, nullable = false)
     private Integer id;
 
     @Column(name = "name", nullable = false, length = 50)
@@ -17,34 +16,52 @@ public class Course implements CourseInterface {
     @Column(name = "instructor", nullable = false, length = 50)
     private String instructor;
 
+    public Course(){}
+
+    public Course(Integer id, String name, String instructor) {
+        this.id = id;
+        this.name = name;
+        this.instructor = instructor;
+    }
 
     @Override
     public Integer getId() {
-        return null;
+        return this.id;
     }
 
     @Override
     public String getName() {
-        return null;
+        return this.name;
     }
 
     @Override
     public String getInstructor() {
-        return null;
+        return this.instructor;
     }
 
     @Override
     public void setId(Integer id) {
-
+        this.id = id;
     }
 
     @Override
     public void setName(String name) {
-
+        this.name = name;
     }
 
     @Override
     public void setInstructor(String instructor) {
-
+        this.instructor = instructor;
     }
+
+    @Override
+    public String toString() {
+        return "Course{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", instructor='" + instructor + '\'' +
+                '}';
+    }
+
+
 }

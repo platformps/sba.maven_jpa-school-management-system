@@ -4,19 +4,20 @@ import com.github.perscholas.DatabaseConnection;
 import com.github.perscholas.dao.StudentDao;
 import com.github.perscholas.model.CourseInterface;
 import com.github.perscholas.model.Student;
+import com.github.perscholas.model.StudentBuilder;
 import com.github.perscholas.model.StudentInterface;
 
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 // TODO - Implement respective DAO interface
 public class StudentService implements StudentDao {
+    private final Student student;
     private final DatabaseConnection dbc;
 
     public StudentService(DatabaseConnection dbc) {
         this.dbc = dbc;
+        this.student = new StudentBuilder().createStudent();
     }
 
     public StudentService() {
@@ -27,6 +28,9 @@ public class StudentService implements StudentDao {
     public List<StudentInterface> getAllStudents() {
         ResultSet resultSet = dbc.executeQuery("SELECT * FROM students");
         try {
+
+            List<Student> listStudent;
+
             return null; // TODO - Parse `List<StudentInterface>` from `resultSet`
         } catch(Exception e) {
             throw new Error(e);
