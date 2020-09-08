@@ -30,7 +30,7 @@ public class CourseService implements CourseDao{
         ResultSet resultSet = null;
         List<CourseInterface> listCourses = null;
         try {
-            resultSet = dbc.executeQuery("SELECT id,name,instructor FROM course");
+            resultSet = dbc.executeQuery("SELECT id,name,instructor FROM management_system.course");
             if (resultSet != null) {
                 listCourses = new ArrayList<CourseInterface>();
                 while(resultSet.next()){
@@ -38,7 +38,6 @@ public class CourseService implements CourseDao{
                     String name= resultSet.getString(2);
                     String instructor= resultSet.getString(3);
                     CourseInterface course = new Course(id,name,instructor);
-                    System.out.println("Before student to List" + course.toString());
                     listCourses.add(course);
                 }
             }

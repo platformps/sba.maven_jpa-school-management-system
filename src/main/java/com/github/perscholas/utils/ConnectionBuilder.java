@@ -80,9 +80,8 @@ public class ConnectionBuilder {
                 .append(hasPortBeenSet ? ":" : "")
                 .append(hasPortBeenSet ? portNumber : "")
                 .append("/")
-                .append(databaseName != null ? databaseName : "")
+                //.append(databaseName != null ? databaseName : "")
                 .toString();
-       // System.out.println("JDBC URL"+jdbcUrl);
         return jdbcUrl;
     }
 }

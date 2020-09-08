@@ -1,9 +1,22 @@
 package com.github.perscholas.model;
 
+import javax.persistence.*;
+
 // TODO - Annotate and Implement respective interface and define behaviors
+@Entity
+@Table(name ="course")
 public class Course implements CourseInterface {
+
+    @Id
+    @Column(name="id")
     private Integer id;
+
+    @Basic
+    @Column (name="name")
     private String name;
+
+    @Basic
+    @Column (name="instructor")
     private String Instructor;
 
     public Course(int id, String name, String instructor) {
@@ -42,5 +55,14 @@ public class Course implements CourseInterface {
     @Override
     public void setInstructor(String instructor) {
         Instructor = instructor;
+    }
+
+    @Override
+    public String toString() {
+        return "Course{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", Instructor='" + Instructor + '\'' +
+                '}';
     }
 }

@@ -1,10 +1,16 @@
 package com.github.perscholas.service.studentservice;
 
 import com.github.perscholas.JdbcConfigurator;
+import com.github.perscholas.dao.StudentDao;
+import com.github.perscholas.model.StudentInterface;
+import com.github.perscholas.service.StudentService;
 import com.github.perscholas.utils.DirectoryReference;
+import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Test;
 
 import java.io.File;
+import java.util.List;
 
 /**
  * @author leonhunter
@@ -26,16 +32,16 @@ public class GetStudentByEmailTest {
         };
     }
 
-    // given
-    // TODO - Add `@Test` annotation
+
+    @Test
     public void test() {
         JdbcConfigurator.initialize();
+        StudentDao service = (StudentDao) new StudentService();
 
         // when
-        // TODO - define `when` clause
-
+        StudentInterface studentList = service.getStudentByEmail("aiannitti7@is.gd");
 
         // then
-        // TODO - define `then` clause
+        Assert.assertNotNull(studentList);
     }
 }

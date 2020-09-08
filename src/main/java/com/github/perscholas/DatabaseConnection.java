@@ -24,7 +24,8 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
         this.connectionBuilder = connectionBuilder;
     }
 
-    DatabaseConnection() {
+    DatabaseConnection()
+    {
         this(new ConnectionBuilder()
                 .setUser("root")
                 .setPassword("maria")
@@ -53,10 +54,13 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
 
     @Override
     public void create() {
-        String sqlStatement = null; // TODO - define statement
-        String info;
+        Statement sqlStatement = null; // TODO - define statement
+        String info="CREATE DATABASE "+DatabaseConnection.MANAGEMENT_SYSTEM;
+        Connection con = getDatabaseEngineConnection();
+
         try {
-            // TODO - execute statement
+            sqlStatement = con.createStatement();
+            sqlStatement.executeQuery(info);
             info = "Successfully executed statement `%s`.";
         } catch (Exception sqlException) {
             info = "Failed to executed statement `%s`.";
@@ -66,14 +70,39 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
 
     @Override
     public void drop() {
+        String s=getDatabaseName();
+        System.out.println("GetDatabaseNAme"+s);
+        String dropSQL="DROP DATABASE IF EXISTS "+s;
+        executeStatement(dropSQL);
     }
 
     @Override
     public void use() {
+        String s=getDatabaseName();
+        String useSQL="USE "+s;
+        executeStatement(useSQL);
     }
 
     @Override
     public void executeStatement(String sqlStatement) {
+        //return null;
+        Statement statement = null;
+        Connection con  = null;
+        ResultSet resultSet = null;
+
+        String info;
+        try {
+            // TODO - execute statement
+            con  = getDatabaseConnection();
+            System.out.println("Execute executeStatement 0  "+sqlStatement);
+            statement = con.createStatement();
+            resultSet= statement.executeQuery(sqlStatement);
+            info = "Successfully executed statement `%s`.";
+        } catch (Exception sqlException) {
+            sqlException.printStackTrace();
+            info = "Failed to executed statement `%s`.";
+        }
+        console.println(info, sqlStatement);
     }
 
     @Override
@@ -88,10 +117,9 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
         try {
             // TODO - execute statement
             con  = getDatabaseConnection();
+            use();
             System.out.println("Execute Query 0 sqlQuery "+sqlQuery);
-            System.out.println("Execute Query 1"+con);
             statement = con.createStatement();
-            System.out.println("Execute Query 2 "+statement);
             resultSet= statement.executeQuery(sqlQuery);
             info = "Successfully executed statement `%s`.";
         } catch (Exception sqlException) {
@@ -100,6 +128,5 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
         }
         console.println(info, sqlStatement);
         return resultSet;
-
     }
 }

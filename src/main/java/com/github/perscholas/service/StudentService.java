@@ -2,6 +2,7 @@ package com.github.perscholas.service;
 
 import com.github.perscholas.DatabaseConnection;
 import com.github.perscholas.dao.StudentDao;
+import com.github.perscholas.model.Course;
 import com.github.perscholas.model.CourseInterface;
 import com.github.perscholas.model.Student;
 import com.github.perscholas.model.StudentInterface;
@@ -32,8 +33,7 @@ public class StudentService implements StudentDao {
         ResultSet resultSet = null;
         List<StudentInterface> listStudent = null;
         try {
-             System.out.println("The value of dbc"+dbc);
-             resultSet = dbc.executeQuery("SELECT email,name,password FROM students");
+            resultSet = dbc.executeQuery("SELECT email,name,password FROM management_system.student");
             if (resultSet != null) {
                 listStudent = new ArrayList<StudentInterface>();
                 while(resultSet.next()){
@@ -41,7 +41,6 @@ public class StudentService implements StudentDao {
                 String name= resultSet.getString(2);
                 String password= resultSet.getString(3);
                 StudentInterface student = new Student(email,name,password);
-                System.out.println("Before student to List" + student.toString());
                 listStudent.add(student);
                 }
             }
@@ -64,18 +63,16 @@ public class StudentService implements StudentDao {
         ResultSet resultSet =null;
         StudentInterface studentInterface = null;
         try {
-            resultSet = dbc.executeQuery("SELECT name,password FROM students where studentEmail='studentEmail'");
+            resultSet = dbc.executeQuery("SELECT name,password FROM management_system.student where email='"+studentEmail+"'");
             if (resultSet != null) {
                 studentInterface = new Student();
              while(resultSet.next()){
                     studentInterface.setName(studentEmail);
                     studentInterface.setName(resultSet.getString(1));
                     studentInterface.setPassword(resultSet.getString(2));
-                    System.out.println("Student details based on provided emailID" + studentInterface.toString());
                 }
             }
-             // TODO - Parse `List<StudentInterface>` from `resultSet`
-        } catch(Exception e) {
+         } catch(Exception e) {
             e.printStackTrace();
             throw new Error(e);
         }
@@ -98,15 +95,12 @@ public class StudentService implements StudentDao {
         ResultSet resultSet = null;
 
         try{
-            System.out.println("The value of dbc in validateStudent "+dbc.getDatabaseConnection());
             resultSet = dbc.executeQuery(
-                    "SELECT name FROM student where email='"+studentEmail+"' and password='"+password+"'");
-            System.out.println(resultSet);
-            if(resultSet!=null){
+                    "SELECT name FROM management_system.student " +
+                            "where email='"+studentEmail+"' and password='"+password+"'");
+            if(resultSet!=null&&resultSet.isBeforeFirst()){
                 isStudent =true;
-
             }
-            System.out.println("The value of result and boolean value "+isStudent);
         }catch(Exception e){
             e.printStackTrace();
             throw new Error(e);
@@ -124,11 +118,69 @@ public class StudentService implements StudentDao {
 
     @Override
     public void registerStudentToCourse(String studentEmail, int courseId) {
-
+        try{
+            String sql="insert into management_system.student_course (email, id) values ('"+studentEmail+"','"+courseId+"')";
+            dbc.executeStatement(sql);
+           }catch(Exception e){
+            e.printStackTrace();
+            throw new Error(e);
+        }finally{
+        }
     }
 
     @Override
     public List<CourseInterface> getStudentCourses(String studentEmail) {
-        return null;
+        ResultSet resultSet = null;
+        List<CourseInterface> listStudentCourse = null;
+        try {
+            resultSet = dbc.executeQuery("SELECT id FROM management_system.student_course where email='"+studentEmail+"'");
+            if (resultSet != null) {
+                listStudentCourse = new ArrayList<CourseInterface>();
+                while(resultSet.next()){
+                    Course course= getCourseDetailsByID(resultSet.getInt(1));
+                    listStudentCourse.add(course);
+                }
+            }
+        } catch(Exception e) {
+            e.printStackTrace();
+            throw new Error(e);
+        } finally{
+            try{
+                if(resultSet!=null) {
+                    resultSet.close();
+                }
+            }catch(SQLException e){
+                e.printStackTrace();
+            }
+        }
+        return listStudentCourse;
+    }
+
+    private Course getCourseDetailsByID(int courseID){
+        ResultSet courseResultSet =null;
+        Course course = null;
+        try {
+              courseResultSet = dbc.executeQuery(
+                    "SELECT id,name,instructor FROM management_system.course where id='" + courseID + "'");
+            if (courseResultSet != null) {
+                //only one record exist as this is primary key
+                while(courseResultSet.next()){
+                    course= new Course(courseResultSet.getInt(1),
+                            courseResultSet.getString(2),courseResultSet.getString(3));
+
+                }
+            }
+          }catch(Exception e){
+            e.printStackTrace();
+          }finally {
+            try{
+                if(courseResultSet!=null) {
+                    courseResultSet.close();
+                }
+            }catch(SQLException e){
+                e.printStackTrace();
+            }
+        }
+        return course;
     }
 }
