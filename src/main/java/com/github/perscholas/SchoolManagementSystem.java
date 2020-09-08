@@ -29,13 +29,23 @@ public class SchoolManagementSystem implements Runnable {
                         studentService.registerStudentToCourse(studentEmail, courseId);
                         String studentCourseViewInput = getCourseViewInput();
                         if ("view".equals(studentCourseViewInput)) {
-                            List<CourseInterface> courses =  new StudentService().getStudentCourses(studentEmail);
+                            List<String> courses =  new StudentService().getStudentCourses(studentEmail)
+                                    .stream()
+                                    .map(course -> String.format("%-5s %-15s %-10s", course.getId().toString() , course.getName()  , course.getInstructor().toString()))
+                                    .collect(Collectors.toList());
                             console.println(new StringBuilder()
                                     .append( studentEmail +" is registered to the following courses:")
-                                    .append("\n\t" + courses)
+                                    .append("\n\t" + String.format("%-5s %-15s %-10s", "ID", "Course Name", "Instructor Name"))
+                                    .append("\n\t" + courses
+                                            .toString()
+                                            .replaceAll("\\[", "")
+                                            .replaceAll("\\]", "")
+                                            .replaceAll(", ", "\n\t"))
                                     .toString(), studentEmail);
                         }
                     }
+                } else {
+                    console.println("Invalid Login Details, please try again: \n");
                 }
             }
         } while (!"logout".equals(smsDashboardInput));
