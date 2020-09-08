@@ -27,7 +27,18 @@ public class StudentService implements StudentDao {
     public List<StudentInterface> getAllStudents() {
         ResultSet resultSet = dbc.executeQuery("SELECT * FROM students");
         try {
-            return null; // TODO - Parse `List<StudentInterface>` from `resultSet`
+            // TODO - Parse `List<StudentInterface>` from `resultSet`
+            List<StudentInterface> students = new ArrayList<>();
+
+            while (resultSet.next()){
+                Student student = new Student();
+                student.setEmail(resultSet.getString("email"));
+                student.setName(resultSet.getString("name"));
+                student.setPassword(resultSet.getString("password"));
+                students.add(student);
+            }
+
+            return students;
         } catch(Exception e) {
             throw new Error(e);
         }
@@ -35,17 +46,41 @@ public class StudentService implements StudentDao {
 
     @Override
     public StudentInterface getStudentByEmail(String studentEmail) {
+        List<StudentInterface> list = getAllStudents();
+
+        for (StudentInterface studentInterface : list) {
+            if (studentInterface.getEmail().equals(studentEmail)) {
+                return studentInterface;
+            }
+        }
+
         return null;
     }
 
     @Override
     public Boolean validateStudent(String studentEmail, String password) {
-        return null;
+
+        return getAllStudents()
+                .stream()
+                .anyMatch(s -> s.getEmail().equals(studentEmail) && s.getPassword().equals(password));
     }
 
     @Override
     public void registerStudentToCourse(String studentEmail, int courseId) {
+        CourseService courseService = new CourseService();
+        CourseInterface courseToAdd = courseService.getAllCourses()
+                .stream()
+                .filter(c -> c.getId() == courseId)
+                .findFirst()
+                .orElse(null);
 
+
+        dbc.executeStatement("insert into StudentCourse (email, id, name, instructor) values ('"
+                + studentEmail + "','"
+                + courseToAdd.getId() + "', '"
+                + courseToAdd.getName() + "', '"
+                + courseToAdd.getInstructor() + "')"
+        );
     }
 
     @Override
