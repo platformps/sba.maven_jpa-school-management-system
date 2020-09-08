@@ -73,20 +73,18 @@ public class StudentService implements StudentDao {
     @Override
     public void registerStudentToCourse(String studentEmail, int courseId) {
         List<CourseInterface> courseList = new CourseService().getAllCourses();
-        if (getStudentCourses(studentEmail).size()==0) {
-            studentRegisterCourse(studentEmail, courseId);
-
-        } else {
+        if (getStudentCourses(studentEmail).size() != 0) {
             for (CourseInterface course : getStudentCourses(studentEmail)) {
                 if (course.getId() != courseId) {
                     studentRegisterCourse(studentEmail, courseId);
                 } else
                     console.println("Already registered to course");
             }
-        }
-
+        } else
+            studentRegisterCourse(studentEmail, courseId);
 
     }
+
 
     public void studentRegisterCourse(String studentEmail, int courseId) {
         String query = "insert into StudentCourse (email,courseId ) values (?,?)";
@@ -109,8 +107,8 @@ public class StudentService implements StudentDao {
         try {
             Statement statement = dbc.getDatabaseConnection().createStatement();
             ResultSet resultSet = statement.executeQuery(query);
-            CourseInterface course = new Course();
             while (resultSet.next()) {
+                CourseInterface course = new Course();
                 course.setId(resultSet.getInt(1));
                 course.setName(resultSet.getString(2));
                 course.setInstructor(resultSet.getString(3));
