@@ -6,14 +6,13 @@ import com.github.perscholas.utils.IOConsole;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.*;
 
 /**
  * Created by leon on 2/18/2020.
  */
 public enum DatabaseConnection implements DatabaseConnectionInterface {
     MANAGEMENT_SYSTEM,
-    UAT;   ///?
+    UAT;
 
     private static final IOConsole console = new IOConsole(IOConsole.AnsiColor.CYAN);
     private final ConnectionBuilder connectionBuilder;
@@ -54,10 +53,9 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
 
     @Override
     public void create() {
-        String sqlStatement = "CREATE DATABASE IF NOT EXISTS " + this.getDatabaseName(); // TODO - define statement
+        String sqlStatement = "CREATE DATABASE IF NOT EXISTS " + this.getDatabaseName();
         String info;
         try {
-            // TODO - execute statement
             executeStatement(sqlStatement);
             info = "Successfully executed statement `%s`.";
         } catch (Exception sqlException) {
@@ -68,10 +66,9 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
 
     @Override
     public void drop() {
-        String sqlStatement = "DROP SCHEMA IF EXISTS " + this.getDatabaseName(); // TODO - define statement
+        String sqlStatement = "DROP SCHEMA IF EXISTS " + this.getDatabaseName();
         String info;
         try {
-            // TODO - execute statement
             executeStatement(sqlStatement);
             info = "Successfully executed statement `%s`.";
         } catch (Exception sqlException) {
@@ -82,10 +79,9 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
 
     @Override
     public void use() {
-        String sqlStatement = "USE " + this.getDatabaseName(); // TODO - define statement
+        String sqlStatement = "USE " + this.getDatabaseName();
         String info;
         try {
-            // TODO - execute statement
             executeStatement(sqlStatement);
             info = "Successfully executed statement `%s`.";
         } catch (Exception sqlException) {
@@ -98,7 +94,6 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
     public void executeStatement(String sqlStatement) {
         String info;
         try {
-            // TODO - execute statement
             getDatabaseEngineConnection().createStatement().execute(sqlStatement);
 
             info = "Successfully executed statement `%s`.";
@@ -114,10 +109,9 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
     public ResultSet executeQuery(String sqlQuery) {
         String info;
         try {
-            // TODO - execute statement
             return getDatabaseConnection().createStatement().executeQuery(sqlQuery);
         } catch (SQLException e) {
-            info = "Failed to executed query `%s`.";
+            info = "Failed to execute query `%s`.";
             console.println(info, sqlQuery);
             throw new RuntimeException(e);
         }

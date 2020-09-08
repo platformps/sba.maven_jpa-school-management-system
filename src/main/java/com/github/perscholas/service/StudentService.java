@@ -2,22 +2,22 @@ package com.github.perscholas.service;
 
 import com.github.perscholas.DatabaseConnection;
 import com.github.perscholas.dao.StudentDao;
+import com.github.perscholas.model.Course;
 import com.github.perscholas.model.CourseInterface;
 import com.github.perscholas.model.Student;
 import com.github.perscholas.model.StudentInterface;
 import com.github.perscholas.utils.IOConsole;
-import org.junit.Assert;
 
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.function.Predicate;
+
 
 // TODO - Implement respective DAO interface
 public class StudentService implements StudentDao {
     private final DatabaseConnection dbc;
+    private final IOConsole console = new IOConsole();
 
     public StudentService(DatabaseConnection dbc) {
 
@@ -37,7 +37,6 @@ public class StudentService implements StudentDao {
         ResultSet resultSet = dbc.executeQuery("SELECT * FROM students");
         try {
 
- //           return null; // TODO - Parse `List<StudentInterface>` from `resultSet`
             List<StudentInterface> studentInterfaceList = new ArrayList<>();
             while(resultSet.next()) {
                 Student student = new Student();
@@ -59,7 +58,7 @@ public class StudentService implements StudentDao {
      */
     @Override
     public StudentInterface getStudentByEmail(String studentEmail) {
-//        return null;
+
         return getAllStudents()
                 .stream()
                 .filter(student -> student.getEmail().equals(studentEmail))
@@ -75,13 +74,10 @@ public class StudentService implements StudentDao {
      */
     @Override
     public Boolean validateStudent(String studentEmail, String password) {
- //       return null;
 
-    //   if I get the student by email and verify the password then return true else false
-
- //      if(getAllStudents().contains(getStudentByEmail(studentEmail)) && getStudentByEmail(studentEmail).getPassword().equals(password)) {
         try {
-            if (getStudentByEmail(studentEmail) != null && getStudentByEmail(studentEmail).getPassword().equals(password)) {
+  //          if(getStudentByEmail(studentEmail) != null && getStudentByEmail(studentEmail).getPassword().equals(password)) {
+            if(password.equals(Objects.requireNonNull(getStudentByEmail(studentEmail)).getPassword())) {
                 return true;
             } else {
                 return false;
@@ -89,28 +85,6 @@ public class StudentService implements StudentDao {
         }catch(Exception e){
             return false;
         }
-      //  return false;
- //       Predicate<StudentInterface> p1 = student -> student.getEmail().equalsIgnoreCase(studentEmail) && student.getPassword().equals(password);
-     //  boolean b1 = list.stream().allMatch(p1);
- //       return getAllStudents()
- //               .stream()
- //                 .allMatch(p1)
-          /*.filter(student -> student.getEmail().equalsIgnoreCase(studentEmail) && student.getPassword().equals(password))
-   //             .forEach(student -> (student.getEmail().equalsIgnoreCase(studentEmail) && student.getPassword().equals(password)))
-
-                    {
-                        return true;
-                        //Assert.assertEquals(1L, 1L);
-                    }else{
-                       return false;
-                       //Assert.assertEquals(1L, 2L);
-                    }
-           */
-
-        //        .allMatch(student -> student.getEmail().equalsIgnoreCase(studentEmail) && student.getPassword().equals(password))
- //               .allMatch(student)
-  //              ;
-
     }
 
     /**
@@ -122,16 +96,64 @@ public class StudentService implements StudentDao {
      */
     @Override///////-------------------
     public void registerStudentToCourse(String studentEmail, int courseId) {
-        //getStudentCourse() with studentEmail to find out if they are already registered
+        //getStudentByEmail(studentEmail);
+  //      CourseService courseService = new CourseService();
+
+   //     courseService.getAllCourses()
+   //             .stream()
+   //             .filter(course -> (course.getId() == courseId))
+   //             .findFirst()
+    //            ;
+
+
+ //      if(dbc.executeQuery("SELECT * FROM Student_Course WHERE student_email = '" +
+ //               studentEmail + "' AND course_id = '" + courseId +"'") != null) {
+ //          console.println("\n" + studentEmail + " is already registered for " + courseId + "\n");
+ //          return;
+
+//           /*
+       ///    ResultSet resultset =
+     //--**              dbc.executeQuery("SELECT * FROM Student_Course WHERE student_email = '" +
+    //-- **           studentEmail + "' AND course_id = '" + courseId + "'");
+
+ // *     dbc.executeQuery("SELECT * FROM Student_Course WHERE student_email = '" +
+ //*              studentEmail + "' AND course_id = '" + courseId + "'");
+    //   {
+     //      console.println("\n" + studentEmail + " is already registered for " + courseId + "\n");
+     //      return;
+    //   }else{
+
+
+
+        //getStudentCourses() with studentEmail to find out if they are already registered
         ///////////////////////////////////////////////////////////////////////////////////////////******
-        ResultSet resultSet = dbc.executeQuery("SELECT * FROM students");
-        try {
+      //  if(getStudentByEmail(studentEmail))
+ // if the student email is registered for the course then refuse otherwise add student to course
+ //       if(getStudentCourses(studentEmail) != null) {
+  //          getStudentCourses(studentEmail)
+ //               .stream()
+ //               .filter(course -> (course.getId() == courseId))
+ //               .findFirst()
+//                ;
 
-///////BUILD BELOW FIRST, SO THAT YOU CAN USE IT TO SOLVE THIS PROBLEM.....
-        } catch(Exception e){  ////
-        }
+           try {
+               dbc.executeQuery("INSERT INTO management_system.Student_Course (email, id)" +
+                       "VALUES (" + studentEmail + "," + courseId);
 
-    }
+           } catch (Exception e) {  ////
+               console.println("INSERTING INTO THE TABLE DID NOT WORK");
+           }
+       }
+   // }
+
+
+
+
+
+
+
+
+//--------------------------------------------------------------------------------------------
 
     /**
      * This method takes a Student’s Email as a parameter and would find all the courses a student is registered.
@@ -140,8 +162,11 @@ public class StudentService implements StudentDao {
      */
     @Override//*******//**********///***************//******************//********************//
     public List<CourseInterface> getStudentCourses(String studentEmail) {
+
+ ////////       if(getStudentByEmail(studentEmail) != null) {
 /*
-        List<CourseInterface> studentCoursesList = new ArrayList<>();
+        ///template
+        List<CourseInterface> studentCoursesList = getStudentByEmail(studentEmail).
         ResultSet resultSet = dbc.executeQuery("SELECT * FROM Student_Course WHERE 'email' = studentEmail");
  //       try {
             return getAllStudents()
@@ -152,9 +177,33 @@ public class StudentService implements StudentDao {
                     .get();
 
   //          return resultSet;
-        } */
-        return null;
-    }
+
+ */
+
+  //          public List<StudentInterface> getAllStudents() {
+                //modified from getAllStudents()
+                ResultSet resultSet = dbc.executeQuery("SELECT * FROM Student_Course WHERE 'student_email' = " + studentEmail);
+                try {
+
+                    List<CourseInterface> courseInterfaceList = new ArrayList<>();
+                    while(resultSet.next()) {
+                        Course course = new Course();
+                        course.setId(resultSet.getInt("course_id"));
+                        course.setName(resultSet.getString("name"));
+                        course.setInstructor(resultSet.getString("instructor"));
+                        courseInterfaceList.add(course);
+                    }
+                    return courseInterfaceList;
+                } catch(Exception e) {
+                    throw new Error(e);
+                }
+            }
 
 
+
+
+
+   //     }
+    //    return null;
+   // }
 }

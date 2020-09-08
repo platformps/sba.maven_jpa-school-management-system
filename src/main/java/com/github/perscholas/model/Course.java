@@ -1,6 +1,7 @@
 package com.github.perscholas.model;
 
 import javax.persistence.*;
+import java.util.List;
 
 // TODO - Annotate and Implement respective interface and define behaviors
 @Entity
@@ -17,6 +18,14 @@ public class Course implements CourseInterface {
     @Basic
     @Column(name = "instructor")
     private String instructor;
+
+    ///ATTEMPT AT JPA TABLE JOIN
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "STUDENT_COURSE",
+            joinColumns = { @JoinColumn(name = "id") },
+            inverseJoinColumns = { @JoinColumn(name = "email") })
+    private List<Student> studentList;
+    //////////////////
 
     public Course () {
 

@@ -9,7 +9,6 @@ import java.io.File;
 public class JdbcConfigurator {
     static {
         try {
-            // TODO - Attempt to register JDBC Driver
             Class.forName("com.mysql.cj.jdbc.Driver");
         } catch (Exception e) {
             throw new Error(e);
@@ -26,6 +25,7 @@ public class JdbcConfigurator {
         executeSqlFile("courses.populate-table.sql");
         executeSqlFile("students.create-table.sql");
         executeSqlFile("students.populate-table.sql");
+        executeSqlFile("student_course.create-table.sql");
     }
 
     private static void executeSqlFile(String fileName) {
