@@ -137,8 +137,8 @@ public class StudentService implements StudentDao {
 //                ;
 
            try {
-               dbc.executeQuery("INSERT INTO management_system.Student_Course (email, id)" +
-                       "VALUES (" + studentEmail + "," + courseId);
+               dbc.executeStatement("INSERT INTO management_system.Student_Course (student_email, course_id)" +
+                       "VALUES ('" + studentEmail + "','" + courseId + "')");
 
            } catch (Exception e) {  ////
                console.println("INSERTING INTO THE TABLE DID NOT WORK");
@@ -182,7 +182,7 @@ public class StudentService implements StudentDao {
 
   //          public List<StudentInterface> getAllStudents() {
                 //modified from getAllStudents()
-                ResultSet resultSet = dbc.executeQuery("SELECT * FROM Student_Course WHERE 'student_email' = " + studentEmail);
+                ResultSet resultSet = dbc.executeQuery("SELECT * FROM Student_Course WHERE 'student_email' = '" + studentEmail + "'");
                 try {
 
                     List<CourseInterface> courseInterfaceList = new ArrayList<>();
