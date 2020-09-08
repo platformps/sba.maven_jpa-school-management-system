@@ -1,6 +1,7 @@
 package com.github.perscholas.service;
 
 import com.github.perscholas.DatabaseConnection;
+import com.github.perscholas.dao.CourseDao;
 import com.github.perscholas.dao.RepositoryInterface;
 import com.github.perscholas.dao.StudentDao;
 import com.github.perscholas.model.Course;
@@ -11,6 +12,7 @@ import com.github.perscholas.model.StudentInterface;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 // TODO - Implement respective DAO interface
 public class StudentService  implements StudentDao {
@@ -27,7 +29,7 @@ public class StudentService  implements StudentDao {
 
     @Override
     public List<StudentInterface> getAllStudents() {
-        ResultSet resultSet = dbc.executeQuery("SELECT * FROM students");
+        ResultSet resultSet = dbc.executeQuery("SELECT * FROM student");
 
         try {
             while(resultSet.next()){
@@ -45,12 +47,13 @@ public class StudentService  implements StudentDao {
 
     @Override
     public StudentInterface getStudentByEmail(String studentEmail) {
-        StudentInterface student = list.stream()
-                .filter(e-> studentEmail.equals(e.getEmail()))
-                .findAny()
-                .orElse(null)
-                ;
-        return student;
+        getAllStudents();
+        for (StudentInterface student:list)
+        {
+            if(student.getEmail().equals(studentEmail))return student;
+        }
+
+        return null;
     }
 
     @Override
@@ -65,18 +68,25 @@ public class StudentService  implements StudentDao {
     @Override
     public void registerStudentToCourse(String studentEmail, int courseId) {
 
+        StudentInterface student= getStudentByEmail(studentEmail);
+
+        ((Student) student).addClasses(courseId);
+
     }
 
 
     @Override public List<CourseInterface> getStudentCourses(String studentEmail) {
+     getAllStudents();
 
-  StudentInterface student =  list.stream()
-                .filter(e ->studentEmail.equals(e.getEmail()))
-                .findFirst()
-                .orElse(null);
-       if(null==student.getClasses()) return null;
+        for (StudentInterface student:list) {
+            if(studentEmail.equals(student.getEmail())){
+                return student.getClasses();
+            }
+        }
 
-        return student.getClasses();
+      return null;
+
+
     }
 }
 

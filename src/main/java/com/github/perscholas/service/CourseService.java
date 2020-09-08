@@ -27,7 +27,7 @@ List<CourseInterface> list=new ArrayList<>();
 
     @Override
     public List<CourseInterface> getAllCourses() {
-        ResultSet resultSet = dbc.executeQuery("SELECT * FROM COURSES");
+        ResultSet resultSet = dbc.executeQuery("SELECT * FROM COURSE");
         try {
             while(resultSet.next()){
                 Course course = new Course();
