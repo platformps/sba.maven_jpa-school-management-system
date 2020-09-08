@@ -79,7 +79,7 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
         } catch (Exception sqlException) {
             info = "Failed to executed statement '%s'.";
         }
-        console.println(into, sqlStatement);
+        console.println(info, sqlStatement);
     }
 
     @Override
@@ -87,11 +87,36 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
     }
 
     @Override
+    public void executeStatementOnEngine(String sqlStatement) {
+        Connection conn = this.getDatabaseEngineConnection();
+        try {
+            Statement statement = conn.createStatement();
+        } catch (SQLExeption throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+    @Override
     public void executeStatement(String sqlStatement) {
+        Connection conn = this.getDatebaseConnection();
+        try {
+            Statement statement = conn.createStatement();
+            statement.executeUpdate(sqlStatement);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 
     @Override
     public ResultSet executeQuery(String sqlQuery) {
+        Connection conn = this.getDatabaseConnection();
+        try {
+            Statement statement = conn.createStatement();
+            Resultset resultSet = statement.executeQuery(sqlQuery);
+            return resultSet;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
         return null;
     }
 }
