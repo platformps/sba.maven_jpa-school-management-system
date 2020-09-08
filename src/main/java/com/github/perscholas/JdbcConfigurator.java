@@ -4,11 +4,13 @@ import com.github.perscholas.utils.DirectoryReference;
 import com.github.perscholas.utils.FileReader;
 
 import java.io.File;
+import java.sql.Driver;
+import java.sql.DriverManager;
 
 public class JdbcConfigurator {
     static {
         try {
-            // TODO - Attempt to register JDBC Driver
+            Class.forName(Driver.class.getName());
         } catch (Exception e) {
             throw new Error(e);
         }
@@ -24,6 +26,9 @@ public class JdbcConfigurator {
         executeSqlFile("courses.populate-table.sql");
         executeSqlFile("students.create-table.sql");
         executeSqlFile("students.populate-table.sql");
+        executeSqlFile("studentcourse.create-table.sql");
+        executeSqlFile("studentcourse.populate-table.sql");
+        System.out.println("Initialized successfully");
     }
 
     private static void executeSqlFile(String fileName) {
