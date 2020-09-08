@@ -54,6 +54,10 @@ public class ConnectionBuilder {
     public Connection build() {
         String jdbcUrl = this.toString();
         try {
+            System.out.println("JDBC URL "+jdbcUrl);
+            System.out.println("USer Name "+this.userName);
+            System.out.println("Password "+this.userPass);
+
             return DriverManager.getConnection(jdbcUrl, this.userName, this.userPass);
         } catch (SQLException e) {
             String errorMessage = String.format("Failed to connect to `%s`", jdbcUrl);
@@ -76,7 +80,7 @@ public class ConnectionBuilder {
                 .append(hasPortBeenSet ? ":" : "")
                 .append(hasPortBeenSet ? portNumber : "")
                 .append("/")
-                .append(databaseName != null ? databaseName : "")
+                //.append(databaseName != null ? databaseName : "")
                 .toString();
         return jdbcUrl;
     }
