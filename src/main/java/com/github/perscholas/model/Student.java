@@ -25,6 +25,7 @@ public class Student implements StudentInterface {
     public Student(){
         this(null,null,null, null);
     }
+
     public Student(String email,String name, String password, List<CourseInterface> courses){
         this.email = email;
         this.name = name;
