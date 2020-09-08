@@ -57,7 +57,7 @@ public class Student {
         public Student(){
 
         }
-        
+
         public Student(String email, String name, String password) {
             this.email = email;
             this.name = name;

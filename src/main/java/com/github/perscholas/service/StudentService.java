@@ -8,6 +8,7 @@ import com.github.perscholas.model.StudentInterface;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,10 +17,12 @@ public class StudentService implements StudentDao {
     private final DatabaseConnection dbc;
 
     public StudentService(DatabaseConnection dbc) {
+
         this.dbc = dbc;
     }
 
     public StudentService() {
+
         this(DatabaseConnection.UAT);
     }
 
@@ -35,11 +38,13 @@ public class StudentService implements StudentDao {
 
     @Override
     public StudentInterface getStudentByEmail(String studentEmail) {
+
         return null;
     }
 
     @Override
     public Boolean validateStudent(String studentEmail, String password) {
+
         return null;
     }
 
@@ -50,6 +55,7 @@ public class StudentService implements StudentDao {
 
     @Override
     public List<CourseInterface> getStudentCourses(String studentEmail) {
+
         return null;
     }
 }
