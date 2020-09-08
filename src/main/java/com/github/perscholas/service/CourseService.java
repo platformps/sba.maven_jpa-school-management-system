@@ -36,7 +36,7 @@ public class CourseService  implements CourseDao {
             List<CourseInterface> courseList = new ArrayList<CourseInterface>();
             while(resultSet.next()) {
                 CourseInterface course = new Course();
-                course.setID(resultSet.getInt("name"));
+                course.setId(resultSet.getInt("id"));
                 course.setName(resultSet.getString("name"));
                 course.setInstructor(resultSet.getString("instructor"));
                 courseList.add(course);

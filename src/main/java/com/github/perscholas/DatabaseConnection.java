@@ -34,7 +34,7 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
 
     @Override
     public String getDatabaseName() {
-        return name().toLowerCase;
+        return name().toLowerCase();
     }
 
     public String getParameters(){
@@ -91,7 +91,7 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
         Connection conn = this.getDatabaseEngineConnection();
         try {
             Statement statement = conn.createStatement();
-        } catch (SQLExeption throwables) {
+        } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
     }
@@ -112,7 +112,7 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
         Connection conn = this.getDatabaseConnection();
         try {
             Statement statement = conn.createStatement();
-            Resultset resultSet = statement.executeQuery(sqlQuery);
+            ResultSet resultSet = statement.executeQuery(sqlQuery);
             return resultSet;
         } catch (SQLException throwables) {
             throwables.printStackTrace();

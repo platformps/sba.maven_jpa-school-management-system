@@ -7,6 +7,7 @@ import com.github.perscholas.model.Course;
 import com.github.perscholas.model.CourseInterface;
 import com.github.perscholas.model.Student;
 import com.github.perscholas.model.StudentInterface;
+import com.github.perscholas.model.*;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
