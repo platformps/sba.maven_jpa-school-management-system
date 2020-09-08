@@ -1,3 +1,5 @@
+use management_system;
+
 DROP TABLE IF EXISTS Students;
 
 CREATE TABLE Students(

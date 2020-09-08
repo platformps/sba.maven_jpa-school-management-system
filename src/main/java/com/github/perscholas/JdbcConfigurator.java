@@ -11,7 +11,7 @@ public class JdbcConfigurator {
     static {
         try {
             // TODO - Attempt to register JDBC Driver
-            DriverManager.registerDriver(Driver.class.newInstance());
+            Class.forName("com.mysql.cj.jdbc.Driver");
         } catch (Exception e) {
             throw new Error(e);
         }

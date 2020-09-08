@@ -1,3 +1,5 @@
+USE management_system;
+
 DROP TABLE IF EXISTS COURSE;
 
 CREATE TABLE COURSE(

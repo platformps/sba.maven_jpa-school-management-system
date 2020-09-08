@@ -75,8 +75,8 @@ public class ConnectionBuilder {
                 .append(!isHostNull ? this.hostName : "")
                 .append(hasPortBeenSet ? ":" : "")
                 .append(hasPortBeenSet ? portNumber : "")
+                .append(databaseName != null ? "/" + databaseName : "")
                 .append("?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC")
-                .append(databaseName != null ? databaseName : "")
                 .toString();
         return jdbcUrl;
     }
