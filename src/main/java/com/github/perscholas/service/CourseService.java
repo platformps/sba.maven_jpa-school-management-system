@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-// TODO - Implement respective DAO interface
 public class CourseService implements CourseDao {
 
     private final DatabaseConnection dbc;

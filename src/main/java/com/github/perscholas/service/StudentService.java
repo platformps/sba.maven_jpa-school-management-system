@@ -2,6 +2,7 @@ package com.github.perscholas.service;
 
 import com.github.perscholas.DatabaseConnection;
 import com.github.perscholas.dao.StudentDao;
+import com.github.perscholas.model.Course;
 import com.github.perscholas.model.CourseInterface;
 import com.github.perscholas.model.Student;
 import com.github.perscholas.model.StudentInterface;
@@ -11,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-// TODO - Implement respective DAO interface
 public class StudentService implements StudentDao {
     private final DatabaseConnection dbc;
 
@@ -51,20 +51,30 @@ public class StudentService implements StudentDao {
 
     @Override
     public Boolean validateStudent(String studentEmail, String password) {
-        return getAllStudents().stream()
-                .anyMatch(studentInterface ->
-                        studentInterface.getEmail().equals(studentEmail)
-                        &&
-                        studentInterface.getPassword().equals(password));
+        return password.equals(Objects.requireNonNull(getStudentByEmail(studentEmail)).getPassword());
     }
 
     @Override
     public void registerStudentToCourse(String studentEmail, int courseId) {
-
+        dbc.executeStatement("insert into StudentCourse(studentEmail, courseId) values (" + studentEmail + ", " + courseId + ");");
     }
 
     @Override
     public List<CourseInterface> getStudentCourses(String studentEmail) {
-        return null;
+        List<CourseInterface> list = new ArrayList<>();
+        ResultSet resultSet = dbc.executeQuery("SELECT c.id, c.name, c.instructor FROM course c, intermediate i WHERE i.student_email = '" + studentEmail + "' AND i.course_id = c.id;");
+
+        try {
+            do {
+                list.add(new Course(resultSet.getInt("id"),
+                        resultSet.getString("name"),
+                        resultSet.getString("instructor")) {
+                });
+
+            } while (Objects.requireNonNull(resultSet).next());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return list;
     }
 }
