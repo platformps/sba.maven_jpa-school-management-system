@@ -83,8 +83,9 @@ public class StudentService implements StudentDao {
             course.ifPresent(crs -> System.out.println("Already registered to this Course!!"));
             return;
         }
-        String query = "INSERT INTO Student_Course values (?, ?)";
+        String query = "INSERT INTO student_course (student_email, course_id) values (?, ?)";
         try {
+
             PreparedStatement preparedStatement = dbc.getDatabaseConnection().prepareStatement(query);
             preparedStatement.setString(1, studentEmail);
             preparedStatement.setInt(2, courseId);

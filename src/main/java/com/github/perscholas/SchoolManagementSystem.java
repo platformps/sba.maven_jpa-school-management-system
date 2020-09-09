@@ -39,6 +39,8 @@ public class SchoolManagementSystem implements Runnable {
                         studentService.registerStudentToCourse(studentEmail, courseId);
                         String studentCourseViewInput = getCourseViewInput();
                         if ("view".equals(studentCourseViewInput)) {
+                            console.println("Registered courses: ");
+                            console.println("Id   Course Name      Instructor Name");
                             List<CourseInterface> courses =  studentService.getStudentCourses(studentEmail);
                            courses.forEach(course -> {
                                console.println(course.getId() + "    " + course.getName() + "    " +  course.getInstructor());
@@ -78,15 +80,20 @@ public class SchoolManagementSystem implements Runnable {
     }
 
 
-    private Integer getCourseRegistryInput() {
-        List<String> listOfCoursesIds = new CourseService().getAllCourses()
-                .stream()
-                .map(course -> course.getId().toString())
-                .collect(Collectors.toList());
-        return console.getIntegerInput(new StringBuilder()
+    private Integer getCourseRegistryInput(){
+        List<CourseInterface> allCourses = new CourseService().getAllCourses();
+
+        StringBuilder baseMessage = new StringBuilder()
                 .append("Welcome to the Course Registration Dashboard!")
-                .append("\nFrom here, you can select any of the following options:")
-                .append("\n\t['courses'], [ register ], [ logout]")
-                .toString());
+                .append("\nFrom here, you can select any of the following options: \n");
+
+        for(int i = 0; i < allCourses.size(); i++){
+            baseMessage.append( allCourses.get(i).getId() + ".   " + allCourses.get(i).getName() + "    " +  allCourses.get(i).getInstructor() + " \n");
+        }
+
+        return console.getIntegerInput(baseMessage.toString());
+
+
+
     }
 }
