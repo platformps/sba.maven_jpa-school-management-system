@@ -15,6 +15,7 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
     MANAGEMENT_SYSTEM,
     UAT;
 
+    private String name = null;
     private static final IOConsole console = new IOConsole(IOConsole.AnsiColor.CYAN);
     private final ConnectionBuilder connectionBuilder;
 
@@ -33,13 +34,13 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
 
     @Override
     public String getDatabaseName() {
-        return name().toLowerCase();
+        return name;
     }
 
     @Override
     public Connection getDatabaseConnection() {
         return connectionBuilder
-                .setDatabaseName(this.getDatabaseName())
+                .setDatabaseName(getDatabaseName().toLowerCase())
                 .build();
     }
 
@@ -49,27 +50,36 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
                 .build();
     }
 
+    public Statement getScrollableStatement(Connection connection) {
+        int resultSetType = ResultSet.TYPE_SCROLL_INSENSITIVE;
+        int resultSetConcurrency = ResultSet.CONCUR_READ_ONLY;
+        try {
+            return connection.createStatement(resultSetType, resultSetConcurrency);
+        } catch (SQLException e) {
+            throw new Error(e);
+        }
+    }
+
     @Override
     public void create() {
-        String sqlStatement ="CREATE DATABASE " + this.getDatabaseName() + ";"; // TODO - define statement
+        String sqlStatement = "CREATE DATABASE IF NOT EXISTS " + this.name().toLowerCase()+ ";";
         String info;
         try {
-            // TODO - execute statement
-            executeStatement(sqlStatement);
+            executeStatement (sqlStatement);
             info = "Successfully executed statement `%s`.";
         } catch (Exception sqlException) {
             info = "Failed to executed statement `%s`.";
         }
         console.println(info, sqlStatement);
+        this.name = this.name().toLowerCase();
     }
 
     @Override
     public void drop() {
-        String sqlStatement ="DROP DATABASE IF EXISTS " + this.getDatabaseName() + ";";
+        String sqlStatement = "DROP DATABASE IF EXISTS " + this.name().toLowerCase() + ";";
         String info;
         try {
-
-            executeStatement(sqlStatement);
+            executeStatement (sqlStatement);
             info = "Successfully executed statement `%s`.";
         } catch (Exception sqlException) {
             info = "Failed to executed statement `%s`.";
@@ -80,10 +90,10 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
 
     @Override
     public void use() {
-        String sqlStatement ="USE " + this.getDatabaseName() + ";";
+        String sqlStatement = "USE " + this.name().toLowerCase() + ";";
         String info;
         try {
-            executeStatement(sqlStatement);
+            executeStatement (sqlStatement);
             info = "Successfully executed statement `%s`.";
         } catch (Exception sqlException) {
             info = "Failed to executed statement `%s`.";
@@ -93,22 +103,28 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
 
     @Override
     public void executeStatement(String sqlStatement) {
-        Connection conn = this.getDatabaseEngineConnection();
         try {
-            Statement statement = conn.createStatement();
-            statement.executeUpdate(sqlStatement);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            Statement statement = getScrollableStatement(getDatabaseConnection());
+            statement.execute(sqlStatement);
+            statement.close();
+        } catch (SQLException e) {
+            throw new Error(e);
         }
+
     }
 
     @Override
     public ResultSet executeQuery(String sqlQuery) {
         try {
-            return getDatabaseConnection().createStatement().executeQuery(sqlQuery);
-        }
-        catch (SQLException se){
-            throw new RuntimeException(se);
+            Statement statement = getScrollableStatement(getDatabaseConnection());
+            return statement.executeQuery(sqlQuery);
+        } catch (SQLException e) {
+            throw new Error(e);
         }
     }
+
 }
+
+
+
+
