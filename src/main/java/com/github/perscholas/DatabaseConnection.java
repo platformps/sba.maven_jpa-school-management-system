@@ -83,14 +83,14 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
     @Override
     public void use() {
         String msg;
-        try{
+        try {
             String sqlStatement = "USE " + name().toLowerCase() + ";";
             getDatabaseConnection()
                     .prepareStatement(sqlStatement)
                     .execute();
             msg = "Successfully executed statement \n\t " + sqlStatement;
             console.println(msg);
-        }catch (SQLException e){
+        } catch (SQLException e) {
             throw new Error(e);
         }
     }
@@ -123,8 +123,7 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
     }
 
 
-
-public Statement getScrollableStatement() {
+    public Statement getScrollableStatement() {
         int resultSetType = ResultSet.TYPE_SCROLL_INSENSITIVE;
         int resultSetConcurrency = ResultSet.CONCUR_READ_ONLY;
         try {
@@ -134,3 +133,4 @@ public Statement getScrollableStatement() {
         }
 
     }
+}
