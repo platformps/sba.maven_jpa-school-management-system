@@ -2,6 +2,7 @@ package com.github.perscholas.model;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 
 // TODO - Annotate and Implement respective interface and define behaviors
 @Entity
@@ -71,5 +72,24 @@ public class Course implements CourseInterface {
     public String toString() {
         return getName() + " with instructor " + getInstructor()
                 + " (course ID: " + getId() + ")";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Course)) return false;
+        Course course = (Course) o;
+        return Objects.equals(id, course.id) &&
+                Objects.equals(name, course.name) &&
+                Objects.equals(instructor, course.instructor) &&
+                Objects.equals(studentList, course.studentList);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, instructor, studentList);
+    }
+
+    public void add(Course course) {
     }
 }

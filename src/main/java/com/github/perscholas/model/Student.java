@@ -2,6 +2,7 @@ package com.github.perscholas.model;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 
 // TODO - Annotate and Implement respective interface and define behaviors
 @Entity
@@ -65,5 +66,26 @@ public class Student implements StudentInterface {
     @Override
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Override
+    public String toString() {
+        return getEmail() + ", " + getName() + ", " + getPassword();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Student)) return false;
+        Student student = (Student) o;
+        return Objects.equals(email, student.email) &&
+                Objects.equals(name, student.name) &&
+                Objects.equals(password, student.password) &&
+                Objects.equals(courseLists, student.courseLists);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(email, name, password, courseLists);
     }
 }

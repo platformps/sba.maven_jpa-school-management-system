@@ -53,60 +53,17 @@ public class GetStudentByEmailTest {
 
         List<StudentInterface> expectedEmail = new ArrayList<>();
         Student eEmail = new Student();
-        eEmail.setEmail("hluckham0@google.ru".toString());
-        eEmail.setName("Hazel Luckham".toString());
-        eEmail.setPassword("X1uZcoIh0dj".toString());
-        expectedEmail.add(eEmail);
-
-        eEmail.setEmail("sbowden1@yellowbook.com".toString());
-        eEmail.setName("Sonnnie Bowden".toString());
-        eEmail.setPassword("SJc4aWSU".toString());
-        expectedEmail.add(eEmail);
-
-        eEmail.setEmail("qllorens2@howstuffworks.com".toString());
-        eEmail.setName("Quillan Llorens".toString());
-        eEmail.setPassword("W6rJuxd".toString());
-        expectedEmail.add(eEmail);
-
-        eEmail.setEmail("cstartin3@flickr.com".toString());
-        eEmail.setName("Clem Startin".toString());
-        eEmail.setPassword("XYHzJ1S".toString());
-        expectedEmail.add(eEmail);
-
-        eEmail.setEmail("tattwool4@biglobe.ne.jp".toString());
-        eEmail.setName("Thornie Attwool".toString());
-        eEmail.setPassword("Hjt0SoVmuBz".toString());
-        expectedEmail.add(eEmail);
-
-        eEmail.setEmail("hguerre5@deviantart.com".toString());
-        eEmail.setName("Harcourt Guerre".toString());
-        eEmail.setPassword("OzcxzD1PGs".toString());
-        expectedEmail.add(eEmail);
-
-        eEmail.setEmail("htaffley6@columbia.edu".toString());
-        eEmail.setName("Holmes Taffley".toString());
-        eEmail.setPassword("xowtOQ".toString());
-        expectedEmail.add(eEmail);
-
-        eEmail.setEmail("aiannitti7@is.gd".toString());
-        eEmail.setName("Alexandra Iannitti".toString());
-        eEmail.setPassword("TWP4hf5j".toString());
-        expectedEmail.add(eEmail);
-
-        eEmail.setEmail("ljiroudek8@sitemeter.com".toString());
-        eEmail.setName("Laryssa Jiroudek".toString());
-        eEmail.setPassword("bXRoLUP".toString());
-        expectedEmail.add(eEmail);
-
-        eEmail.setEmail("cjaulme9@bing.com".toString());
-        eEmail.setName("Cahra Jaulme".toString());
-        eEmail.setPassword("FnVklVgC6r6".toString());
-        expectedEmail.add(eEmail);
-
-        eEmail.setEmail("x".toString());
-        eEmail.setName("x".toString());
-        eEmail.setPassword("x".toString());
-        expectedEmail.add(eEmail);
+        expectedEmail.add(new Student("aiannitti7@is.gd","Alexandra Iannitti", "TWP4hf5j"));
+        expectedEmail.add(new Student("cjaulme9@bing.com","Cahra Jaulme", "FnVklVgC6r6"));
+        expectedEmail.add(new Student("cstartin3@flickr.com","Clem Startin", "XYHzJ1S"));
+        expectedEmail.add(new Student("hguerre5@deviantart.com","Harcourt Guerre", "OzcxzD1PGs"));
+        expectedEmail.add(new Student("hluckham0@google.ru","Hazel Luckham", "X1uZcoIh0dj"));
+        expectedEmail.add(new Student("htaffley6@columbia.edu","Holmes Taffley", "xowtOQ"));
+        expectedEmail.add(new Student("ljiroudek8@sitemeter.com","Laryssa Jiroudek", "bXRoLUP"));
+        expectedEmail.add(new Student("qllorens2@howstuffworks.com","Quillan Llorens", "W6rJuxd"));
+        expectedEmail.add(new Student("sbowden1@yellowbook.com","Sonnnie Bowden", "SJc4aWSU"));
+        expectedEmail.add(new Student("tattwool4@biglobe.ne.jp","Thornie Attwool", "Hjt0SoVmuBz"));
+        expectedEmail.add(new Student("x","x", "x"));
 
 
         List<StudentInterface> actualEmail = new ArrayList<>();

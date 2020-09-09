@@ -46,55 +46,16 @@ public class GetAllCoursesTest {
 
         List<CourseInterface> expectedCourses = new ArrayList<>();
         Course eCourse = new Course();
-        eCourse.setId(1);
-        eCourse.setName("English");
-        eCourse.setInstructor("Anderea Scamaden");
-        expectedCourses.add(eCourse);
-
-        eCourse.setId(2);
-        eCourse.setName("Mathematics");
-        eCourse.setInstructor("Eustace Niemetz");
-        expectedCourses.add(eCourse);
-
-        eCourse.setId(3);
-        eCourse.setName("Anatomy");
-        eCourse.setInstructor("Reynolds Pastor");
-        expectedCourses.add(eCourse);
-
-        eCourse.setId(4);
-        eCourse.setName("Organic Chemistry");
-        eCourse.setInstructor("Odessa Belcher");
-        expectedCourses.add(eCourse);
-
-        eCourse.setId(5);
-        eCourse.setName("Physics");
-        eCourse.setInstructor("Dani Swallow");
-        expectedCourses.add(eCourse);
-
-        eCourse.setId(6);
-        eCourse.setName("Digital Logic");
-        eCourse.setInstructor("Glenden Reilingen");
-        expectedCourses.add(eCourse);
-
-        eCourse.setId(7);
-        eCourse.setName("Object Oriented Programming");
-        eCourse.setInstructor("Giselle Ardy");
-        expectedCourses.add(eCourse);
-
-        eCourse.setId(8);
-        eCourse.setName("Data Structures");
-        eCourse.setInstructor("Carolan Stoller");
-        expectedCourses.add(eCourse);
-
-        eCourse.setId(9);
-        eCourse.setName("Politics");
-        eCourse.setInstructor("Carmita De Maine");
-        expectedCourses.add(eCourse);
-
-        eCourse.setId(10);
-        eCourse.setName("Art");
-        eCourse.setInstructor("Kingsly Doxsey");
-        expectedCourses.add(eCourse);
+        expectedCourses.add(new Course(1,"English", "Anderea Scamaden"));
+        expectedCourses.add(new Course(2,"Mathematics", "Eustace Niemetz"));
+        expectedCourses.add(new Course(3,"Anatomy", "Reynolds Pastor"));
+        expectedCourses.add(new Course(4,"Organic Chemistry", "Odessa Belcher"));
+        expectedCourses.add(new Course(5,"Physics", "Dani Swallow"));
+        expectedCourses.add(new Course(6,"Digital Logic", "Glenden Reilingen"));
+        expectedCourses.add(new Course(7,"Object Oriented Programming", "Giselle Ardy"));
+        expectedCourses.add(new Course(8,"Data Structures", "Carolan Stoller"));
+        expectedCourses.add(new Course(9,"Politics", "Carmita De Maine"));
+        expectedCourses.add(new Course(10,"Art", "Kingsly Doxsey"));
 
 
         List<CourseInterface> actualCourses = new ArrayList<>();
