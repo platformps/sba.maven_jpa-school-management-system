@@ -63,7 +63,7 @@ public class StudentService implements StudentDao {
 
     @Override
     public Boolean validateStudent(String studentEmail, String password) {
-        return null;
+        return getStudentByEmail(studentEmail).getPassword().equals(password);
     }
 
     @Override
