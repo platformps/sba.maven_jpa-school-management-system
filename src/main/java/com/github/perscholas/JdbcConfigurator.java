@@ -2,18 +2,22 @@ package com.github.perscholas;
 
 import com.github.perscholas.utils.DirectoryReference;
 import com.github.perscholas.utils.FileReader;
+import com.mysql.cj.jdbc.Driver;
+import java.sql.DriverManager;
 
 import java.io.File;
+import java.sql.SQLException;
 
 public class JdbcConfigurator {
     static {
         try {
-            // TODO - Attempt to register JDBC Driver
-        } catch (Exception e) {
-            throw new Error(e);
+            // register JDBC Driver
+            DriverManager.registerDriver(Driver.class.newInstance());
+        } catch (InstantiationException | IllegalAccessException | SQLException e1) {
+            throw new Error(e1);
         }
     }
-
+    //create instance of DatabaseConnection
     private static final DatabaseConnection dbc = DatabaseConnection.MANAGEMENT_SYSTEM;
 
     public static void initialize() {
@@ -30,8 +34,7 @@ public class JdbcConfigurator {
         File creationStatementFile = DirectoryReference.RESOURCE_DIRECTORY.getFileFromDirectory(fileName);
         FileReader fileReader = new FileReader(creationStatementFile.getAbsolutePath());
         String[] statements = fileReader.toString().split(";");
-        for (int i = 0; i < statements.length; i++) {
-            String statement = statements[i];
+        for (String statement : statements) {
             dbc.executeStatement(statement);
         }
     }

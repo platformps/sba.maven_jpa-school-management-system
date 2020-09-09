@@ -2,6 +2,7 @@ package com.github.perscholas;
 
 import com.github.perscholas.dao.StudentDao;
 import com.github.perscholas.model.CourseInterface;
+import com.github.perscholas.service.StudentService;
 import com.github.perscholas.utils.IOConsole;
 
 import java.util.List;
@@ -15,7 +16,7 @@ public class SchoolManagementSystem implements Runnable {
         do {
             smsDashboardInput = getSchoolManagementSystemDashboardInput();
             if ("login".equals(smsDashboardInput)) {
-                StudentDao studentService = null; // TODO - Instantiate `StudentDao` child
+                StudentDao studentService = new StudentService(); // Instantiate `StudentDao` child
                 String studentEmail = console.getStringInput("Enter your email:");
                 String studentPassword = console.getStringInput("Enter your password:");
                 Boolean isValidLogin = studentService.validateStudent(studentEmail, studentPassword);
@@ -26,7 +27,7 @@ public class SchoolManagementSystem implements Runnable {
                         studentService.registerStudentToCourse(studentEmail, courseId);
                         String studentCourseViewInput = getCourseViewInput();
                         if ("view".equals(studentCourseViewInput)) {
-                            List<CourseInterface> courses =  null; // TODO - Instantiate and populate `courses`;
+                            List<CourseInterface> courses =  studentService.getStudentCourses(studentEmail); // Instantiate and populate `courses`;
                             console.println(new StringBuilder()
                                     .append("[ %s ] is registered to the following courses:")
                                     .append("\n\t" + courses)
