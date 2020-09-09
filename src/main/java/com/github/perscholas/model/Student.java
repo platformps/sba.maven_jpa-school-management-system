@@ -20,31 +20,31 @@ public class Student implements StudentInterface{
 
     @Override
     public String getEmail() {
-        return null;
+        return email;
     }
 
     @Override
     public String getName() {
-        return null;
+        return name;
     }
 
     @Override
     public String getPassword() {
-        return null;
+        return password;
     }
 
     @Override
     public void setEmail(String email) {
-
+        this.email = email;
     }
 
     @Override
     public void setName(String name) {
-
+        this.name = name;
     }
 
     @Override
     public void setPassword(String password) {
-
+        this.password = password;
     }
 }
