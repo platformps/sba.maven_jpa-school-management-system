@@ -34,9 +34,8 @@ public class CourseService implements CourseDao {
         String CourseQuery= "SELECT * FROM course";
 
         ResultSet resultSet= dbc.executeQuery(CourseQuery);
-        while(true) {
             try {
-                if (resultSet.next())
+                while (resultSet.next())
                 {
                     Course course= new Course();
                     course.setId(resultSet.getInt("id"));
@@ -48,6 +47,6 @@ public class CourseService implements CourseDao {
                 e.printStackTrace();
             }
             return courseInterfaceList;
-        }
+
     }
 }

@@ -74,14 +74,60 @@ public class StudentService implements StudentDao {
 
     @Override
     public void registerStudentToCourse(String studentEmail, int courseId) {
-        //ResultSet resultSet = dbc.executeQuery("SELECT * FROM Students LEFT JOIN Course ON Students.email=Courses.id");
-//        Student student = new Student();
-//        student.getCourseList().get(0).getId()
+
+        List<CourseInterface> studentList=getStudentCourses(studentEmail);
+        Optional<CourseInterface> registeredCourses=studentList
+                .stream()
+                .filter(x -> x.getId().equals(courseId))
+                .findFirst();
+        if (registeredCourses.isPresent())
+        {
+            System.out.println("You are already registered for this course");
+        }
+        else
+        {
+            String studentCourseQuery ="INSERT INTO Student_Course"
+                    +"values(?,?)";
+            try {
+                PreparedStatement preparedStatement=dbc.getDatabaseConnection().prepareStatement(studentCourseQuery);
+                preparedStatement.setString(1,studentEmail);
+                preparedStatement.setInt(2,courseId);
+                preparedStatement.execute();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
     public List<CourseInterface> getStudentCourses(String studentEmail) {
-        return null;
+        //This method takes a Student’s Email as a parameter and would find all the courses a student is registered.
+        //step 1. match the email using getStudent by email.
+        //step 2. searches something like a list or a table ???
+        //step 3. return a list that gets all the courses using the course object in course class.
+        // tables Student and course  are needed.
+
+        List<CourseInterface>courseInterfaceList=new ArrayList<>();
+        String getStudentCourseQuery="Select * FROM Student_Course WHERE email=?"+";";
+
+        try {
+            PreparedStatement preparedStatement=dbc.getDatabaseConnection()
+                    .prepareStatement(getStudentCourseQuery);
+            preparedStatement.setString(1,studentEmail);
+            ResultSet resultSet= preparedStatement.executeQuery();
+            while (resultSet.next())
+            {
+                int courseId=resultSet.getInt("Course_id");
+                courseInterfaceList.add(new CourseService().getAllCourses()
+                        .stream()
+                        .filter(x ->x.getId().equals(courseId))
+                        .collect(Collectors.toList()).get(0)
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+         }
+        return  courseInterfaceList;
 
     }
 }

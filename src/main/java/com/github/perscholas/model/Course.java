@@ -60,4 +60,16 @@ public class Course implements CourseInterface {
     public void setInstructor(String instructor) {
         this.instructor=instructor;
     }
+
+    @Override
+    public String toString() {
+       // String lineOne=String.format("%-10d%s%-30s\n",id,name,instructor);
+        String CourseList="\\["+id+" "+name+" "+instructor+"\\]"+", ";
+//        return "Course{" +
+//                "id=" + id +
+//                ", name='" + name + '\'' +
+//                ", instructor='" + instructor + '\'' +
+//                '}';
+        return CourseList;
+    }
 }

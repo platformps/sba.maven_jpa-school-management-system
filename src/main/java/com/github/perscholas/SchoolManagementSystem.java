@@ -40,6 +40,7 @@ public class SchoolManagementSystem implements Runnable {
                     }
                 }
             }
+
         } while (!"logout".equals(smsDashboardInput));
     }
 
@@ -69,9 +70,10 @@ public class SchoolManagementSystem implements Runnable {
 
 
     private Integer getCourseRegistryInput() {
-//        List<String> listOfCoursesIds =new ArrayList<>();// TODO - instantiate and populate `listOfCourseIds`
+        List<String> listOfCoursesIds =new ArrayList<>();// TODO - instantiate and populate `listOfCourseIds`
 //        listOfCoursesIds.stream().forEach(new CourseService().getAllCourses().get());
-        List<CourseInterface>listOfCoursesIds=new CourseService().getAllCourses();
+        List<CourseInterface>listOfCoursesIds2=new CourseService().getAllCourses();
+        listOfCoursesIds2.stream().forEach(x -> listOfCoursesIds.add(x.toString()));
         return console.getIntegerInput(new StringBuilder()
                 .append("Welcome to the Course Registration Dashboard!")
                 .append("\nFrom here, you can select any of the following options:")
