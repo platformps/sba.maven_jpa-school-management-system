@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 
 // TODO - Implement respective DAO interface
@@ -96,45 +97,16 @@ public class StudentService implements StudentDao {
      */
     @Override///////-------------------
     public void registerStudentToCourse(String studentEmail, int courseId) {
-        //getStudentByEmail(studentEmail);
-  //      CourseService courseService = new CourseService();
 
-   //     courseService.getAllCourses()
-   //             .stream()
-   //             .filter(course -> (course.getId() == courseId))
-   //             .findFirst()
-    //            ;
+        Optional<CourseInterface> courseTest = getStudentCourses(studentEmail)
+                      .stream()
+                       .filter(course -> (course.getId() == courseId))
+                       .findFirst();
 
-
- //      if(dbc.executeQuery("SELECT * FROM Student_Course WHERE student_email = '" +
- //               studentEmail + "' AND course_id = '" + courseId +"'") != null) {
- //          console.println("\n" + studentEmail + " is already registered for " + courseId + "\n");
- //          return;
-
-//           /*
-       ///    ResultSet resultset =
-     //--**              dbc.executeQuery("SELECT * FROM Student_Course WHERE student_email = '" +
-    //-- **           studentEmail + "' AND course_id = '" + courseId + "'");
-
- // *     dbc.executeQuery("SELECT * FROM Student_Course WHERE student_email = '" +
- //*              studentEmail + "' AND course_id = '" + courseId + "'");
-    //   {
-     //      console.println("\n" + studentEmail + " is already registered for " + courseId + "\n");
-     //      return;
-    //   }else{
-
-
-
-        //getStudentCourses() with studentEmail to find out if they are already registered
-        ///////////////////////////////////////////////////////////////////////////////////////////******
-      //  if(getStudentByEmail(studentEmail))
- // if the student email is registered for the course then refuse otherwise add student to course
- //       if(getStudentCourses(studentEmail) != null) {
-  //          getStudentCourses(studentEmail)
- //               .stream()
- //               .filter(course -> (course.getId() == courseId))
- //               .findFirst()
-//                ;
+        if(courseTest.isPresent()){
+            console.println("\n" + studentEmail + " is already registered for " + courseId + "\n");
+                  return;
+        }
 
            try {
                dbc.executeStatement("INSERT INTO management_system.Student_Course (student_email, course_id)" +
@@ -143,67 +115,42 @@ public class StudentService implements StudentDao {
            } catch (Exception e) {  ////
                console.println("INSERTING INTO THE TABLE DID NOT WORK");
            }
+
+        List<CourseInterface> courses = new StudentService().getStudentCourses(studentEmail);
+        console.println(new StringBuilder()
+                .append("[ %s ] is registered to the following courses:")
+                .append("\n\t" + courses)
+                .toString(), studentEmail);
        }
-   // }
 
 
-
-
-
-
-
-
-//--------------------------------------------------------------------------------------------
 
     /**
      * This method takes a Student’s Email as a parameter and would find all the courses a student is registered.
      * @param studentEmail - student's email to be parsed
      * @return list of courses student has registered to
      */
-    @Override//*******//**********///***************//******************//********************//
+    @Override
     public List<CourseInterface> getStudentCourses(String studentEmail) {
 
- ////////       if(getStudentByEmail(studentEmail) != null) {
-/*
-        ///template
-        List<CourseInterface> studentCoursesList = getStudentByEmail(studentEmail).
-        ResultSet resultSet = dbc.executeQuery("SELECT * FROM Student_Course WHERE 'email' = studentEmail");
- //       try {
-            return getAllStudents()
-                    .stream()
-                    .filter(student -> student.getEmail().equals(studentEmail))
-                    .findFirst()
- //                   .collect(Collections.toList());
-                    .get();
-
-  //          return resultSet;
-
- */
-
-  //          public List<StudentInterface> getAllStudents() {
-                //modified from getAllStudents()
-                ResultSet resultSet = dbc.executeQuery("SELECT * FROM Student_Course WHERE 'student_email' = '" + studentEmail + "'");
+        List<CourseInterface> courseInterfaceList = new ArrayList<>();
+                ResultSet resultSet = dbc.executeQuery("SELECT * FROM Student_Course WHERE student_email = '" + studentEmail + "'");
                 try {
 
-                    List<CourseInterface> courseInterfaceList = new ArrayList<>();
                     while(resultSet.next()) {
-                        Course course = new Course();
-                        course.setId(resultSet.getInt("course_id"));
-                        course.setName(resultSet.getString("name"));
-                        course.setInstructor(resultSet.getString("instructor"));
-                        courseInterfaceList.add(course);
+                        int courseId = resultSet.getInt("course_id");
+                        courseInterfaceList.add(new CourseService().getAllCourses()
+                        .stream()
+                        .filter(course ->course.getId() == courseId)
+                        .findFirst()
+                        .get())
+                        ;
+
                     }
-                    return courseInterfaceList;
+
                 } catch(Exception e) {
                     throw new Error(e);
                 }
+        return courseInterfaceList;
             }
-
-
-
-
-
-   //     }
-    //    return null;
-   // }
 }

@@ -66,4 +66,10 @@ public class Course implements CourseInterface {
     public void setInstructor(String instructor) {
         this.instructor = instructor;
     }
+
+    @Override
+    public String toString() {
+        return getName() + " with instructor " + getInstructor()
+                + " (course ID: " + getId() + ")";
+    }
 }

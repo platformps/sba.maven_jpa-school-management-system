@@ -30,7 +30,7 @@ public class CourseService implements CourseDao {
         ResultSet resultSet = dbc.executeQuery("SELECT * FROM course");
         try {
 
-            //           return null; // TODO - Parse `List<StudentInterface>` from `resultSet`
+            // TODO - Parse `List<StudentInterface>` from `resultSet`
             List<CourseInterface> courseInterfaceList = new ArrayList();
             while(resultSet.next()) {
                 Course course = new Course();
