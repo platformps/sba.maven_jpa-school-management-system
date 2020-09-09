@@ -14,6 +14,10 @@ public class Student implements StudentInterface{
     private String name;
     private String password;
 
+    public Student() {
+
+    }
+
     @Override
     public String getEmail() {
         return null;
