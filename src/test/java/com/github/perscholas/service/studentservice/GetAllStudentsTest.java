@@ -1,13 +1,18 @@
 package com.github.perscholas.service.studentservice;
 
+import com.github.perscholas.DatabaseConnection;
 import com.github.perscholas.JdbcConfigurator;
 import com.github.perscholas.dao.StudentDao;
+import com.github.perscholas.model.Student;
 import com.github.perscholas.model.StudentInterface;
 import com.github.perscholas.service.StudentService;
 import com.github.perscholas.utils.DirectoryReference;
+import org.junit.Assert;
 import org.junit.Before;
 
 import java.io.File;
+import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -35,16 +40,15 @@ public class GetAllStudentsTest {
     public void test() {
         JdbcConfigurator.initialize();
         StudentDao service = (StudentDao) new StudentService();
+        DatabaseConnection dbc = DatabaseConnection.MANAGEMENT_SYSTEM;
 
         // when
         List<StudentInterface> studentList = service.getAllStudents();
 
+        ResultSet resultSet = dbc.executeQuery("SELECT * FROM students");
+
         // then
-        // TODO - define _then_ clause
-
-
-
-
-
+        // TODO - define `then` clause
+        Assert.assertEquals(resultSet, studentList);
     }
 }
