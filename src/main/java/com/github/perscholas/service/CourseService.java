@@ -34,6 +34,7 @@ public class CourseService implements CourseDao {
                 course.setInstructor(resultSet.getString(3));
                 courseList.add(course);
             }
+            dbc.getDatabaseConnection().close();
             return courseList;
         } catch(Exception e) {
             throw new Error(e);

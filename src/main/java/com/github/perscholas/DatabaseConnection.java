@@ -67,6 +67,7 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
         String info;
         try {
             getScrollableStatement().execute(sqlStatement);
+            console.println("drop table");
             info = "Successfully executed statement '%s'.";
         }
         catch (Exception sqlException){

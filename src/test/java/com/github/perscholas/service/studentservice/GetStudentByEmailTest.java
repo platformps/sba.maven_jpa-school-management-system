@@ -1,17 +1,27 @@
 package com.github.perscholas.service.studentservice;
 
+import com.github.perscholas.DatabaseConnection;
 import com.github.perscholas.JdbcConfigurator;
+import com.github.perscholas.dao.StudentDao;
+import com.github.perscholas.model.Student;
+import com.github.perscholas.model.StudentInterface;
+import com.github.perscholas.service.StudentService;
 import com.github.perscholas.utils.DirectoryReference;
+import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Test;
 
 import java.io.File;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author leonhunter
  * @created 02/12/2020 - 8:23 PM
  */
 public class GetStudentByEmailTest {
-    @Before // TODO (OPTIONAL) - Use files to execute SQL commands
+    @Before
     public void setup() {
         DirectoryReference directoryReference = DirectoryReference.RESOURCE_DIRECTORY;
         File coursesSchemaFile = directoryReference.getFileFromDirectory("courses.create-table.sql");
@@ -27,15 +37,19 @@ public class GetStudentByEmailTest {
     }
 
     // given
-    // TODO - Add `@Test` annotation
+    @Test
     public void test() {
         JdbcConfigurator.initialize();
+        StudentDao service = (StudentDao) new StudentService();
+        DatabaseConnection dbc = DatabaseConnection.UAT;
 
         // when
-        // TODO - define `when` clause
-
+        StudentInterface student = service.getStudentByEmail("hluckham0@google.ru");
 
         // then
-        // TODO - define `then` clause
+        Assert.assertEquals(student.getEmail(),"aiannitti7@is.gd");
+        Assert.assertEquals(student.getName(),"Alexandra Iannitti");
+        Assert.assertEquals(student.getPassword(),"TWP4hf5j");
+
     }
 }
