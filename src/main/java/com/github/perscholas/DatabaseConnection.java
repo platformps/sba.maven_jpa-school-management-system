@@ -23,7 +23,7 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
     DatabaseConnection() {
         this(new ConnectionBuilder()
                 .setUser("root")
-                .setPassword("")
+                .setPassword("admin")
                 .setPort(3306)
                 .setDatabaseVendor("mariadb")
                 .setHost("127.0.0.1"));
