@@ -34,15 +34,15 @@ public class StudentService implements StudentDao {
 
     @Override
     public List<StudentInterface> getAllStudents() {
-        ResultSet resultSet = dbc.executeQuery("SELECT * FROM students");
-        List<StudentInterface>studentsList=null;
+        ResultSet resultSet = dbc.executeQuery("SELECT * FROM student");
+        List<StudentInterface>studentsList=new ArrayList<>();
         try {
             while(resultSet.next()) {
-                Student student = new Student();
+                StudentInterface student = new Student();
                 student.setEmail(resultSet.getString("email"));
                 student.setName(resultSet.getString("name"));
                 student.setPassword(resultSet.getString("password"));
-                studentsList.add((StudentInterface) student);
+                studentsList.add(student);
             }
         } catch(Exception e) {
             e.printStackTrace();
@@ -97,15 +97,16 @@ public class StudentService implements StudentDao {
     @Override
     public List<CourseInterface> getStudentCourses(String studentEmail) {
 
+
         List<CourseInterface> studentCourses = new ArrayList<>();
-        String query = "SELECT * FROM Student_Course WHERE Student_email=?";
+        String query = "SELECT c.* FROM student_course sc LEFT JOIN course c ON sc.course_id = c.id WHERE student_email=?";
         try {
             PreparedStatement preparedStatement = dbc.getDatabaseConnection().prepareStatement(query);
             preparedStatement.setString(1, studentEmail);
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while(resultSet.next()) {
-                int courseId = resultSet.getInt("Course_id");
+                int courseId = resultSet.getInt("id");
                 studentCourses.add(new CourseService().getAllCourses()
                         .stream()
                         .filter(crs -> crs.getId() == courseId)

@@ -9,7 +9,8 @@ import java.io.File;
 public class JdbcConfigurator {
     static {
         try {
-            DriverManager.registerDriver(Driver.class.newInstance());
+           // DriverManager.registerDriver(Driver.class.newInstance());
+            Class.forName(Driver.class.getName());
         } catch (Exception e) {
             throw new Error(e);
         }
@@ -26,7 +27,8 @@ public class JdbcConfigurator {
         executeSqlFile("courses.populate-table.sql");
         executeSqlFile("students.create-table.sql");
         executeSqlFile("students.populate-table.sql");
-        executeSqlFile("studentcourse.create-table.sql");
+        executeSqlFile("student-course.create-table.sql");
+        executeSqlFile("student-course.populate-table.sql");
     }
 
     private static void executeSqlFile(String fileName) {

@@ -22,11 +22,10 @@ import java.util.*;
 
     @Entity
     @Table(name="Student")
-public class Student {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-        private String email;
+public class Student implements StudentInterface{
 
+        @Id
+        private String email;
         private String name;
         private String password;
 

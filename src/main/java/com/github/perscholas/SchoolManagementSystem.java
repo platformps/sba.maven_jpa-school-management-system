@@ -14,28 +14,40 @@ public class SchoolManagementSystem implements Runnable {
 
     @Override
     public void run() {
+        StudentDao studentService=new StudentService();
         String smsDashboardInput;
         do {
             smsDashboardInput = getSchoolManagementSystemDashboardInput();
             if ("login".equals(smsDashboardInput)) {
-                StudentDao studentService=new StudentService();
                 String studentEmail = console.getStringInput("Enter your email:");
                 String studentPassword = console.getStringInput("Enter your password:");
                 Boolean isValidLogin = studentService.validateStudent(studentEmail, studentPassword);
                 if (isValidLogin) {
                     String studentDashboardInput = getStudentDashboardInput();
+
+                    if("courses".equals(studentDashboardInput)){
+                        List<CourseInterface> courses =  studentService.getStudentCourses(studentEmail);
+                        console.println("Registered courses: ");
+                        console.println("Id   Course Name      Instructor Name");
+                        for (CourseInterface course : courses) {
+                            console.println(course.getId() + "    " + course.getName() + "    " +  course.getInstructor());
+                        }
+                    }
+
                     if ("register".equals(studentDashboardInput)) {
                         Integer courseId = getCourseRegistryInput();
                         studentService.registerStudentToCourse(studentEmail, courseId);
                         String studentCourseViewInput = getCourseViewInput();
                         if ("view".equals(studentCourseViewInput)) {
-                            List<CourseInterface> courses =  new StudentService().getStudentCourses(studentEmail);
-                            console.println(new StringBuilder()
-                                    .append("[ %s ] is registered to the following courses:")
-                                    .append("\n\t" + courses)
-                                    .toString(), studentEmail);
+                            List<CourseInterface> courses =  studentService.getStudentCourses(studentEmail);
+                           courses.forEach(course -> {
+                               console.println(course.getId() + "    " + course.getName() + "    " +  course.getInstructor());
+                           });
                         }
                     }
+                }else{
+                    console.println("Invalid User Credentials.");
+                    System.exit(0);
                 }
             }
         } while (!"logout".equals(smsDashboardInput));
@@ -61,7 +73,7 @@ public class SchoolManagementSystem implements Runnable {
         return console.getStringInput(new StringBuilder()
                 .append("Welcome to the Course Registration Dashboard!")
                 .append("\nFrom here, you can select any of the following options:")
-                .append("\n\t[ register ], [ logout]")
+                .append("\n\t['courses'], [ register ], [ logout]")
                 .toString());
     }
 
@@ -74,11 +86,7 @@ public class SchoolManagementSystem implements Runnable {
         return console.getIntegerInput(new StringBuilder()
                 .append("Welcome to the Course Registration Dashboard!")
                 .append("\nFrom here, you can select any of the following options:")
-                .append("\n\t" + listOfCoursesIds
-                        .toString()
-                        .replaceAll("\\[", "")
-                        .replaceAll("\\]", "")
-                        .replaceAll(", ", "\n\t"))
+                .append("\n\t['courses'], [ register ], [ logout]")
                 .toString());
     }
 }
