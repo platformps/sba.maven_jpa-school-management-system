@@ -23,6 +23,18 @@ public class Course implements CourseInterface{
     @ManyToMany(mappedBy = "registeredCourses")
     private List<Student> registeredStudents;
 
+    //Null constructor
+    public void Course(){
+
+    }
+
+    //Non-null constructor
+    public void Course(Integer id, String name, String instructor){
+        this.id = id;
+        this.name = name;
+        this.instructor = instructor;
+    }
+
     @Override
     public Integer getId() {
         return id;
