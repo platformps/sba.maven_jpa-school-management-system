@@ -7,7 +7,7 @@ import javax.persistence.Id;
 
 // TODO - Annotate and Implement respective interface and define behaviors
 @Entity
-public class Student implements StudentInterface{
+public class Student implements StudentInterface {
 
     @Id
     private String email;
@@ -46,5 +46,20 @@ public class Student implements StudentInterface{
     @Override
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Student(String email, String name, String password) {
+        this.email = email;
+        this.name = name;
+        this.password = password;
+    }
+
+    @Override
+    public String toString() {
+        return "Student{" +
+                "email='" + email + '\'' +
+                ", name='" + name + '\'' +
+                ", password='" + password + '\'' +
+                '}';
     }
 }
