@@ -2,9 +2,9 @@ package com.github.perscholas;
 
 import com.github.perscholas.utils.ConnectionBuilder;
 import com.github.perscholas.utils.IOConsole;
-
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
  * Created by leon on 2/18/2020.
@@ -61,14 +61,17 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
 
     @Override
     public void drop() {
+
     }
 
     @Override
     public void use() {
+
     }
 
     @Override
     public void executeStatement(String sqlStatement) {
+
     }
 
     @Override
