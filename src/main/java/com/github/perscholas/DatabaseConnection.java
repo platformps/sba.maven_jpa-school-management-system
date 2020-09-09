@@ -5,6 +5,8 @@ import com.github.perscholas.utils.IOConsole;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 /**
  * Created by leon on 2/18/2020.
@@ -23,9 +25,9 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
     DatabaseConnection() {
         this(new ConnectionBuilder()
                 .setUser("root")
-                .setPassword("")
+                .setPassword("1234")
                 .setPort(3306)
-                .setDatabaseVendor("mariadb")
+                .setDatabaseVendor("mysql")
                 .setHost("127.0.0.1"));
     }
 
@@ -48,31 +50,53 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
 
     @Override
     public void create() {
-        String sqlStatement = null; // TODO - define statement
+        String sqlStatement = "CREATE DATABASE IF NOT EXISTS " + getDatabaseName() + ";"; // TODO - define statement
+        String info;
+        executeStatement(sqlStatement);
+    }
+
+    @Override
+    public void drop() {
+        String sqlStatement = "DROP DATABASE IF EXISTS " + getDatabaseName();
+        String info;
+        executeStatement(sqlStatement);
+    }
+
+    @Override
+    public void use() {
+        String sqlStatement = "USE " + getDatabaseName() + ";";
+        String info;
+        executeStatement(sqlStatement);
+        info = "Successfully executed statement `%s`.";
+        console.println(info, getDatabaseName());
+    }
+
+    @Override
+    public void executeStatement(String sqlStatement) {
         String info;
         try {
-            // TODO - execute statement
+            getDatabaseEngineConnection().createStatement().execute(sqlStatement);
             info = "Successfully executed statement `%s`.";
-        } catch (Exception sqlException) {
+        } catch (SQLException e) {
             info = "Failed to executed statement `%s`.";
         }
         console.println(info, sqlStatement);
     }
 
     @Override
-    public void drop() {
-    }
-
-    @Override
-    public void use() {
-    }
-
-    @Override
-    public void executeStatement(String sqlStatement) {
-    }
-
-    @Override
     public ResultSet executeQuery(String sqlQuery) {
-        return null;
+        String info;
+        try {
+            sqlQuery = sqlQuery.trim();
+            ResultSet result = getDatabaseConnection().createStatement().executeQuery(sqlQuery);
+            info = "Successfully executed statement `%s`.";
+            console.println(info, sqlQuery);
+            return result;
+        } catch (SQLException e) {
+            info = "Failed to executed statement `%s`.";
+            console.println(info, sqlQuery);
+            throw new Error(e);
+        }
+
     }
 }

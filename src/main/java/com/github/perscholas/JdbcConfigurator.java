@@ -3,7 +3,10 @@ package com.github.perscholas;
 import com.github.perscholas.utils.DirectoryReference;
 import com.github.perscholas.utils.FileReader;
 
+
 import java.io.File;
+
+import java.sql.DriverManager;
 
 public class JdbcConfigurator {
     static {

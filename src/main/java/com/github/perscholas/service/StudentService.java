@@ -26,19 +26,22 @@ public class StudentService implements StudentDao {
 
     @Override
     public List<StudentInterface> getAllStudents() {
-        ResultSet resultSet = dbc.executeQuery("SELECT * FROM students");
+        ResultSet resultSet = dbc.executeQuery("SELECT * FROM Student");
         try {
             // TODO - Parse `List<StudentInterface>` from `resultSet`
             List<StudentInterface> students = new ArrayList<>();
 
             while (resultSet.next()){
+                System.out.println(resultSet.getString("email"));
                 Student student = new Student();
                 student.setEmail(resultSet.getString("email"));
                 student.setName(resultSet.getString("name"));
                 student.setPassword(resultSet.getString("password"));
+               // System.out.println(student.toString());
+
                 students.add(student);
             }
-
+           // students.stream().forEach(e -> System.out.println(e.toString()));
             return students;
         } catch(Exception e) {
             throw new Error(e);
@@ -60,8 +63,10 @@ public class StudentService implements StudentDao {
 
     @Override
     public Boolean validateStudent(String studentEmail, String password) {
+        List<StudentInterface> list = getAllStudents();
+        list.stream().forEach(e -> System.out.println(e.toString()));
 
-        return getAllStudents()
+        return list
                 .stream()
                 .anyMatch(s -> s.getEmail().equals(studentEmail) && s.getPassword().equals(password));
     }
