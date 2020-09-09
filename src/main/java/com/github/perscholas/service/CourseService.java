@@ -39,7 +39,7 @@ public class CourseService implements CourseDao {
                 course.setName(resultSet.getString("name"));
                 course.setInstructor(resultSet.getString("instructor"));
 
-                courseList.add(course);//put result set into a list. then store into List<CourseInterface>?
+                courseList.add(course);
                 System.out.println(courseList);
             }
             return courseList;

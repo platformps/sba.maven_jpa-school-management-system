@@ -67,6 +67,7 @@ public class StudentService implements StudentDao {
     @Override
     public void registerStudentToCourse(String studentEmail, int courseId) {
         //StudentDao instructions say to use JPA to accomplish the join table required here. Adding Join annotations to student and course classes.
+        // got stuck trying to figure out how to do complete the join (student_course) table operations to complete methods requiring info from both tables.
     }
 
     @Override
