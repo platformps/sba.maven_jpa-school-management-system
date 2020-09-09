@@ -64,7 +64,7 @@ public class StudentService implements StudentDao {
     @Override
     public Boolean validateStudent(String studentEmail, String password) {
         List<StudentInterface> list = getAllStudents();
-        list.stream().forEach(e -> System.out.println(e.toString()));
+       // list.stream().forEach(e -> System.out.println(e.toString()));
 
         return list
                 .stream()

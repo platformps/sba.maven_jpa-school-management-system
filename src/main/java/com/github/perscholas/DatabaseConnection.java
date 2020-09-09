@@ -51,24 +51,19 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
     @Override
     public void create() {
         String sqlStatement = "CREATE DATABASE IF NOT EXISTS " + getDatabaseName() + ";"; // TODO - define statement
-        String info;
         executeStatement(sqlStatement);
     }
 
     @Override
     public void drop() {
         String sqlStatement = "DROP DATABASE IF EXISTS " + getDatabaseName();
-        String info;
         executeStatement(sqlStatement);
     }
 
     @Override
     public void use() {
         String sqlStatement = "USE " + getDatabaseName() + ";";
-        String info;
         executeStatement(sqlStatement);
-        info = "Successfully executed statement `%s`.";
-        console.println(info, getDatabaseName());
     }
 
     @Override
@@ -83,15 +78,16 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
         console.println(info, sqlStatement);
     }
 
+
+
     @Override
     public ResultSet executeQuery(String sqlQuery) {
         String info;
         try {
             sqlQuery = sqlQuery.trim();
-            ResultSet result = getDatabaseConnection().createStatement().executeQuery(sqlQuery);
             info = "Successfully executed statement `%s`.";
             console.println(info, sqlQuery);
-            return result;
+            return getDatabaseConnection().createStatement().executeQuery(sqlQuery);
         } catch (SQLException e) {
             info = "Failed to executed statement `%s`.";
             console.println(info, sqlQuery);
@@ -99,4 +95,9 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
         }
 
     }
+
+
+
+
+
 }

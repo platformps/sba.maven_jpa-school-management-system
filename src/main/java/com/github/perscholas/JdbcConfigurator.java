@@ -23,6 +23,7 @@ public class JdbcConfigurator {
         dbc.drop();
         dbc.create();
         dbc.use();
+
         executeSqlFile("courses.create-table.sql");
         executeSqlFile("courses.populate-table.sql");
         executeSqlFile("students.create-table.sql");
