@@ -73,7 +73,7 @@ public class ConnectionBuilder {
                 .append("://")
                 .append(isHostNull ? "localhost" : "")
                 .append(!isHostNull ? this.hostName : "")
-                .append(hasPortBeenSet ? ":" : "")
+                .append(hasPortBeenSet ? ":3300" : "")
                 .append(hasPortBeenSet ? portNumber : "")
                 .append("/")
                 .append(databaseName != null ? databaseName : "")

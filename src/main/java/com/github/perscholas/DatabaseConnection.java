@@ -24,9 +24,9 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
     DatabaseConnection() {
         this(new ConnectionBuilder()
                 .setUser("root")
-                .setPassword("root")
+                .setPassword("Cacahuate1")
                 .setPort(3300)
-                .setDatabaseVendor("mariadb")
+                .setDatabaseVendor("mysql")
                 .setHost("127.0.0.1"));
     }
 
@@ -55,7 +55,7 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
             executeStatement(sqlStatement);
             info = "Successfully executed statement `%s`.";
         } catch (Exception sqlException) {
-            info = "Failed to executed statement `%s`.";
+            info = "Failed to execute statement `%s`.";
         }
         console.println(info, sqlStatement);
     }
@@ -66,9 +66,9 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
         String info;
         try {
             executeStatement(sqlStatement);
-            info = "Successfully dropped statement the database `%s`.";
+            info = "Successfully dropped statement in the database `%s`.";
         } catch (Exception sqlException) {
-            info = "Failed to dropped statement the database `%s`.";
+            info = "Failed to drop statement in the database `%s`.";
         }
         console.println(info, name().toLowerCase());
     }
@@ -79,9 +79,9 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
         String info;
         try {
             executeStatement(sqlStatement);
-            info = "Successfully using statement the database `%s`.";
+            info = "Successfully using statement in the database `%s`.";
         } catch (Exception sqlException) {
-            info = "Failed to used statement the database `%s`.";
+            info = "Failed to use statement in the database `%s`.";
         }
         console.println(info, name().toLowerCase());
     }
