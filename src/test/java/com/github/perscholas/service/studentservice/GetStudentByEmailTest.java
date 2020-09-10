@@ -22,8 +22,8 @@ import java.util.List;
  * @created 02/12/2020 - 8:23 PM
  */
 public class GetStudentByEmailTest {
-    @Before // TODO (OPTIONAL) - Use files to execute SQL commands
-    public void setup() {
+    @BeforeAll // TODO (OPTIONAL) - Use files to execute SQL commands
+    public static void setup() {
         DirectoryReference directoryReference = DirectoryReference.RESOURCE_DIRECTORY;
         File coursesSchemaFile = directoryReference.getFileFromDirectory("courses.create-table.sql");
         File studentsSchemaFile = directoryReference.getFileFromDirectory("students.create-table.sql");
@@ -35,6 +35,9 @@ public class GetStudentByEmailTest {
                 coursesPopulatorFile,
                 studentsPopulatorFile
         };
+
+        JdbcConfigurator.initialize();
+
     }
 
     @ParameterizedTest
