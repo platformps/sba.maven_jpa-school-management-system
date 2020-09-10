@@ -87,7 +87,6 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
     public void use() {
     }
 
-    @Override
     public void executeStatementOnEngine(String sqlStatement) {
         Connection conn = this.getDatabaseEngineConnection();
         try {
@@ -104,8 +103,10 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
             Statement statement = conn.createStatement();
             statement.executeUpdate(sqlStatement);
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            System.out.print("Database update failed: ");
+            System.out.println("Error code: " + throwables.getErrorCode());
         }
+        return rowsaffected;
     }
 
     @Override
