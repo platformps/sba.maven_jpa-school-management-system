@@ -58,10 +58,11 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
 
     @Override
     public void create() {
-        String sqlStatement = null; // TODO - define statement
+        String sqlStatement = "CREATE OR REPLACE DATABASE " + getDatabaseName(); // TODO - define statement
         String info;
         try {
             // TODO - execute statement
+            executeStatementOnEngine(sqlStatement);
             info = "Successfully executed statement `%s`.";
         } catch (Exception sqlException) {
             info = "Failed to executed statement `%s`.";
