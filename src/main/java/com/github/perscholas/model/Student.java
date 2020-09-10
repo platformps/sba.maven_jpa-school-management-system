@@ -2,23 +2,23 @@ package com.github.perscholas.model;
 
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.Objects;
 
 // Annotate and Implement respective interface and define behaviors
 
 @Entity
-@TableGenerator(name = "student", pkColumnValue="email")
+@TableGenerator(name = "student")
 
 public class Student implements StudentInterface{
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "email")
+    @GeneratedValue
+    @Column
     private String email;
 
-    @Column(name = "name")
+    @Column
     private String name;
 
-    @Column(name = "password")
+    @Column
     private String password;
 
     public Student(){
@@ -63,12 +63,23 @@ public class Student implements StudentInterface{
     }
 
 
+    @Override
     public String toString() {
-        return "[email= " + email +
-                " name= " + name +
-                " password= " + password + "]";
+        return "[ Email: " + email +
+                " Name: " + name +
+                " Password: " + password + "]";
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (!(obj instanceof Student)) return false;
+        Student student = (Student) obj;
+        return email.equals(student.email) &&
+                Objects.equals(name, student.name) &&
+                Objects.equals(password, student.password);
+    }
+/*
     @Override
     public boolean equals(Object obj) {
         if (obj == this) return true;
@@ -79,5 +90,7 @@ public class Student implements StudentInterface{
                 student.name.equals(name) &&
                 student.password.equals(password);
     }
+    *
+ */
 
 }

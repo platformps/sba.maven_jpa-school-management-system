@@ -4,8 +4,11 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 
 public interface DatabaseConnectionInterface {
-    //public final
+
     String getDatabaseName();
+
+    String getParameters();
+
     //public interface
     Connection getDatabaseConnection();
     //public interface

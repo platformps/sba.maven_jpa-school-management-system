@@ -14,9 +14,14 @@ public class ConnectionBuilder {
     private String databaseVendor;
     private String hostName;
     private String databaseName;
+    private String parameters;
 
     public ConnectionBuilder setPort(Integer portNumber) {
         this.portNumber = portNumber;
+        return this;
+    }
+    public ConnectionBuilder setParameters(String parameters) {
+        this.parameters = parameters;
         return this;
     }
 
@@ -65,7 +70,7 @@ public class ConnectionBuilder {
     public String toString() {
         Boolean isHostNull = this.hostName == null;
         Boolean isPortNull = portNumber == null;
-        Boolean hasPortBeenSet = !isPortNull && !Integer.valueOf(3307).equals(portNumber);
+        Boolean hasPortBeenSet = !isPortNull && !Integer.valueOf(3306).equals(portNumber);
 
         String jdbcUrl = new StringBuilder()
                 .append("jdbc:")
@@ -77,6 +82,7 @@ public class ConnectionBuilder {
                 .append(hasPortBeenSet ? portNumber : "")
                 .append("/")
                 .append(databaseName != null ? databaseName : "")
+                .append(parameters != null ? parameters : "")
                 .toString();
         return jdbcUrl;
     }

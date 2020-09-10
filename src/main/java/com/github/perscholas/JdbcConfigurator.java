@@ -3,18 +3,18 @@ package com.github.perscholas;
 import com.github.perscholas.utils.DirectoryReference;
 import com.github.perscholas.utils.FileReader;
 import com.mysql.cj.jdbc.Driver;
-import java.sql.DriverManager;
 
 import java.io.File;
-import java.sql.SQLException;
+import java.sql.DriverManager;
+
 
 public class JdbcConfigurator {
     static {
         try {
             // register JDBC Driver
             DriverManager.registerDriver(Driver.class.newInstance());
-        } catch (InstantiationException | IllegalAccessException | SQLException e1) {
-            throw new Error(e1);
+        } catch (Exception e) {
+            throw new Error(e);
         }
     }
     //create instance of DatabaseConnection
@@ -28,6 +28,7 @@ public class JdbcConfigurator {
         executeSqlFile("courses.populate-table.sql");
         executeSqlFile("students.create-table.sql");
         executeSqlFile("students.populate-table.sql");
+        executeSqlFile("studentcourses.create-table.sql");
     }
 
     private static void executeSqlFile(String fileName) {

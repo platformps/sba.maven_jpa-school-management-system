@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS school_management_system.student
+CREATE TABLE IF NOT EXISTS student
 (
     email VARCHAR(50) NOT NULL PRIMARY KEY,
     name VARCHAR(50) NOT NULL,

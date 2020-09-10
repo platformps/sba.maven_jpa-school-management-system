@@ -7,6 +7,7 @@ import com.github.perscholas.model.CourseInterface;
 
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,19 +26,19 @@ public class CourseService implements CourseDao {
 
     @Override
     public List<CourseInterface> getAllCourses() {
-        ResultSet rs = dbc.executeQuery("SELECT * FROM courses");
+        ResultSet rs = dbc.executeQuery("SELECT * FROM course");
         try {
             //Parse `List<CourseInterface>` from `resultSet`
             List<CourseInterface> courses = new ArrayList<>();
             while (rs.next()) {
                 courses.add(new Course(
-                        rs.getString("id"),
+                        rs.getInt("id"),
                         rs.getString("name"),
                         rs.getString("instructor")));
             }
-            return courses; // returns list
+            return courses; // returns list of courses
         } catch (Exception e) {
-            throw new Error(e);
+            throw new Error (e);
         }
     }
 }

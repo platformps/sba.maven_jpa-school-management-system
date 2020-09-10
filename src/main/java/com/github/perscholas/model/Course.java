@@ -2,27 +2,27 @@ package com.github.perscholas.model;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 
 // Annotate and Implement respective interface and define behaviors
 @Entity
-@TableGenerator(name = "course", pkColumnValue="id")
+@TableGenerator(name = "course")
 
 public class Course implements CourseInterface {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
+    @GeneratedValue
+    @Column
     private Integer id;
 
-    @Column(name = "instructor")
+    @Column
     private String instructor;
 
-    @Column(name = "name")
+    @Column
     private String name;
 
-    public List<Course> course;
 
-    public Course(String id, String name, String instructor){
+    public Course() {
     }
 
     public Course(Integer id, String instructor, String name) {
@@ -30,7 +30,6 @@ public class Course implements CourseInterface {
         this.instructor = instructor;
         this.name = name;
     }
-
 
 
     @Override
@@ -50,35 +49,37 @@ public class Course implements CourseInterface {
 
     @Override
     public void setId(Integer id) {
-    this.id = id;
+        this.id = id;
     }
 
     @Override
     public void setName(String name) {
-    this.name = name;
+        this.name = name;
     }
 
     @Override
     public void setInstructor(String instructor) {
-    this.instructor = instructor;
+        this.instructor = instructor;
     }
 
-
-    public List<Course> getCourses() {
-        return course;
-    }
-
-    public void setCourses(List<Course> course) {
-        this.course = course;
-    }
 
     @Override
     public String toString() {
-        return "[id= " + id +
-                " name= " + name +
-                " instructor= " + instructor + "]";
+        return "[id: " + id +
+                " name: " +  name +
+                " Instructor: " + instructor + "]";
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (!(obj instanceof Course)) return false;
+        Course course = (Course) obj;
+        return Objects.equals(id, course.id) &&
+                Objects.equals(name, course.name) &&
+                Objects.equals(instructor, course.instructor);
+    }
+/*
     @Override
     public boolean equals(Object obj) {
         if (obj == this) return true;
@@ -89,5 +90,7 @@ public class Course implements CourseInterface {
                 course.name.equals(name) &&
                 course.instructor.equals(instructor);
     }
+
+ */
 
 }

@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS school_management_system.course
+CREATE TABLE IF NOT EXISTS course
 (
     id int NOT NULL PRIMARY KEY,
     name VARCHAR(50) NOT NULL,

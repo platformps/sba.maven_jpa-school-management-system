@@ -36,9 +36,15 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
     }
 
     @Override
+    public String getParameters() {
+        return "?serverTimezone=UTC&useLegacyDatetimeCode=false";
+    }
+
+    @Override
     public Connection getDatabaseConnection() {
         return connectionBuilder
                 .setDatabaseName(getDatabaseName())
+                .setParameters(getParameters())
                 .build();
     }
 
@@ -52,7 +58,7 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
     public void create() {
         //String sqlStatement - create and define statement
         String sqlStatement = new StringBuilder()
-                .append("CREATE DATABASE IF NOT EXISTS")
+                .append("CREATE DATABASE IF NOT EXISTS ")
                 .append(getDatabaseName())
                 .append(";")
                 .toString();
@@ -113,7 +119,7 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
 
     @Override
     public void executeStatement(String sqlStatement) {
-        // sqlStatement = sqlStatement.trim();
+        sqlStatement = sqlStatement.trim();
         String info;
         try {
             getScrollableStatement().execute(sqlStatement);

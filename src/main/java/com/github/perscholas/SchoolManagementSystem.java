@@ -2,10 +2,12 @@ package com.github.perscholas;
 
 import com.github.perscholas.dao.StudentDao;
 import com.github.perscholas.model.CourseInterface;
+import com.github.perscholas.service.CourseService;
 import com.github.perscholas.service.StudentService;
 import com.github.perscholas.utils.IOConsole;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class SchoolManagementSystem implements Runnable {
     private static final IOConsole console = new IOConsole();
@@ -65,7 +67,11 @@ public class SchoolManagementSystem implements Runnable {
 
 
     private Integer getCourseRegistryInput() {
-        List<String> listOfCoursesIds = null; // TODO - instantiate and populate `listOfCourseIds`
+        //instantiate and populate `listOfCourseIds`
+        List<String> listOfCoursesIds = new CourseService().getAllCourses()
+                .stream()
+                .map(course -> course.getId().toString())
+                .collect(Collectors.toList());
         return console.getIntegerInput(new StringBuilder()
                 .append("Welcome to the Course Registration Dashboard!")
                 .append("\nFrom here, you can select any of the following options:")

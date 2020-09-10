@@ -67,8 +67,8 @@ public class StudentService implements StudentDao {
                     .get(); //retrieve Student by email
         } catch (NullPointerException e) {
             System.out.println("Invalid entry");
+            throw new RuntimeException (e);
         }
-        return null;
     }
 
     /**
@@ -116,8 +116,8 @@ public class StudentService implements StudentDao {
             preparedStatement.setInt(2, courseId);
             preparedStatement.execute();
 
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            System.out.println(e);
         }
     }
     /**
@@ -142,8 +142,8 @@ public class StudentService implements StudentDao {
                         .findFirst()
                         .get());
             }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            System.out.println(e);
         }
         return studentCourses;
     }
