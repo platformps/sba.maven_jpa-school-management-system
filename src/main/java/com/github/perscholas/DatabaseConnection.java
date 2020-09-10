@@ -97,7 +97,7 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
     }
 
     @Override
-    public void executeStatement(String sqlStatement) {
+    public int executeStatement(String sqlStatement) {
         Connection conn = this.getDatebaseConnection();
         try {
             Statement statement = conn.createStatement();
