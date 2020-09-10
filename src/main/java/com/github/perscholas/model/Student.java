@@ -25,6 +25,12 @@ public class Student implements StudentInterface {
 
     }
 
+    public Student(String email, String name, String password) {
+        this.email = email;
+        this.name = name;
+        this.password = password;
+    }
+
     public String getEmail() {
         return email;
     }
@@ -47,5 +53,29 @@ public class Student implements StudentInterface {
 
     public void setPassword(String password)  {
         this.password = password;
+    }
+
+    @Override
+    public String toString() {
+        return "Student{" +
+                "email='" + email + '\'' +
+                ", name='" + name + '\'' +
+                ", password='" + password + '\'' +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Student student = (Student) o;
+        return Objects.equals(email, student.email) &&
+                Objects.equals(name, student.name) &&
+                Objects.equals(password, student.password);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(email, name, password);
     }
 }

@@ -21,8 +21,14 @@ public class Course implements CourseInterface {
     @Column(name = "instructor")
     private String instructor;
 
-public Course() {
 
+    public Course() {
+    }
+
+public Course(Integer id, String name, String instructor) {
+    this.id = id;
+    this.name = name;
+    this.instructor = instructor;
 }
 
 public Integer getId() {
@@ -49,4 +55,12 @@ public void setInstructor(String instructor)  {
     this.instructor = instructor;
 }
 
+    @Override
+    public String toString() {
+        return "Course{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", instructor='" + instructor + '\'' +
+                '}';
+    }
 }

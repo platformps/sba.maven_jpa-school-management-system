@@ -70,19 +70,28 @@ public class StudentService implements StudentDao {
                 "AND password = \'" +
                 password + "\';";
         ResultSet resultSet = dbc.executeQuery(query);
+        boolean isValidStudent = false;
         try {
-            return resultSet.next();
-        } catch(Exception e) {
-            throw new Error(e);
-        }
-    }
+            isValidStudent = resultSet.next();
 
+            if(!isValidStudent) {
+                throw new Exception("Please try again.\n");
+            }
+        } catch(Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return isValidStudent;
+    }
     @Override
     public void registerStudentToCourse(String studentEmail, int courseId) {
     String query = "INSERT INTO StudentCourse (studentEmail, courseID) values (" +
             "\'" + studentEmail + "\'," +
             "\'" + courseId + "\');";
-    dbc.executeStatement(query);
+        int rowsaffected = dbc.executeStatement(query);
+
+        if(rowsaffected == -1) {
+            System.out.println("The student is already registered. " + courseId);
+        }
     }
 
     @Override

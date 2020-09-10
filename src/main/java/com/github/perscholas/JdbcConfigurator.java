@@ -5,6 +5,7 @@ import com.github.perscholas.utils.FileReader;
 
 import java.io.File;
 import java.sql.Driver;
+import java.sql.SQLException;
 
 public class JdbcConfigurator {
     static {
@@ -25,6 +26,7 @@ public class JdbcConfigurator {
         executeSqlFile("courses.populate-table.sql");
         executeSqlFile("students.create-table.sql");
         executeSqlFile("students.populate-table.sql");
+        executeSqlFile("studentcourse.create-table.sql");
     }
 
     private static void executeSqlFile(String fileName) {

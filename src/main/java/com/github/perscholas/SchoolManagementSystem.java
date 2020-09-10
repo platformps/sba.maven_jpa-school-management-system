@@ -7,6 +7,7 @@ import com.github.perscholas.dao.CourseDao;
 import com.github.perscholas.service.CourseService;
 import com.github.perscholas.service.StudentService;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,7 +33,7 @@ public class SchoolManagementSystem implements Runnable {
                         studentService.registerStudentToCourse(studentEmail, courseId);
                         String studentCourseViewInput = getCourseViewInput();
                         if ("view".equals(studentCourseViewInput)) {
-                            List<CourseInterface> courses =  null; // TODO - Instantiate and populate `courses`;
+                            List<CourseInterface> courses = studentService.getStudentCourses(studentEmail); // TODO - Instantiate and populate `courses`;
                             console.println(new StringBuilder()
                                     .append("[ %s ] is registered to the following courses:")
                                     .append("\n\t" + courses)
