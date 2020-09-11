@@ -79,18 +79,5 @@ public class Student implements StudentInterface{
                 Objects.equals(name, student.name) &&
                 Objects.equals(password, student.password);
     }
-/*
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == this) return true;
-        if (!(obj instanceof Course)) return false;
-        if (obj == null) return false;
-        Student student = (Student) obj;
-        return student.email.equals(email) &&
-                student.name.equals(name) &&
-                student.password.equals(password);
-    }
-    *
- */
 
 }

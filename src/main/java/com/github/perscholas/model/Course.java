@@ -79,18 +79,4 @@ public class Course implements CourseInterface {
                 Objects.equals(name, course.name) &&
                 Objects.equals(instructor, course.instructor);
     }
-/*
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == this) return true;
-        if (!(obj instanceof Course)) return false;
-        if (obj == null) return false;
-        Course course = (Course) obj;
-        return course.id == id &&
-                course.name.equals(name) &&
-                course.instructor.equals(instructor);
-    }
-
- */
-
 }
