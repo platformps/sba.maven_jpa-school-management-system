@@ -3,6 +3,9 @@ package com.github.perscholas.model;
 // TODO - Annotate and Implement respective interface and define behaviors
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "student")
@@ -20,6 +23,16 @@ public class Student implements StudentInterface {
     @Column(name = "name", length = 50, nullable = false)
     private String name;
 
+    public List<CourseInterface> getStudentCourse() {
+        return studentCourse;
+    }
+
+    public void setStudentCourse(List<CourseInterface> studentCourse) {
+        this.studentCourse = studentCourse;
+    }
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    private List<CourseInterface> studentCourse = new ArrayList<>();
 
     public Student(){}
 
@@ -66,5 +79,20 @@ public class Student implements StudentInterface {
                 ", password='" + password + '\'' +
                 ", name='" + name + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Student student = (Student) o;
+        return Objects.equals(email, student.email) &&
+                Objects.equals(password, student.password) &&
+                Objects.equals(name, student.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return 0;
     }
 }
