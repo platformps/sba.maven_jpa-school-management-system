@@ -3,7 +3,10 @@ package com.github.perscholas;
 import com.github.perscholas.utils.DirectoryReference;
 import com.github.perscholas.utils.FileReader;
 
+
 import java.io.File;
+
+import java.sql.DriverManager;
 
 public class JdbcConfigurator {
     static {
@@ -20,6 +23,7 @@ public class JdbcConfigurator {
         dbc.drop();
         dbc.create();
         dbc.use();
+
         executeSqlFile("courses.create-table.sql");
         executeSqlFile("courses.populate-table.sql");
         executeSqlFile("students.create-table.sql");
