@@ -142,8 +142,9 @@ public class StudentService implements StudentDao {
                         .findFirst()
                         .get());
             }
-        } catch (SQLException e) {
-            System.out.println(e);
+        } catch(Exception e) {
+        e.printStackTrace();
+        throw new RuntimeException();
         }
         return studentCourses;
     }
