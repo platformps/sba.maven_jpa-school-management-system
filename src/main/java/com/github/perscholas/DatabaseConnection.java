@@ -5,6 +5,7 @@ import com.github.perscholas.utils.IOConsole;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
  * Created by leon on 2/18/2020.
@@ -23,9 +24,9 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
     DatabaseConnection() {
         this(new ConnectionBuilder()
                 .setUser("root")
-                .setPassword("")
+                .setPassword("dbpassword")
                 .setPort(3306)
-                .setDatabaseVendor("mariadb")
+                .setDatabaseVendor("mysql")
                 .setHost("127.0.0.1"));
     }
 
@@ -48,31 +49,66 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
 
     @Override
     public void create() {
-        String sqlStatement = null; // TODO - define statement
-        String info;
+        String sqlStatement =  "CREATE DATABASE IF NOT EXISTS " + name().toLowerCase() + ";";
+        String message;
         try {
-            // TODO - execute statement
-            info = "Successfully executed statement `%s`.";
+            getDatabaseEngineConnection().prepareStatement(sqlStatement).execute();
+            message = "Successfully executed statement";
         } catch (Exception sqlException) {
-            info = "Failed to executed statement `%s`.";
+            message = "Error executing statement";
         }
-        console.println(info, sqlStatement);
+        console.println(message, sqlStatement);
     }
 
     @Override
     public void drop() {
+        String sqlStatement =  "DROP DATABASE IF EXISTS " + name().toLowerCase() + ";";
+        String message;
+        try {
+            getDatabaseEngineConnection().prepareStatement(sqlStatement).execute();
+            message = "Successfully executed statement";
+        } catch (Exception sqlException) {
+            message = "Error executing statement";
+        }
+        console.println(message, sqlStatement);
     }
 
     @Override
     public void use() {
+        try {
+            String sqlStatement = "USE " + name().toLowerCase() + ";";
+            getDatabaseEngineConnection()
+                    .prepareStatement(sqlStatement)
+                    .execute();
+            console.println("Successfully executed statement");
+
+        } catch (SQLException e) {
+            throw new Error(e);
+        }
     }
 
     @Override
     public void executeStatement(String sqlStatement) {
+        try {
+            sqlStatement = sqlStatement.trim();
+           getDatabaseConnection().createStatement().execute(sqlStatement);
+            console.println("Successfully executed statement\n"+sqlStatement);
+        } catch (SQLException e) {
+            console.println("Error executing statement\n"+sqlStatement);
+            throw new Error(e);
+        }
     }
 
     @Override
     public ResultSet executeQuery(String sqlQuery) {
-        return null;
+        try {
+            sqlQuery = sqlQuery.trim();
+            ResultSet result = getDatabaseConnection().createStatement().executeQuery(sqlQuery);
+            console.println("Successfully executed query\n"+sqlQuery);
+            return result;
+        } catch (SQLException e) {
+            console.println("Failed to execute query \n"+sqlQuery);
+            throw new Error(e);
+        }
     }
 }
