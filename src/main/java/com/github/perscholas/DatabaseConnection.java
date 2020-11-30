@@ -5,6 +5,7 @@ import com.github.perscholas.utils.IOConsole;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
  * Created by leon on 2/18/2020.
@@ -17,25 +18,28 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
     private final ConnectionBuilder connectionBuilder;
 
     DatabaseConnection(ConnectionBuilder connectionBuilder) {
+
         this.connectionBuilder = connectionBuilder;
     }
 
     DatabaseConnection() {
         this(new ConnectionBuilder()
                 .setUser("root")
-                .setPassword("")
+                .setPassword("Morning42Root")
                 .setPort(3306)
-                .setDatabaseVendor("mariadb")
+                .setDatabaseVendor("mysql")
                 .setHost("127.0.0.1"));
     }
 
     @Override
     public String getDatabaseName() {
+
         return name().toLowerCase();
     }
 
     @Override
     public Connection getDatabaseConnection() {
+
         return connectionBuilder
                 .setDatabaseName(getDatabaseName())
                 .build();
@@ -43,15 +47,16 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
 
     @Override
     public Connection getDatabaseEngineConnection() {
+
         return connectionBuilder.build();
     }
 
     @Override
     public void create() {
-        String sqlStatement = null; // TODO - define statement
+        String sqlStatement = "CREATE DATABASE IF NOT EXISTS " + this.getDatabaseName();
         String info;
         try {
-            // TODO - execute statement
+            executeStatement(sqlStatement);
             info = "Successfully executed statement `%s`.";
         } catch (Exception sqlException) {
             info = "Failed to executed statement `%s`.";
@@ -61,18 +66,54 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
 
     @Override
     public void drop() {
+        String sqlStatement = "DROP SCHEMA IF EXISTS " + this.getDatabaseName();
+        String info;
+        try {
+            executeStatement(sqlStatement);
+            info = "Successfully executed statement `%s`.";
+        } catch (Exception sqlException) {
+            info = "Failed to executed statement `%s`.";
+        }
+        console.println(info, sqlStatement);
     }
 
     @Override
     public void use() {
+        String sqlStatement = "USE " + this.getDatabaseName();
+        String info;
+        try {
+            executeStatement(sqlStatement);
+            info = "Successfully executed statement `%s`.";
+        } catch (Exception sqlException) {
+            info = "Failed to executed statement `%s`.";
+        }
+        console.println(info, sqlStatement);
     }
 
     @Override
     public void executeStatement(String sqlStatement) {
+        String info;
+        try {
+            getDatabaseEngineConnection().createStatement().execute(sqlStatement);
+
+            info = "Successfully executed statement `%s`.";
+        } catch (SQLException e) {
+            info = "Failed to executed statement `%s`.";
+
+            console.println(info, sqlStatement);
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public ResultSet executeQuery(String sqlQuery) {
-        return null;
+        String info;
+        try {
+            return getDatabaseConnection().createStatement().executeQuery(sqlQuery);
+        } catch (SQLException e) {
+            info = "Failed to execute query `%s`.";
+            console.println(info, sqlQuery);
+            throw new RuntimeException(e);
+        }
     }
 }

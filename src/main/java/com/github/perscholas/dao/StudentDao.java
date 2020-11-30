@@ -16,6 +16,7 @@ public interface StudentDao {
      */
     List<StudentInterface> getAllStudents();
 
+
     /**
      * takes a Student’s email as a String and parses the student list for a Student with that email and returns a Student Object.
      * @param studentEmail - student's email to be parsed
