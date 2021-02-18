@@ -1,22 +1,29 @@
+
 package com.github.perscholas;
 
 import com.github.perscholas.utils.DirectoryReference;
 import com.github.perscholas.utils.FileReader;
 
 import java.io.File;
+import java.sql.Driver;
 
 public class JdbcConfigurator {
+    private static DatabaseConnectionInterface dbc;
+
     static {
         try {
-            // TODO - Attempt to register JDBC Driver
+            Class.forName(Driver.class.getName());
         } catch (Exception e) {
             throw new Error(e);
         }
     }
+    public static void initialize(){
+        initialize(DatabaseConnection.MANAGEMENT_SYSTEM);
+    }
 
-    private static final DatabaseConnection dbc = DatabaseConnection.MANAGEMENT_SYSTEM;
 
-    public static void initialize() {
+    public static void initialize(DatabaseConnectionInterface dbConnection) {
+        dbc = dbConnection;
         dbc.drop();
         dbc.create();
         dbc.use();
@@ -24,6 +31,9 @@ public class JdbcConfigurator {
         executeSqlFile("courses.populate-table.sql");
         executeSqlFile("students.create-table.sql");
         executeSqlFile("students.populate-table.sql");
+        executeSqlFile("student-course.create-table.sql");
+        executeSqlFile("student-courses.populate-table.sql");
+
     }
 
     private static void executeSqlFile(String fileName) {
