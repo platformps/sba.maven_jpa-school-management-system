@@ -1,40 +1,55 @@
 package com.github.perscholas.service.courseservice;
 
-import com.github.perscholas.JdbcConfigurator;
-import com.github.perscholas.utils.DirectoryReference;
+import com.github.perscholas.config.DatabaseConnection;
+import com.github.perscholas.config.JpaConfigurator;
+import com.github.perscholas.dao.CourseRepository;
+import com.github.perscholas.model.CourseInterface;
+import com.github.perscholas.service.CourseService;
+import com.github.perscholas.service.StudentService;
+import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Test;
 
-import java.io.File;
+import java.util.List;
 
 /**
  * @author leonhunter
  * @created 02/12/2020 - 8:26 PM
  */
 public class GetAllCoursesTest {
-    @Before // TODO (OPTIONAL) - Use files to execute SQL commands
+    
+    private CourseService courseService;
+    
+    @Before
     public void setup() {
-        DirectoryReference directoryReference = DirectoryReference.RESOURCE_DIRECTORY;
-        File coursesSchemaFile = directoryReference.getFileFromDirectory("courses.create-table.sql");
-        File studentsSchemaFile = directoryReference.getFileFromDirectory("students.create-table.sql");
-        File coursesPopulatorFile = directoryReference.getFileFromDirectory("courses.populate-table.sql");
-        File studentsPopulatorFile = directoryReference.getFileFromDirectory("students.populate-table.sql");
-        File[] filesToExecute = new File[]{
-                coursesSchemaFile,
-                studentsSchemaFile,
-                coursesPopulatorFile,
-                studentsPopulatorFile
-        };
+        JpaConfigurator.initialize();
+        courseService = new CourseService(new CourseRepository(JpaConfigurator.getEntityManagerFactory()));
     }
 
-    // given
-    private void test() {
-        JdbcConfigurator.initialize();
-
+    @Test
+    public void givenNoCoursesInDatabaseTest() {
+        //given
+        DatabaseConnection.MANAGEMENT_SYSTEM.drop();
+        DatabaseConnection.MANAGEMENT_SYSTEM.create();
+        int expectedSize = 0;
+        
         // when
-        // TODO - define `when` clause
+        List<CourseInterface> actualCourses = courseService.getAllCourses();
 
 
         // then
-        // TODO - define `then` clause
+        Assert.assertEquals(expectedSize , actualCourses.size());
+    }
+    
+    @Test
+    public void givenWhenCoursesAreInitialized(){
+        //given
+        // populated during initialization
+        
+        //when
+        List<CourseInterface> actualCourses = courseService.getAllCourses();
+    
+        // then
+        Assert.assertTrue(actualCourses.size() > 0);
     }
 }

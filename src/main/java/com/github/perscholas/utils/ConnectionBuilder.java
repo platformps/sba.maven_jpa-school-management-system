@@ -14,43 +14,43 @@ public class ConnectionBuilder {
     private String databaseVendor;
     private String hostName;
     private String databaseName;
-
+    
     public ConnectionBuilder setPort(Integer portNumber) {
         this.portNumber = portNumber;
         return this;
     }
-
-
+    
+    
     public ConnectionBuilder setDatabaseVendor(String databaseVendor) {
         this.databaseVendor = databaseVendor;
         return this;
     }
-
-
+    
+    
     public ConnectionBuilder setHost(String hostName) {
         this.hostName = hostName;
         return this;
     }
-
-
+    
+    
     public ConnectionBuilder setDatabaseName(String databaseName) {
         this.databaseName = databaseName;
         return this;
     }
-
-
+    
+    
     public ConnectionBuilder setUser(String userName) {
         this.userName = userName;
         return this;
     }
-
-
+    
+    
     public ConnectionBuilder setPassword(String userPass) {
         this.userPass = userPass;
         return this;
     }
-
-
+    
+    
     public Connection build() {
         String jdbcUrl = this.toString();
         try {
@@ -60,13 +60,13 @@ public class ConnectionBuilder {
             throw new Error(errorMessage, e);
         }
     }
-
+    
     @Override
     public String toString() {
         Boolean isHostNull = this.hostName == null;
         Boolean isPortNull = portNumber == null;
         Boolean hasPortBeenSet = !isPortNull && !Integer.valueOf(3306).equals(portNumber);
-
+        
         String jdbcUrl = new StringBuilder()
                 .append("jdbc:")
                 .append(this.databaseVendor != null ? this.databaseVendor : "")

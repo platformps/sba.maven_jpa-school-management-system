@@ -8,3 +8,4 @@ insert into Student (email, name, password) values ('htaffley6@columbia.edu', 'H
 insert into Student (email, name, password) values ('aiannitti7@is.gd', 'Alexandra Iannitti', 'TWP4hf5j');
 insert into Student (email, name, password) values ('ljiroudek8@sitemeter.com', 'Laryssa Jiroudek', 'bXRoLUP');
 insert into Student (email, name, password) values ('cjaulme9@bing.com', 'Cahra Jaulme', 'FnVklVgC6r6');
+insert into Student (email, name, password) values ('a', 'name', 'a');
