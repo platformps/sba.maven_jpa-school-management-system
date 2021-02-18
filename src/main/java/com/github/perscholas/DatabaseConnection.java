@@ -5,6 +5,8 @@ import com.github.perscholas.utils.IOConsole;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 /**
  * Created by leon on 2/18/2020.
@@ -25,7 +27,7 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
                 .setUser("root")
                 .setPassword("")
                 .setPort(3306)
-                .setDatabaseVendor("mariadb")
+                .setDatabaseVendor("mysql")
                 .setHost("127.0.0.1"));
     }
 
@@ -48,10 +50,10 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
 
     @Override
     public void create() {
-        String sqlStatement = null; // TODO - define statement
+        String sqlStatement = "CREATE DATABASE IF NOT EXISTS " + name().toLowerCase() + ";";
         String info;
         try {
-            // TODO - execute statement
+            getScrollableStatement().execute(sqlStatement);
             info = "Successfully executed statement `%s`.";
         } catch (Exception sqlException) {
             info = "Failed to executed statement `%s`.";
@@ -61,18 +63,68 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
 
     @Override
     public void drop() {
+        String sqlStatement = "DROP DATABASE IF EXISTS " +name().toLowerCase();
+        String info;
+        try {
+            getScrollableStatement().execute(sqlStatement);
+            console.println("drop table");
+            info = "Successfully executed statement '%s'.";
+        }
+        catch (Exception sqlException){
+            info = "Failed to execute statement '%s'.";
+        }
+        console.println(info, sqlStatement);
     }
 
     @Override
     public void use() {
+        String sqlStatement = "USE " + name().toLowerCase() + ";";
+        String info;
+        try {
+            getScrollableStatement().execute(sqlStatement);
+            info = "Successfully executed statement '%s'.";
+        }
+        catch (Exception sqlException) {
+            info = "Failed to execute statement '%s'.";
+        }
+        console.println(info, sqlStatement);
     }
 
     @Override
     public void executeStatement(String sqlStatement) {
+        String info;
+        try {
+            getScrollableStatement().execute(sqlStatement.trim());
+            info = "Successfully executed statement '%s'.";
+        }
+        catch (Exception sqlException) {
+            info = "Failed to execute statement '%s'.";
+        }
+        console.println(info, sqlStatement);
     }
 
     @Override
     public ResultSet executeQuery(String sqlQuery) {
-        return null;
+        String info;
+        ResultSet resultSet = null;
+        try {
+            resultSet = getScrollableStatement().executeQuery(sqlQuery);
+            info = "Successfully executed statement '%s'.";
+        }
+        catch (Exception sqlException) {
+            info = "Failed to execute statement '%s'.";
+        }
+        console.println(info, sqlQuery);
+        return resultSet;
+    }
+
+    private Statement getScrollableStatement() {
+        int resultSetType = ResultSet.TYPE_SCROLL_INSENSITIVE;
+        int resultSetConcurrency = ResultSet.CONCUR_READ_ONLY;
+        try {
+            return getDatabaseConnection().createStatement(resultSetType, resultSetConcurrency);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

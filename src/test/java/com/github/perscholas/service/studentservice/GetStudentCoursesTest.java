@@ -1,8 +1,12 @@
 package com.github.perscholas.service.studentservice;
 
 import com.github.perscholas.JdbcConfigurator;
+import com.github.perscholas.dao.StudentDao;
+import com.github.perscholas.service.StudentService;
 import com.github.perscholas.utils.DirectoryReference;
+import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Test;
 
 import java.io.File;
 
@@ -27,15 +31,15 @@ public class GetStudentCoursesTest {
     }
 
     // given
-    // TODO - Add `@Test` annotation
+    @Test
     public void test() {
         JdbcConfigurator.initialize();
+        StudentDao service = new StudentService();
 
         // when
-        // TODO - define `when` clause
-
+        service.registerStudentToCourse("hluckham0@google.ru",1);
 
         // then
-        // TODO - define `then` clause
+        Assert.assertEquals(service.getStudentCourses("hluckham0@google.ru").get(0).getName(),"English");
     }
 }
