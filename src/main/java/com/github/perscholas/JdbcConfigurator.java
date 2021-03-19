@@ -2,6 +2,7 @@ package com.github.perscholas;
 
 import com.github.perscholas.utils.DirectoryReference;
 import com.github.perscholas.utils.FileReader;
+import com.mysql.jdbc.Driver;
 
 import java.io.File;
 
@@ -9,6 +10,7 @@ public class JdbcConfigurator {
     static {
         try {
             // TODO - Attempt to register JDBC Driver
+            java.sql.DriverManager.registerDriver(new Driver());
         } catch (Exception e) {
             throw new Error(e);
         }
