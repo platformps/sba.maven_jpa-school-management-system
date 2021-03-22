@@ -1,10 +1,19 @@
 package com.github.perscholas.service.studentservice;
 
+import com.github.perscholas.DatabaseConnection;
 import com.github.perscholas.JdbcConfigurator;
+import com.github.perscholas.dao.StudentDao;
+import com.github.perscholas.model.Student;
+import com.github.perscholas.model.StudentInterface;
+import com.github.perscholas.service.StudentService;
 import com.github.perscholas.utils.DirectoryReference;
+import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Test;
 
 import java.io.File;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
  * @author leonhunter
@@ -27,15 +36,20 @@ public class GetStudentByEmailTest {
     }
 
     // given
-    // TODO - Add `@Test` annotation
+    @Test
     public void test() {
         JdbcConfigurator.initialize();
+        DatabaseConnection dbc = DatabaseConnection.MANAGEMENT_SYSTEM;
+        // given
+        StudentDao service = new StudentService();
+        Student expectedStudent = new Student("hluckham0@google.ru", "Hazel Luckham", "X1uZcoIh0dj");
 
         // when
-        // TODO - define `when` clause
+        Student actualStudent = (Student) service.getStudentByEmail( "hluckham0@google.ru");
 
 
         // then
-        // TODO - define `then` clause
+        Assert.assertEquals(expectedStudent, actualStudent);
+        }
     }
-}
+

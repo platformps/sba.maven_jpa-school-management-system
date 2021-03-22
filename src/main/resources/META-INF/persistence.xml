@@ -12,13 +12,13 @@ http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
                       value="mysql"/>
 
             <property name="javax.persistence.jdbc.url"
-                      value="jdbc:mysql://127.0.0.1/"/>
+                      value="jdbc:mysql://127.0.0.1:3307/management_system/"/>
 
             <property name="javax.persistence.jdbc.user"
-                      value=""/>
+                      value="root"/>
 
             <property name="javax.persistence.jdbc.password"
-                      value=""/>
+                      value="Nikolaev@71"/>
 
             <property name="eclipselink.logging.level"
                       value="OFF"/>

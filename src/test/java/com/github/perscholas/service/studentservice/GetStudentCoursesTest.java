@@ -1,10 +1,16 @@
 package com.github.perscholas.service.studentservice;
 
 import com.github.perscholas.JdbcConfigurator;
+import com.github.perscholas.dao.StudentDao;
+import com.github.perscholas.model.CourseInterface;
+import com.github.perscholas.service.StudentService;
 import com.github.perscholas.utils.DirectoryReference;
+import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Test;
 
 import java.io.File;
+import java.util.List;
 
 /**
  * @author leonhunter
@@ -26,16 +32,19 @@ public class GetStudentCoursesTest {
         };
     }
 
-    // given
-    // TODO - Add `@Test` annotation
+
+    @Test
     public void test() {
         JdbcConfigurator.initialize();
+        // given
+        StudentDao service = new StudentService();
+
 
         // when
-        // TODO - define `when` clause
+        List<CourseInterface> studentCourses = service.getStudentCourses("hluckham0@google.ru");
 
 
         // then
-        // TODO - define `then` clause
+        Assert.assertEquals(1,studentCourses.size());
     }
 }
