@@ -1,6 +1,6 @@
 package com.github.perscholas.model;
 
-public interface CourseInterface {
+public interface CourseInterface extends EntityInterface<Integer> {
     Integer getId();
     String getName();
     String getInstructor();
