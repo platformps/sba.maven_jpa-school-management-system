@@ -64,20 +64,19 @@ public class ConnectionBuilder {
     @Override
     public String toString() {
         Boolean isHostNull = this.hostName == null;
-        Boolean isPortNull = portNumber == null;
+        Boolean isPortNull = this.portNumber == null;
         Boolean hasPortBeenSet = !isPortNull && !Integer.valueOf(3306).equals(portNumber);
 
-        String jdbcUrl = new StringBuilder()
+        return new StringBuilder()
                 .append("jdbc:")
                 .append(this.databaseVendor != null ? this.databaseVendor : "")
                 .append("://")
                 .append(isHostNull ? "localhost" : "")
                 .append(!isHostNull ? this.hostName : "")
-                .append(hasPortBeenSet ? ":" : "")
+                .append(hasPortBeenSet ? ":3360" : "")
                 .append(hasPortBeenSet ? portNumber : "")
                 .append("/")
-                .append(databaseName != null ? databaseName : "")
+                .append(databaseName != null ? databaseName: "")
                 .toString();
-        return jdbcUrl;
     }
 }
