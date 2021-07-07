@@ -1,10 +1,15 @@
 package com.github.perscholas;
 
 import com.github.perscholas.dao.StudentDao;
+import com.github.perscholas.model.Course;
 import com.github.perscholas.model.CourseInterface;
+import com.github.perscholas.service.CourseService;
+import com.github.perscholas.service.StudentService;
 import com.github.perscholas.utils.IOConsole;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class SchoolManagementSystem implements Runnable {
     private static final IOConsole console = new IOConsole();
@@ -15,7 +20,7 @@ public class SchoolManagementSystem implements Runnable {
         do {
             smsDashboardInput = getSchoolManagementSystemDashboardInput();
             if ("login".equals(smsDashboardInput)) {
-                StudentDao studentService = null; // TODO - Instantiate `StudentDao` child
+                StudentDao studentService = new StudentService(); // TODO - Instantiate `StudentDao` child
                 String studentEmail = console.getStringInput("Enter your email:");
                 String studentPassword = console.getStringInput("Enter your password:");
                 Boolean isValidLogin = studentService.validateStudent(studentEmail, studentPassword);
@@ -26,7 +31,7 @@ public class SchoolManagementSystem implements Runnable {
                         studentService.registerStudentToCourse(studentEmail, courseId);
                         String studentCourseViewInput = getCourseViewInput();
                         if ("view".equals(studentCourseViewInput)) {
-                            List<CourseInterface> courses =  null; // TODO - Instantiate and populate `courses`;
+                            List<CourseInterface> courses =  studentService.getStudentCourses(studentEmail); // TODO - Instantiate and populate `courses`;
                             console.println(new StringBuilder()
                                     .append("[ %s ] is registered to the following courses:")
                                     .append("\n\t" + courses)
@@ -35,6 +40,7 @@ public class SchoolManagementSystem implements Runnable {
                     }
                 }
             }
+
         } while (!"logout".equals(smsDashboardInput));
     }
 
@@ -64,7 +70,10 @@ public class SchoolManagementSystem implements Runnable {
 
 
     private Integer getCourseRegistryInput() {
-        List<String> listOfCoursesIds = null; // TODO - instantiate and populate `listOfCourseIds`
+        List<String> listOfCoursesIds =new ArrayList<>();// TODO - instantiate and populate `listOfCourseIds`
+//        listOfCoursesIds.stream().forEach(new CourseService().getAllCourses().get());
+        List<CourseInterface>listOfCoursesIds2=new CourseService().getAllCourses();
+        listOfCoursesIds2.stream().forEach(x -> listOfCoursesIds.add(x.toString()));
         return console.getIntegerInput(new StringBuilder()
                 .append("Welcome to the Course Registration Dashboard!")
                 .append("\nFrom here, you can select any of the following options:")
