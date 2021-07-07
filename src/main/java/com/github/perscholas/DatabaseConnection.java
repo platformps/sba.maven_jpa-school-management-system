@@ -3,8 +3,7 @@ package com.github.perscholas;
 import com.github.perscholas.utils.ConnectionBuilder;
 import com.github.perscholas.utils.IOConsole;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
+import java.sql.*;
 
 /**
  * Created by leon on 2/18/2020.
@@ -25,7 +24,7 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
                 .setUser("root")
                 .setPassword("")
                 .setPort(3306)
-                .setDatabaseVendor("mariadb")
+                .setDatabaseVendor("mysql")
                 .setHost("127.0.0.1"));
     }
 
@@ -48,31 +47,53 @@ public enum DatabaseConnection implements DatabaseConnectionInterface {
 
     @Override
     public void create() {
-        String sqlStatement = null; // TODO - define statement
-        String info;
-        try {
-            // TODO - execute statement
-            info = "Successfully executed statement `%s`.";
-        } catch (Exception sqlException) {
-            info = "Failed to executed statement `%s`.";
-        }
-        console.println(info, sqlStatement);
+        String sql = "CREATE DATABASE IF NOT EXISTS " + getDatabaseName() + ";"; // TODO - define statement
+        doExecution(sql);
     }
 
     @Override
     public void drop() {
+        String sql = "DROP DATABASE IF EXISTS " + getDatabaseName() + ";";
+        doExecution(sql);
     }
 
     @Override
     public void use() {
+        String sql = "USE " + getDatabaseName() + ";";
+        doExecution(sql);
     }
 
     @Override
     public void executeStatement(String sqlStatement) {
+        try {
+            Statement statement = getDatabaseEngineConnection().createStatement();
+            statement.executeUpdate(sqlStatement);
+
+        } catch (SQLException e) {
+            throw new Error(e);
+        }
     }
 
     @Override
     public ResultSet executeQuery(String sqlQuery) {
-        return null;
+        ResultSet rs;
+        try {
+            Statement statement = getDatabaseConnection().createStatement();
+            rs = statement.executeQuery(sqlQuery);
+        } catch (SQLException e) {
+            throw new Error(e);
+        }
+        return rs;
+    }
+
+    private void doExecution(String statement) {
+        String info;
+        try {
+            executeStatement(statement);
+            info = "Successfully executed statement `%s`.";
+        } catch (Exception sqlException) {
+            info = "Failed to executed statement `%s`.";
+        }
+        console.println(info, statement);
     }
 }

@@ -1,10 +1,16 @@
 package com.github.perscholas.service.studentservice;
 
 import com.github.perscholas.JdbcConfigurator;
+import com.github.perscholas.dao.StudentDao;
+import com.github.perscholas.model.CourseInterface;
+import com.github.perscholas.service.StudentService;
 import com.github.perscholas.utils.DirectoryReference;
+import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Test;
 
 import java.io.File;
+import java.util.List;
 
 /**
  * @author leonhunter
@@ -27,15 +33,43 @@ public class RegisterStudentToCourseTest {
     }
 
     // given
-    // TODO - Add `@Test` annotation
+    @Test
     public void test() {
-        JdbcConfigurator.initialize();
+        //JdbcConfigurator.initialize();
+        StudentDao studentDao = new StudentService();
+        List<CourseInterface> courseInterfaceList;
 
         // when
-        // TODO - define `when` clause
-
+        studentDao.registerStudentToCourse("sbowden1@yellowbook.com", 7);
+        courseInterfaceList = studentDao.getStudentCourses("sbowden1@yellowbook.com");
 
         // then
-        // TODO - define `then` clause
+        Assert.assertTrue(courseInterfaceList.size() > 0);
+    }
+
+    @Test
+    public void test2() {
+        StudentDao studentDao = new StudentService();
+        List<CourseInterface> courseInterfaceList;
+
+        // when
+        courseInterfaceList = studentDao.getStudentCourses("hguerre5@deviantart.com");
+
+        // then
+        Assert.assertTrue(courseInterfaceList.size() == 0);
+    }
+
+    @Test
+    public void test3() {
+        StudentDao studentDao = new StudentService();
+        List<CourseInterface> courseInterfaceList;
+
+        // when
+        studentDao.registerStudentToCourse("ljiroudek8@sitemeter.com", 8);
+        studentDao.registerStudentToCourse("ljiroudek8@sitemeter.com", 8);
+        courseInterfaceList = studentDao.getStudentCourses("ljiroudek8@sitemeter.com");
+
+        // then
+        Assert.assertTrue(courseInterfaceList.size() == 1);
     }
 }
