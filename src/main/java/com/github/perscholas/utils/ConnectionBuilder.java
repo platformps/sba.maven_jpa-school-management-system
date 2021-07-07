@@ -14,6 +14,7 @@ public class ConnectionBuilder {
     private String databaseVendor;
     private String hostName;
     private String databaseName;
+    private String parameters;
 
     public ConnectionBuilder setPort(Integer portNumber) {
         this.portNumber = portNumber;
@@ -50,6 +51,10 @@ public class ConnectionBuilder {
         return this;
     }
 
+    public ConnectionBuilder setParameters(String parameters){
+        this.parameters = parameters;
+        return this;
+    }
 
     public Connection build() {
         String jdbcUrl = this.toString();
